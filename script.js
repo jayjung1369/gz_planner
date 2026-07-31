@@ -9,6 +9,8 @@ let RECOMMENDED_DISTRICT_ORDER = [];
 let RECOMMENDED_PLACE_IDS = {};
 let RECOMMENDED_RESTAURANT_IDS = {};
 let PHOTO_LIBRARY = {};
+let TRAVEL_GUIDE = [];
+let TRAVEL_GUIDE_NOTICE = "";
 
 const arrivalInput = document.querySelector("#arrivalDate");
 const arrivalTimeInput = document.querySelector("#arrivalTime");
@@ -23,6 +25,7 @@ const modeButtons = document.querySelectorAll("[data-mode]");
 const selectAllPlacesButton = document.querySelector("#selectAllPlaces");
 const selectAllRestaurantsButton = document.querySelector("#selectAllRestaurants");
 const detailModal = document.querySelector("#detailModal");
+const detailModalPanel = document.querySelector(".detail-modal-panel");
 const detailModalTitle = document.querySelector("#detailModalTitle");
 const detailModalCategory = document.querySelector("#detailModalCategory");
 const detailModalChinese = document.querySelector("#detailModalChinese");
@@ -67,10 +70,34 @@ const sharedPlanSummary = document.querySelector("#sharedPlanSummary");
 const previewSharedPlanButton = document.querySelector("#previewSharedPlanButton");
 const saveSharedPlanButton = document.querySelector("#saveSharedPlanButton");
 const cancelSharedPlanButton = document.querySelector("#cancelSharedPlanButton");
+const travelTypeFilters = document.querySelector("#travelTypeFilters");
+const travelDistrictFilters = document.querySelector("#travelDistrictFilters");
+const travelLibrarySearch = document.querySelector("#travelLibrarySearch");
+const travelLibraryCount = document.querySelector("#travelLibraryCount");
+const travelLibraryGrid = document.querySelector("#travelLibraryGrid");
+const guideFilterList = document.querySelector("#guideFilterList");
+const guideSearchInput = document.querySelector("#guideSearchInput");
+const guideNotice = document.querySelector("#guideNotice");
+const guideCardGrid = document.querySelector("#guideCardGrid");
+const travelGuideModal = document.querySelector("#travelGuideModal");
+const travelGuideClose = document.querySelector("#travelGuideClose");
+const travelGuideIcon = document.querySelector("#travelGuideIcon");
+const travelGuideCategory = document.querySelector("#travelGuideCategory");
+const travelGuideTitle = document.querySelector("#travelGuideTitle");
+const travelGuideSummary = document.querySelector("#travelGuideSummary");
+const travelGuideBody = document.querySelector("#travelGuideBody");
+const copyGuideButton = document.querySelector("#copyGuideButton");
+const guideOfficialLink = document.querySelector("#guideOfficialLink");
+const guideCopyFeedback = document.querySelector("#guideCopyFeedback");
+
+let activeGuideItem = null;
+let activeGuideCategory = "전체";
+let activeTravelType = "all";
+let activeTravelDistrict = "all";
 
 let pendingSharedPlan = null;
 
-const STORAGE_KEY = "guangzhouWeddingPlannerStateV10";
+const STORAGE_KEY = "guangzhouWeddingPlannerStateV13";
 let storageStatusTimer = null;
 
 const scheduleEditModal = document.querySelector("#scheduleEditModal");
@@ -78,6 +105,17 @@ const scheduleEditForm = document.querySelector("#scheduleEditForm");
 const scheduleEditTitle = document.querySelector("#scheduleEditTitle");
 const editItemType = document.querySelector("#editItemType");
 const editItemSelect = document.querySelector("#editItemSelect");
+const editItemPreview = document.querySelector("#editItemPreview");
+const editItemPreviewImage = document.querySelector("#editItemPreviewImage");
+const editItemPreviewStatus = document.querySelector("#editItemPreviewStatus");
+const editItemPreviewName = document.querySelector("#editItemPreviewName");
+const editItemPreviewChinese = document.querySelector("#editItemPreviewChinese");
+const editItemPreviewDetailButton = document.querySelector("#editItemPreviewDetailButton");
+const editItemPreviewTags = document.querySelector("#editItemPreviewTags");
+const editItemPreviewDescription = document.querySelector("#editItemPreviewDescription");
+const editItemPreviewAddress = document.querySelector("#editItemPreviewAddress");
+const editItemPreviewDuration = document.querySelector("#editItemPreviewDuration");
+const editItemPreviewHours = document.querySelector("#editItemPreviewHours");
 const editItemSelectField = document.querySelector("#editItemSelectField");
 const editCustomTitle = document.querySelector("#editCustomTitle");
 const editCustomTitleField = document.querySelector("#editCustomTitleField");
@@ -106,6 +144,8 @@ async function initialize() {
   try {
     await loadPlannerData();
     renderChoices();
+    renderTravelLibrary();
+    renderTravelGuide();
     bindEvents();
     initializeRevealAnimation();
     restorePlannerState();
@@ -117,17 +157,25 @@ async function initialize() {
 }
 
 async function loadPlannerData() {
-  const [placesData, restaurantsData, photosData, rulesData] =
-    await Promise.all([
-      loadJson("data/places.json"),
-      loadJson("data/restaurants.json"),
-      loadJson("data/photos.json"),
-      loadJson("data/scheduleRules.json")
-    ]);
+  const [
+    placesData,
+    restaurantsData,
+    photosData,
+    rulesData,
+    travelGuideData
+  ] = await Promise.all([
+    loadJson("data/places.json"),
+    loadJson("data/restaurants.json"),
+    loadJson("data/photos.json"),
+    loadJson("data/scheduleRules.json"),
+    loadJson("data/travelGuide.json")
+  ]);
 
   PLACES = placesData.items || {};
   RESTAURANTS = restaurantsData.items || {};
   PHOTO_LIBRARY = photosData.items || {};
+  TRAVEL_GUIDE = travelGuideData.items || [];
+  TRAVEL_GUIDE_NOTICE = travelGuideData.notice || "";
 
   Object.entries(PLACES).forEach(([id, item]) => {
     item.images = PHOTO_LIBRARY[id] || ["images/places/default-place.svg"];
@@ -267,6 +315,21 @@ function bindEvents() {
   });
 
   editItemType.addEventListener("change", updateEditItemOptions);
+  editItemSelect.addEventListener("change", () => {
+    renderEditItemPreview(true);
+  });
+
+  editItemPreviewDetailButton.addEventListener("click", () => {
+    const itemId = editItemPreviewDetailButton.dataset.itemId;
+    const itemType = editItemPreviewDetailButton.dataset.itemType;
+
+    if (!itemId || !itemType) {
+      return;
+    }
+
+    closeScheduleEditModal();
+    openDetailModal(itemId, itemType);
+  });
   scheduleEditForm.addEventListener("submit", saveScheduleEdit);
 
   resetScheduleButton.addEventListener("click", resetSavedPlanner);
@@ -279,6 +342,83 @@ function bindEvents() {
   sharedPlanModal
     .querySelector(".shared-plan-backdrop")
     .addEventListener("click", closeSharedPlanModal);
+
+  travelLibrarySearch.addEventListener("input", renderTravelLibraryCards);
+
+  travelTypeFilters.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-travel-type]");
+
+    if (!button) {
+      return;
+    }
+
+    activeTravelType = button.dataset.travelType;
+    renderTravelLibrary();
+  });
+
+  travelDistrictFilters.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-travel-district]");
+
+    if (!button) {
+      return;
+    }
+
+    activeTravelDistrict = button.dataset.travelDistrict;
+    renderTravelLibrary();
+  });
+
+  travelLibraryGrid.addEventListener("click", (event) => {
+    const detailButton = event.target.closest("[data-travel-detail]");
+    const addButton = event.target.closest("[data-travel-add]");
+    const card = event.target.closest("[data-travel-card]");
+
+    const itemId =
+      detailButton?.dataset.travelDetail ||
+      addButton?.dataset.travelAdd ||
+      card?.dataset.travelCard;
+
+    const itemType =
+      detailButton?.dataset.itemType ||
+      addButton?.dataset.itemType ||
+      card?.dataset.itemType;
+
+    if (!itemId || !itemType) {
+      return;
+    }
+
+    if (addButton) {
+      addTravelLibraryItem(itemId, itemType);
+      return;
+    }
+
+    openDetailModal(itemId, itemType);
+  });
+
+  guideSearchInput.addEventListener("input", renderTravelGuideCards);
+  guideFilterList.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-guide-category]");
+
+    if (!trigger) {
+      return;
+    }
+
+    activeGuideCategory = trigger.dataset.guideCategory;
+    renderTravelGuide();
+  });
+
+  guideCardGrid.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-guide-id]");
+
+    if (trigger) {
+      openTravelGuide(trigger.dataset.guideId);
+    }
+  });
+
+  travelGuideClose.addEventListener("click", closeTravelGuide);
+  travelGuideModal
+    .querySelector(".travel-guide-backdrop")
+    .addEventListener("click", closeTravelGuide);
+  copyGuideButton.addEventListener("click", copyActiveGuide);
 
   [arrivalInput, arrivalTimeInput, departureInput, departureTimeInput].forEach(
     (input) => {
@@ -1160,10 +1300,66 @@ function createTimelineItem(item, dayIndex, itemIndex) {
     : "";
 
   const locked = item.isWeddingEvent;
+  const sourceItem = getScheduleSourceItem(item);
+  const isTransport =
+    item.sourceType === "transport" ||
+    item.type === "transport";
+
+  const rawImage =
+    sourceItem?.images?.[0] ||
+    (item.isWeddingEvent
+      ? PLACES.weddingHotel?.images?.[0]
+      : "");
+
+  const imageMarkup =
+    rawImage && !isTransport
+      ? `
+        <button
+          class="timeline-thumbnail"
+          type="button"
+          ${item.id
+            ? `data-detail-id="${item.id}" data-detail-type="${item.sourceType || "place"}"`
+            : ""}
+          aria-label="${escapeHtml(item.title)} 상세보기"
+        >
+          <img
+            src="${resolveAssetUrl(rawImage)}"
+            alt="${escapeHtml(item.title)} 대표 사진"
+            loading="lazy"
+            onerror="handleTimelineImageError(this)"
+          >
+        </button>
+      `
+      : "";
+
+  const chineseName = sourceItem?.chineseName
+    ? `<span class="timeline-chinese-name">${escapeHtml(sourceItem.chineseName)}</span>`
+    : "";
+
+  const shortDescription = sourceItem?.note || item.detail || "";
+  const tip = sourceItem?.tips || "";
+
+  const detailAction = item.id
+    ? `
+      <button
+        class="detail-button"
+        type="button"
+        data-detail-id="${item.id}"
+        data-detail-type="${item.sourceType || "place"}"
+      >상세보기</button>
+    `
+    : "";
+
   const actionButtons = locked
-    ? `<span class="locked-schedule-label">필수 일정 · 변경 불가</span>`
+    ? `
+      <div class="timeline-edit-actions">
+        ${detailAction}
+        <span class="locked-schedule-label">필수 일정 · 변경 불가</span>
+      </div>
+    `
     : `
       <div class="timeline-edit-actions">
+        ${detailAction}
         <button
           class="timeline-edit-button"
           type="button"
@@ -1195,7 +1391,7 @@ function createTimelineItem(item, dayIndex, itemIndex) {
         <button
           class="timeline-drag-handle"
           type="button"
-          aria-label="${item.title} 일정 순서 변경"
+          aria-label="${escapeHtml(item.title)} 일정 순서 변경"
           title="드래그해서 순서 변경"
           data-drag-handle
         >
@@ -1221,14 +1417,40 @@ function createTimelineItem(item, dayIndex, itemIndex) {
       </div>
     `;
 
+  const transportBody = isTransport
+    ? `
+      <div class="transport-route-visual">
+        <span>${escapeHtml(item.transportFrom || "출발지")}</span>
+        <i>↓</i>
+        <strong>${escapeHtml(item.transportTo || "도착지")}</strong>
+      </div>
+      <p class="timeline-detail">
+        ${escapeHtml(item.transportMode || "이동")} ·
+        ${formatDuration(item.end - item.start)}
+      </p>
+    `
+    : `
+      <div class="timeline-title-row">
+        <p class="timeline-title">${escapeHtml(item.title)}</p>
+        ${chineseName}
+      </div>
+      <p class="timeline-detail">
+        ${escapeHtml(shortDescription)}
+      </p>
+      ${tip
+        ? `<p class="timeline-tip">TIP · ${escapeHtml(tip)}</p>`
+        : ""}
+    `;
+
   return `
     <div
-      class="timeline-item ${weddingEventClass}"
+      class="timeline-item ${weddingEventClass} ${isTransport ? "transport-event" : "place-event"}"
       ${draggableAttributes}
       data-day-index="${dayIndex}"
       data-item-index="${itemIndex}"
     >
       ${reorderControls}
+
       <div class="timeline-time">
         <span>${formatTime(item.start)}</span>
         <small>${formatTime(item.end)}</small>
@@ -1236,30 +1458,47 @@ function createTimelineItem(item, dayIndex, itemIndex) {
 
       <div class="timeline-content">
         ${weddingBadge}
-        <div class="timeline-title-row">
-          <p class="timeline-title">${item.title}</p>
-          ${item.id
-            ? `<button
-                 class="detail-button"
-                 type="button"
-                 data-detail-id="${item.id}"
-                 data-detail-type="${item.sourceType || "place"}"
-               >상세보기</button>`
-            : ""}
-        </div>
-        <p class="timeline-detail">${item.detail}</p>
 
-        <div class="timeline-meta">
-          <span class="place-tag">${item.tag}</span>
-          <span class="duration-tag">
-            소요시간 ${formatDuration(item.end - item.start)}
-          </span>
-        </div>
+        <div class="timeline-card-layout">
+          ${imageMarkup}
+          <div class="timeline-card-copy">
+            ${transportBody}
 
-        ${actionButtons}
+            <div class="timeline-meta">
+              ${sourceItem?.district
+                ? `<span class="district-tag">${escapeHtml(getDistrictLabel(sourceItem.district))}</span>`
+                : ""}
+              <span class="place-tag">${escapeHtml(item.tag)}</span>
+              <span class="duration-tag">
+                소요시간 ${formatDuration(item.end - item.start)}
+              </span>
+            </div>
+
+            ${actionButtons}
+          </div>
+        </div>
       </div>
     </div>
   `;
+}
+
+function getScheduleSourceItem(item) {
+  if (!item?.id) {
+    return null;
+  }
+
+  if (item.sourceType === "restaurant") {
+    return RESTAURANTS[item.id] || null;
+  }
+
+  return PLACES[item.id] || RESTAURANTS[item.id] || null;
+}
+
+function handleTimelineImageError(image) {
+  image.onerror = null;
+  image.src = resolveAssetUrl(
+    "images/places/default-place.svg"
+  );
 }
 
 function bindScheduleDragEvents() {
@@ -1796,6 +2035,11 @@ function openScheduleEditModal(target) {
 
     if (target.itemId) {
       editItemSelect.value = target.itemId;
+
+      if (editItemSelect.value !== target.itemId) {
+        editFormMessage.textContent =
+          "선택한 장소를 일정 목록에서 찾지 못했습니다.";
+      }
     }
 
     editCustomTitle.value = "";
@@ -1805,6 +2049,8 @@ function openScheduleEditModal(target) {
     editStartTime.value = findSuggestedStartTime(target.dayIndex);
     editDuration.value = String(target.duration || 90);
   }
+
+  renderEditItemPreview(false);
 
   scheduleEditModal.classList.add("open");
   scheduleEditModal.setAttribute("aria-hidden", "false");
@@ -1827,9 +2073,11 @@ function updateEditItemOptions() {
   editItemSelectField.hidden = !usesSelect;
   editCustomTitleField.hidden = !isCustom;
   editTransportFields.hidden = !isTransport;
+  editItemPreview.hidden = !usesSelect;
 
   if (!usesSelect) {
     editItemSelect.innerHTML = "";
+    clearEditItemPreview();
     return;
   }
 
@@ -1842,11 +2090,94 @@ function updateEditItemOptions() {
     .map(
       (item) => `
         <option value="${item.id}">
-          ${item.name} · ${getDistrictLabel(item.district)}
+          ${item.name} · ${getDistrictLabel(item.district)} · ${item.category || ""}
         </option>
       `
     )
     .join("");
+
+  renderEditItemPreview(false);
+}
+
+function getEditSelectedItem() {
+  const type = editItemType.value;
+  const itemId = editItemSelect.value;
+
+  if (type === "restaurant") {
+    return RESTAURANTS[itemId] || null;
+  }
+
+  if (type === "place") {
+    return PLACES[itemId] || null;
+  }
+
+  return null;
+}
+
+function clearEditItemPreview() {
+  editItemPreview.hidden = true;
+  editItemPreviewImage.removeAttribute("src");
+  editItemPreviewTags.innerHTML = "";
+  editItemPreviewDescription.textContent = "";
+}
+
+function renderEditItemPreview(updateDuration = false) {
+  const item = getEditSelectedItem();
+
+  if (!item) {
+    clearEditItemPreview();
+    return;
+  }
+
+  const itemType = editItemType.value;
+  const rawImage =
+    item.images?.[0] || "images/places/default-place.svg";
+
+  editItemPreview.hidden = false;
+  editItemPreviewImage.onerror = () => {
+    editItemPreviewImage.onerror = null;
+    editItemPreviewImage.src = resolveAssetUrl(
+      "images/places/default-place.svg"
+    );
+    editItemPreviewStatus.hidden = false;
+  };
+
+  editItemPreviewImage.src = resolveAssetUrl(rawImage);
+  editItemPreviewImage.alt = `${item.name} 대표 사진`;
+  editItemPreviewStatus.hidden = !isPlaceholderImage(rawImage);
+
+  setText(editItemPreviewName, item.name);
+  setText(editItemPreviewChinese, item.chineseName || "");
+  setText(
+    editItemPreviewDescription,
+    item.note || item.tips || "상세 설명을 준비 중입니다."
+  );
+  setText(editItemPreviewAddress, item.addressZh || "주소 준비 중");
+  setText(
+    editItemPreviewDuration,
+    formatDuration(item.duration || 90)
+  );
+  setText(
+    editItemPreviewHours,
+    item.hours || formatOpeningHours(item)
+  );
+
+  const tags = [
+    getDistrictLabel(item.district),
+    item.category,
+    ...(item.tags || []).slice(0, 2)
+  ].filter(Boolean);
+
+  editItemPreviewTags.innerHTML = tags
+    .map((tag) => `<span>${escapeHtml(tag)}</span>`)
+    .join("");
+
+  editItemPreviewDetailButton.dataset.itemId = item.id;
+  editItemPreviewDetailButton.dataset.itemType = itemType;
+
+  if (updateDuration && item.duration) {
+    editDuration.value = String(item.duration);
+  }
 }
 
 function saveScheduleEdit(event) {
@@ -2088,6 +2419,554 @@ function deserializeContext(context) {
     selectedPlaces: (context.selectedPlaces || []).map((id) => PLACES[id]).filter(Boolean),
     selectedRestaurants: (context.selectedRestaurants || []).map((id) => RESTAURANTS[id]).filter(Boolean)
   };
+}
+
+function getTravelLibraryItems() {
+  return [
+    ...PLACE_OPTIONS.map((item) => ({
+      ...item,
+      libraryType: "place"
+    })),
+    ...RESTAURANT_OPTIONS.map((item) => ({
+      ...item,
+      libraryType: "restaurant"
+    }))
+  ];
+}
+
+function renderTravelLibrary() {
+  const items = getTravelLibraryItems();
+  const districts = [
+    "all",
+    ...new Set(
+      items
+        .map((item) => item.district)
+        .filter(Boolean)
+    )
+  ];
+
+  travelTypeFilters
+    .querySelectorAll("[data-travel-type]")
+    .forEach((button) => {
+      button.classList.toggle(
+        "active",
+        button.dataset.travelType === activeTravelType
+      );
+    });
+
+  travelDistrictFilters.innerHTML = districts
+    .map((district) => `
+      <button
+        type="button"
+        class="${district === activeTravelDistrict ? "active" : ""}"
+        data-travel-district="${district}"
+      >
+        ${district === "all"
+          ? "전체 지역"
+          : escapeHtml(getDistrictLabel(district))}
+      </button>
+    `)
+    .join("");
+
+  renderTravelLibraryCards();
+}
+
+function renderTravelLibraryCards() {
+  const keyword = travelLibrarySearch.value
+    .trim()
+    .toLowerCase();
+
+  const items = getTravelLibraryItems()
+    .filter((item) => {
+      const typeMatch =
+        activeTravelType === "all" ||
+        item.libraryType === activeTravelType;
+
+      const districtMatch =
+        activeTravelDistrict === "all" ||
+        item.district === activeTravelDistrict;
+
+      const searchable = [
+        item.name,
+        item.chineseName,
+        item.category,
+        item.district,
+        getDistrictLabel(item.district),
+        item.note,
+        ...(item.tags || [])
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return (
+        typeMatch &&
+        districtMatch &&
+        searchable.includes(keyword)
+      );
+    })
+    .sort((a, b) => {
+      const priorityDifference =
+        (b.priority || 0) - (a.priority || 0);
+
+      if (priorityDifference !== 0) {
+        return priorityDifference;
+      }
+
+      return a.name.localeCompare(b.name, "ko");
+    });
+
+  travelLibraryCount.textContent =
+    `${items.length}개 장소`;
+
+  if (items.length === 0) {
+    travelLibraryGrid.innerHTML = `
+      <div class="travel-library-empty">
+        <strong>검색 결과가 없습니다.</strong>
+        <p>다른 검색어나 지역을 선택해주세요.</p>
+      </div>
+    `;
+    return;
+  }
+
+  travelLibraryGrid.innerHTML = items
+    .map(createTravelLibraryCard)
+    .join("");
+}
+
+function createTravelLibraryCard(item) {
+  const rawImage =
+    item.images?.[0] ||
+    "images/places/default-place.svg";
+
+  const typeLabel =
+    item.libraryType === "restaurant"
+      ? "맛집"
+      : "관광지";
+
+  return `
+    <article
+      class="travel-library-card"
+      data-travel-card="${item.id}"
+      data-item-type="${item.libraryType}"
+    >
+      <button
+        class="travel-library-image"
+        type="button"
+        data-travel-detail="${item.id}"
+        data-item-type="${item.libraryType}"
+      >
+        <img
+          src="${resolveAssetUrl(rawImage)}"
+          alt="${escapeHtml(item.name)} 대표 사진"
+          loading="lazy"
+          onerror="handleChoiceImageError(this)"
+        >
+        <span>${typeLabel}</span>
+      </button>
+
+      <div class="travel-library-card-content">
+        <div class="travel-library-card-heading">
+          <div>
+            <strong>${escapeHtml(item.name)}</strong>
+            <span>${escapeHtml(item.chineseName || "")}</span>
+          </div>
+          <em>${formatDuration(item.duration || 90)}</em>
+        </div>
+
+        <div class="travel-library-card-tags">
+          <span>${escapeHtml(getDistrictLabel(item.district))}</span>
+          <span>${escapeHtml(item.category || typeLabel)}</span>
+        </div>
+
+        <p>${escapeHtml(item.note || item.tips || "상세 설명을 준비 중입니다.")}</p>
+
+        <div class="travel-library-card-actions">
+          <button
+            type="button"
+            data-travel-detail="${item.id}"
+            data-item-type="${item.libraryType}"
+          >
+            상세보기
+          </button>
+          <button
+            class="primary"
+            type="button"
+            data-travel-add="${item.id}"
+            data-item-type="${item.libraryType}"
+          >
+            일정에 추가
+          </button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function addTravelLibraryItem(itemId, itemType) {
+  const item =
+    itemType === "restaurant"
+      ? RESTAURANTS[itemId]
+      : PLACES[itemId];
+
+  if (!item) {
+    return;
+  }
+
+  if (!currentSchedule.length) {
+    window.location.hash = "planner";
+    showStorageStatus(
+      "먼저 여행 일정을 만든 뒤 장소를 추가해주세요."
+    );
+    return;
+  }
+
+  openScheduleEditModal({
+    mode: "add",
+    dayIndex: 0,
+    itemType,
+    itemId,
+    duration: item.duration || 90
+  });
+}
+
+function renderTravelGuide() {
+  const categories = [
+    "전체",
+    ...new Set(TRAVEL_GUIDE.map((item) => item.category))
+  ];
+
+  guideFilterList.innerHTML = categories
+    .map(
+      (category) => `
+        <button
+          type="button"
+          class="${category === activeGuideCategory ? "active" : ""}"
+          data-guide-category="${escapeHtml(category)}"
+        >
+          ${escapeHtml(category)}
+        </button>
+      `
+    )
+    .join("");
+
+  guideNotice.innerHTML = `
+    <strong>출국 전 확인</strong>
+    <p>${escapeHtml(TRAVEL_GUIDE_NOTICE)}</p>
+  `;
+
+  renderTravelGuideCards();
+}
+
+function renderTravelGuideCards() {
+  const keyword = guideSearchInput.value
+    .trim()
+    .toLowerCase();
+
+  const items = TRAVEL_GUIDE.filter((item) => {
+    const categoryMatch =
+      activeGuideCategory === "전체" ||
+      item.category === activeGuideCategory;
+
+    const searchable = [
+      item.title,
+      item.summary,
+      item.category,
+      item.appName,
+      item.searchKeyword,
+      ...(item.checklist || []),
+      ...(item.tips || []),
+      ...(item.warnings || [])
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    return categoryMatch && searchable.includes(keyword);
+  });
+
+  if (items.length === 0) {
+    guideCardGrid.innerHTML = `
+      <div class="guide-empty">
+        <strong>검색 결과가 없습니다.</strong>
+        <p>다른 검색어 또는 카테고리를 선택해주세요.</p>
+      </div>
+    `;
+    return;
+  }
+
+  guideCardGrid.innerHTML = items
+    .map(
+      (item) => `
+        <button
+          class="guide-topic-card"
+          type="button"
+          data-guide-id="${item.id}"
+        >
+          <span class="guide-topic-icon">${escapeHtml(item.icon || "•")}</span>
+          <span class="guide-topic-content">
+            <small>
+              ${escapeHtml(item.category)}
+              · ${escapeHtml(item.priority || "안내")}
+            </small>
+            <strong>${escapeHtml(item.title)}</strong>
+            <p>${escapeHtml(item.summary)}</p>
+          </span>
+          <span class="guide-topic-arrow">→</span>
+        </button>
+      `
+    )
+    .join("");
+}
+
+function openTravelGuide(guideId) {
+  const item = TRAVEL_GUIDE.find(
+    (guide) => guide.id === guideId
+  );
+
+  if (!item) {
+    return;
+  }
+
+  activeGuideItem = item;
+  setText(travelGuideIcon, item.icon || "•");
+  setText(travelGuideCategory, `${item.category} · ${item.priority || "안내"}`);
+  setText(travelGuideTitle, item.title);
+  setText(travelGuideSummary, item.summary);
+
+  travelGuideBody.innerHTML = createTravelGuideContent(item);
+  guideCopyFeedback.textContent = "";
+
+  if (item.officialUrl) {
+    guideOfficialLink.href = item.officialUrl;
+    guideOfficialLink.hidden = false;
+  } else {
+    guideOfficialLink.hidden = true;
+    guideOfficialLink.removeAttribute("href");
+  }
+
+  travelGuideModal.classList.add("open");
+  travelGuideModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
+
+function closeTravelGuide() {
+  if (!travelGuideModal) {
+    return;
+  }
+
+  travelGuideModal.classList.remove("open");
+  travelGuideModal.setAttribute("aria-hidden", "true");
+
+  if (
+    !detailModal.classList.contains("open") &&
+    !scheduleEditModal.classList.contains("open") &&
+    !sharedPlanModal.classList.contains("open")
+  ) {
+    document.body.classList.remove("modal-open");
+  }
+}
+
+function createTravelGuideContent(item) {
+  const blocks = [];
+
+  if (item.appName || item.searchKeyword) {
+    blocks.push(`
+      <section class="travel-guide-app">
+        <div>
+          <span>앱 이름</span>
+          <strong>${escapeHtml(item.appName || "-")}</strong>
+        </div>
+        <div>
+          <span>스토어 검색어</span>
+          <strong>${escapeHtml(item.searchKeyword || item.appName || "-")}</strong>
+        </div>
+      </section>
+    `);
+  }
+
+  if (Array.isArray(item.checklist) && item.checklist.length) {
+    blocks.push(`
+      <section class="travel-guide-section">
+        <h3>준비 체크리스트</h3>
+        <div class="travel-checklist">
+          ${item.checklist.map((text) => `
+            <label>
+              <input type="checkbox">
+              <span>${escapeHtml(text)}</span>
+            </label>
+          `).join("")}
+        </div>
+      </section>
+    `);
+  }
+
+  if (Array.isArray(item.steps) && item.steps.length) {
+    blocks.push(`
+      <section class="travel-guide-section">
+        <h3>단계별 사용법</h3>
+        <ol class="travel-step-list">
+          ${item.steps.map((step, index) => `
+            <li>
+              <span>${index + 1}</span>
+              <div>
+                <strong>${escapeHtml(step.title)}</strong>
+                <p>${escapeHtml(step.description)}</p>
+              </div>
+            </li>
+          `).join("")}
+        </ol>
+      </section>
+    `);
+  }
+
+  if (Array.isArray(item.sections) && item.sections.length) {
+    blocks.push(`
+      <section class="travel-guide-section">
+        <h3>선택 방법</h3>
+        <div class="travel-info-grid">
+          ${item.sections.map((section) => `
+            <article>
+              <strong>${escapeHtml(section.title)}</strong>
+              <p>${escapeHtml(section.body)}</p>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    `);
+  }
+
+  if (Array.isArray(item.numbers) && item.numbers.length) {
+    blocks.push(`
+      <section class="travel-guide-section">
+        <h3>긴급 연락처</h3>
+        <div class="travel-number-grid">
+          ${item.numbers.map((entry) => `
+            <a href="tel:${escapeHtml(entry.number)}">
+              <span>${escapeHtml(entry.label)}</span>
+              <strong>${escapeHtml(entry.number)}</strong>
+            </a>
+          `).join("")}
+        </div>
+      </section>
+    `);
+  }
+
+  if (Array.isArray(item.phrases) && item.phrases.length) {
+    blocks.push(`
+      <section class="travel-guide-section">
+        <h3>바로 보여줄 중국어</h3>
+        <div class="travel-phrase-list">
+          ${item.phrases.map((phrase) => `
+            <article>
+              <span>${escapeHtml(phrase.ko)}</span>
+              <strong lang="zh-CN">${escapeHtml(phrase.zh)}</strong>
+              <small>${escapeHtml(phrase.pronunciation || "")}</small>
+              <button
+                type="button"
+                data-copy-phrase="${escapeHtml(phrase.zh)}"
+                onclick="copyGuidePhrase(this)"
+              >
+                중국어 복사
+              </button>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    `);
+  }
+
+  if (Array.isArray(item.tips) && item.tips.length) {
+    blocks.push(createGuideNoteBlock("TIP", item.tips, "tip"));
+  }
+
+  if (Array.isArray(item.warnings) && item.warnings.length) {
+    blocks.push(createGuideNoteBlock("주의사항", item.warnings, "warning"));
+  }
+
+  return blocks.join("");
+}
+
+function createGuideNoteBlock(title, items, className) {
+  return `
+    <section class="travel-guide-note ${className}">
+      <strong>${escapeHtml(title)}</strong>
+      <ul>
+        ${items.map((text) => `<li>${escapeHtml(text)}</li>`).join("")}
+      </ul>
+    </section>
+  `;
+}
+
+async function copyGuidePhrase(button) {
+  const text = button.dataset.copyPhrase || "";
+
+  try {
+    await copyTextToClipboard(text);
+    const original = button.textContent;
+    button.textContent = "복사 완료";
+
+    window.setTimeout(() => {
+      button.textContent = original;
+    }, 1500);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function copyActiveGuide() {
+  if (!activeGuideItem) {
+    return;
+  }
+
+  const text = travelGuideItemToText(activeGuideItem);
+
+  try {
+    await copyTextToClipboard(text);
+    guideCopyFeedback.textContent =
+      "가이드 내용을 복사했습니다.";
+  } catch (error) {
+    console.error(error);
+    guideCopyFeedback.textContent =
+      "내용을 복사하지 못했습니다.";
+  }
+}
+
+function travelGuideItemToText(item) {
+  const lines = [
+    item.title,
+    item.summary,
+    ""
+  ];
+
+  if (item.searchKeyword) {
+    lines.push(`앱 검색어: ${item.searchKeyword}`, "");
+  }
+
+  (item.checklist || []).forEach((text) => {
+    lines.push(`□ ${text}`);
+  });
+
+  if (item.steps?.length) {
+    lines.push("");
+    item.steps.forEach((step, index) => {
+      lines.push(
+        `${index + 1}. ${step.title}`,
+        step.description
+      );
+    });
+  }
+
+  if (item.phrases?.length) {
+    lines.push("");
+    item.phrases.forEach((phrase) => {
+      lines.push(
+        `${phrase.ko} / ${phrase.zh} / ${phrase.pronunciation || ""}`
+      );
+    });
+  }
+
+  return lines.join("\n");
 }
 
 function createSharePayload() {
@@ -2648,6 +3527,17 @@ function openDetailModal(itemId, itemType) {
   detailModal.classList.add("open");
   detailModal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
+
+  if (detailModalPanel) {
+    detailModalPanel.scrollTop = 0;
+
+    window.requestAnimationFrame(() => {
+      detailModalPanel.scrollTo({
+        top: 0,
+        behavior: "auto"
+      });
+    });
+  }
 }
 
 
@@ -2793,15 +3683,31 @@ function addActiveDetailToSchedule() {
   const dayIndex = Number(detailAddDaySelect.value);
   const itemType =
     detailAddButton.dataset.itemType || "place";
+  const itemId = activeDetailItem.id;
+  const duration = activeDetailItem.duration || 90;
+
+  if (
+    !Number.isInteger(dayIndex) ||
+    !currentSchedule[dayIndex] ||
+    !itemId
+  ) {
+    setText(
+      copyFeedback,
+      "추가할 날짜 또는 장소 정보를 확인해주세요."
+    );
+    return;
+  }
 
   closeDetailModal();
 
-  openScheduleEditModal({
-    mode: "add",
-    dayIndex,
-    itemType,
-    itemId: activeDetailItem.id,
-    duration: activeDetailItem.duration || 90
+  window.requestAnimationFrame(() => {
+    openScheduleEditModal({
+      mode: "add",
+      dayIndex,
+      itemType,
+      itemId,
+      duration
+    });
   });
 }
 

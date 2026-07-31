@@ -186,63 +186,62 @@
       </div>
     </section>
 
-    <section class="section" id="travel">
+    <section class="section travel-library-section" id="travel">
       <div class="section-intro reveal">
-        <p class="eyebrow">GUANGZHOU</p>
-        <h2>도시를 지역별로<br>천천히 경험하세요.</h2>
+        <p class="eyebrow">GUANGZHOU PLACES</p>
+        <h2>등록된 모든 장소를<br>한눈에 살펴보세요.</h2>
         <p>
-          리완, 웨슈, 주장신청처럼 가까운 지역을 하루에 묶어
-          이동 시간을 줄이는 방식으로 추천합니다.
+          관광지와 맛집을 지역·종류별로 찾고,
+          상세정보를 확인하거나 내 일정에 바로 추가할 수 있습니다.
         </p>
       </div>
 
-      <div class="story-grid reveal">
-        <article class="story-card large">
-          <span class="story-index">01 · LIWAN</span>
-          <div>
-            <h3>Old Guangzhou</h3>
-            <p>천가사, 영경방, 샤미엔을 잇는 광저우의 오래된 풍경.</p>
-          </div>
-        </article>
+      <div class="travel-library-toolbar reveal">
+        <div class="travel-type-filters" id="travelTypeFilters">
+          <button class="active" type="button" data-travel-type="all">전체</button>
+          <button type="button" data-travel-type="place">관광지</button>
+          <button type="button" data-travel-type="restaurant">맛집</button>
+        </div>
 
-        <article class="story-card">
-          <span class="story-index">02 · ZHUJIANG</span>
-          <div>
-            <h3>Modern Skyline</h3>
-            <p>화청광장과 광저우타워에서 만나는 야경.</p>
-          </div>
-        </article>
-
-        <article class="story-card">
-          <span class="story-index">03 · YUEXIU</span>
-          <div>
-            <h3>City Walk</h3>
-            <p>베이징루와 성심대성당을 중심으로 걷는 도심 여행.</p>
-          </div>
-        </article>
+        <label class="travel-library-search">
+          <span class="sr-only">관광지와 맛집 검색</span>
+          <input
+            id="travelLibrarySearch"
+            type="search"
+            placeholder="장소명, 중국어명, 지역, 카테고리 검색"
+          >
+        </label>
       </div>
+
+      <div class="travel-district-filters reveal" id="travelDistrictFilters"></div>
+
+      <div class="travel-library-summary reveal">
+        <strong id="travelLibraryCount">0개 장소</strong>
+        <span>카드를 누르면 상세정보를 볼 수 있습니다.</span>
+      </div>
+
+      <div class="travel-library-grid reveal" id="travelLibraryGrid"></div>
     </section>
 
     <section class="section soft-section" id="guide">
       <div class="section-intro reveal">
-        <p class="eyebrow">TRAVEL GUIDE</p>
-        <h2>필요한 정보는<br>한곳에서.</h2>
+        <p class="eyebrow">CHINA TRAVEL GUIDE</p>
+        <h2>중국 여행 전에<br>이것만은 준비하세요.</h2>
+        <p class="guide-intro-copy">
+          결제부터 택시, 지도, 통신과 긴급상황까지 단계별로 확인할 수 있습니다.
+        </p>
       </div>
 
-      <div class="guide-list reveal">
-        <button class="guide-row" type="button">
-          <span>공항에서 광저우 시내 이동</span>
-          <span>→</span>
-        </button>
-        <button class="guide-row" type="button">
-          <span>중국 결제와 교통카드</span>
-          <span>→</span>
-        </button>
-        <button class="guide-row" type="button">
-          <span>결혼식 장소 안내</span>
-          <span>→</span>
-        </button>
+      <div class="guide-toolbar reveal">
+        <div class="guide-filter-list" id="guideFilterList"></div>
+        <label class="guide-search">
+          <span class="sr-only">여행 가이드 검색</span>
+          <input id="guideSearchInput" type="search" placeholder="알리페이, 택시, 지하철 검색">
+        </label>
       </div>
+
+      <div class="guide-notice reveal" id="guideNotice"></div>
+      <div class="guide-card-grid reveal" id="guideCardGrid"></div>
     </section>
   </main>
 
@@ -252,6 +251,37 @@
   </footer>
 
 
+
+
+  <div class="travel-guide-modal" id="travelGuideModal" aria-hidden="true">
+    <div class="travel-guide-backdrop"></div>
+
+    <section class="travel-guide-panel" role="dialog" aria-modal="true" aria-labelledby="travelGuideTitle">
+      <button class="travel-guide-close" id="travelGuideClose" type="button" aria-label="가이드 닫기">×</button>
+
+      <header class="travel-guide-header">
+        <span class="travel-guide-icon" id="travelGuideIcon"></span>
+        <div>
+          <p class="eyebrow" id="travelGuideCategory">TRAVEL GUIDE</p>
+          <h2 id="travelGuideTitle">중국 여행 가이드</h2>
+          <p id="travelGuideSummary"></p>
+        </div>
+      </header>
+
+      <div class="travel-guide-body" id="travelGuideBody"></div>
+
+      <div class="travel-guide-footer">
+        <button class="modal-action secondary" id="copyGuideButton" type="button">
+          내용 복사
+        </button>
+        <a class="modal-action primary" id="guideOfficialLink" href="#" target="_blank" rel="noopener" hidden>
+          공식 사이트 열기
+        </a>
+      </div>
+
+      <p class="copy-feedback" id="guideCopyFeedback" aria-live="polite"></p>
+    </section>
+  </div>
 
   <div class="shared-plan-modal" id="sharedPlanModal" aria-hidden="true">
     <div class="shared-plan-backdrop"></div>
@@ -425,6 +455,43 @@
             <span>장소 또는 식사</span>
             <select id="editItemSelect"></select>
           </label>
+
+          <section class="edit-item-preview" id="editItemPreview" hidden>
+            <div class="edit-item-preview-image-wrap">
+              <img id="editItemPreviewImage" src="" alt="">
+              <span id="editItemPreviewStatus" hidden>사진 준비 중</span>
+            </div>
+
+            <div class="edit-item-preview-content">
+              <div class="edit-item-preview-heading">
+                <div>
+                  <strong id="editItemPreviewName">장소명</strong>
+                  <span id="editItemPreviewChinese"></span>
+                </div>
+                <button id="editItemPreviewDetailButton" type="button">
+                  상세정보 보기
+                </button>
+              </div>
+
+              <div class="edit-item-preview-tags" id="editItemPreviewTags"></div>
+              <p id="editItemPreviewDescription"></p>
+
+              <dl class="edit-item-preview-info">
+                <div>
+                  <dt>중국어 주소</dt>
+                  <dd id="editItemPreviewAddress"></dd>
+                </div>
+                <div>
+                  <dt>기본 소요시간</dt>
+                  <dd id="editItemPreviewDuration"></dd>
+                </div>
+                <div>
+                  <dt>운영시간</dt>
+                  <dd id="editItemPreviewHours"></dd>
+                </div>
+              </dl>
+            </div>
+          </section>
 
           <label class="edit-field" id="editCustomTitleField" hidden>
             <span>일정 이름</span>
