@@ -97,7 +97,7 @@ let activeTravelDistrict = "all";
 
 let pendingSharedPlan = null;
 
-const STORAGE_KEY = "guangzhouWeddingPlannerStateV13";
+const STORAGE_KEY = "guangzhouWeddingPlannerStateV14";
 let storageStatusTimer = null;
 
 const scheduleEditModal = document.querySelector("#scheduleEditModal");
