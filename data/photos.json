@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "basePath": "",
+  "items": {
+    "airport": [
+      "images/places/airport-1.svg",
+      "images/places/airport-2.svg",
+      "images/places/airport-3.svg"
+    ],
+    "weddingHotel": [
+      "images/places/weddingHotel-1.svg",
+      "images/places/weddingHotel-2.svg",
+      "images/places/weddingHotel-3.svg"
+    ],
+    "shamian": [
+      "images/places/shamian-1.svg",
+      "images/places/shamian-2.svg",
+      "images/places/shamian-3.svg"
+    ],
+    "yongqingfang": [
+      "images/places/yongqingfang-1.svg",
+      "images/places/yongqingfang-2.svg",
+      "images/places/yongqingfang-3.svg"
+    ],
+    "chenClan": [
+      "images/places/chenClan-1.svg",
+      "images/places/chenClan-2.svg",
+      "images/places/chenClan-3.svg"
+    ],
+    "beijingRoad": [
+      "images/places/beijingRoad-1.svg",
+      "images/places/beijingRoad-2.svg",
+      "images/places/beijingRoad-3.svg"
+    ],
+    "sacredHeart": [
+      "images/places/sacredHeart-1.svg",
+      "images/places/sacredHeart-2.svg",
+      "images/places/sacredHeart-3.svg"
+    ],
+    "zhanxiMarket": [
+      "images/places/zhanxiMarket-1.jpg"
+    ],
+    "cantonTower": [
+      "images/places/cantonTower-1.svg",
+      "images/places/cantonTower-2.svg",
+      "images/places/cantonTower-3.svg"
+    ],
+    "haixinBridge": [
+      "images/places/haixinBridge-1.jpg"
+    ],
+    "huachengSquare": [
+      "images/places/huachengSquare-1.svg",
+      "images/places/huachengSquare-2.svg",
+      "images/places/huachengSquare-3.svg"
+    ],
+    "k11": [
+      "images/places/k11-1.svg",
+      "images/places/k11-2.svg",
+      "images/places/k11-3.svg"
+    ],
+    "partyPier": [
+      "images/places/partyPier-1.jpg",
+      "images/places/partyPier-2.jpg"
+    ],
+    "changlong": [
+      "images/places/changlong-1.svg",
+      "images/places/changlong-2.svg",
+      "images/places/changlong-3.svg"
+    ],
+    "dimsumLiwan": [
+      "images/places/dimsumLiwan-1.svg",
+      "images/places/dimsumLiwan-2.svg"
+    ],
+    "cantoneseLiwan": [
+      "images/places/cantoneseLiwan-1.svg",
+      "images/places/cantoneseLiwan-2.svg"
+    ],
+    "beijingRoadFood": [
+      "images/places/beijingRoadFood-1.svg",
+      "images/places/beijingRoadFood-2.svg"
+    ],
+    "hotpotZhujiang": [
+      "images/places/hotpotZhujiang-1.svg",
+      "images/places/hotpotZhujiang-2.svg"
+    ],
+    "cantoneseZhujiang": [
+      "images/places/cantoneseZhujiang-1.svg",
+      "images/places/cantoneseZhujiang-2.svg"
+    ],
+    "cafeZhujiang": [
+      "images/places/cafeZhujiang-1.svg",
+      "images/places/cafeZhujiang-2.svg"
+    ],
+    "lateNight": [
+      "images/places/lateNight-1.svg",
+      "images/places/lateNight-2.svg"
+    ]
+  }
+}

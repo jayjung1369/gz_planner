@@ -1,4 +1,14 @@
-const WEDDING_DATE = new Date("2026-11-14T00:00:00");
+let WEDDING_DATE = new Date("2026-11-14T00:00:00");
+
+let PLACES = {};
+let RESTAURANTS = {};
+let PLACE_OPTIONS = [];
+let RESTAURANT_OPTIONS = [];
+let SCHEDULE_RULES = {};
+let RECOMMENDED_DISTRICT_ORDER = [];
+let RECOMMENDED_PLACE_IDS = {};
+let RECOMMENDED_RESTAURANT_IDS = {};
+let PHOTO_LIBRARY = {};
 
 const arrivalInput = document.querySelector("#arrivalDate");
 const arrivalTimeInput = document.querySelector("#arrivalTime");
@@ -36,7 +46,7 @@ const copyFeedback = document.querySelector("#copyFeedback");
 const resetScheduleButton = document.querySelector("#resetScheduleButton");
 const storageStatus = document.querySelector("#storageStatus");
 
-const STORAGE_KEY = "guangzhouWeddingPlannerStateV2";
+const STORAGE_KEY = "guangzhouWeddingPlannerStateV3";
 let storageStatusTimer = null;
 
 const scheduleEditModal = document.querySelector("#scheduleEditModal");
@@ -62,11 +72,80 @@ let plannerMode = "recommended";
 
 initialize();
 
-function initialize() {
-  renderChoices();
-  bindEvents();
-  initializeRevealAnimation();
-  restorePlannerState();
+async function initialize() {
+  try {
+    await loadPlannerData();
+    renderChoices();
+    bindEvents();
+    initializeRevealAnimation();
+    restorePlannerState();
+  } catch (error) {
+    console.error("플래너 데이터 로딩 실패:", error);
+    showDataLoadError(error);
+  }
+}
+
+async function loadPlannerData() {
+  const [placesData, restaurantsData, photosData, rulesData] =
+    await Promise.all([
+      loadJson("data/places.json"),
+      loadJson("data/restaurants.json"),
+      loadJson("data/photos.json"),
+      loadJson("data/scheduleRules.json")
+    ]);
+
+  PLACES = placesData.items || {};
+  RESTAURANTS = restaurantsData.items || {};
+  PHOTO_LIBRARY = photosData.items || {};
+
+  Object.entries(PLACES).forEach(([id, item]) => {
+    item.images = PHOTO_LIBRARY[id] || ["images/places/default-place.svg"];
+  });
+
+  Object.entries(RESTAURANTS).forEach(([id, item]) => {
+    item.images = PHOTO_LIBRARY[id] || ["images/places/default-place.svg"];
+  });
+
+  PLACE_OPTIONS = Object.values(PLACES).filter(
+    (place) => !["airport", "weddingHotel"].includes(place.id)
+  );
+  RESTAURANT_OPTIONS = Object.values(RESTAURANTS);
+
+  SCHEDULE_RULES = rulesData.rules || {};
+  RECOMMENDED_DISTRICT_ORDER =
+    rulesData.recommendedDistrictOrder || [];
+  RECOMMENDED_PLACE_IDS = rulesData.recommendedPlaceIds || {};
+  RECOMMENDED_RESTAURANT_IDS =
+    rulesData.recommendedRestaurantIds || {};
+
+  if (rulesData.weddingDate) {
+    WEDDING_DATE = new Date(`${rulesData.weddingDate}T00:00:00`);
+  }
+}
+
+async function loadJson(path) {
+  const response = await fetch(path, { cache: "no-store" });
+
+  if (!response.ok) {
+    throw new Error(`${path} 파일을 불러오지 못했습니다. (${response.status})`);
+  }
+
+  return response.json();
+}
+
+function showDataLoadError(error) {
+  const message =
+    window.location.protocol === "file:"
+      ? "JSON 파일은 파일 더블클릭 방식으로 불러올 수 없습니다. VS Code Live Server로 실행해주세요."
+      : "관광지 데이터 파일을 불러오지 못했습니다. 배포 파일과 경로를 확인해주세요.";
+
+  scheduleResult.innerHTML = `
+    <div class="empty-state data-load-error">
+      <p class="eyebrow">DATA LOAD ERROR</p>
+      <h3>${message}</h3>
+      <p>${error?.message || "알 수 없는 오류"}</p>
+    </div>
+  `;
 }
 
 function bindEvents() {
@@ -1473,6 +1552,12 @@ function showStorageStatus(message, isError = false) {
   }, 3500);
 }
 
+function setText(element, value) {
+  if (element) {
+    element.textContent = value;
+  }
+}
+
 function openDetailModal(itemId, itemType) {
   const source = itemType === "restaurant" ? RESTAURANTS : PLACES;
   const item = source[itemId];
@@ -1483,18 +1568,21 @@ function openDetailModal(itemId, itemType) {
 
   activeDetailItem = item;
 
-  detailModalCategory.textContent =
-    itemType === "restaurant" ? "FOOD DETAIL" : "PLACE DETAIL";
-  detailModalTitle.textContent = item.name;
-  detailModalChinese.textContent = item.chineseName || "중국어 명칭 준비 중";
-  detailModalAddress.textContent = item.addressZh || "중국어 주소 준비 중";
-  detailModalDuration.textContent = formatDuration(item.duration);
-  detailModalDescription.textContent = item.note || "";
-  detailModalHours.textContent = item.hours || formatOpeningHours(item);
-  detailModalPrice.textContent = item.price || "정보 준비 중";
-  detailModalBestTime.textContent = item.bestTime || "일정에 맞춰 방문";
-  detailModalTip.textContent = item.tips || "편한 신발과 충분한 이동 시간을 준비하세요.";
-  copyFeedback.textContent = "";
+  setText(detailModalCategory,
+    itemType === "restaurant" ? "FOOD DETAIL" : "PLACE DETAIL");
+  setText(detailModalTitle, item.name);
+  setText(detailModalChinese, item.chineseName || "중국어 명칭 준비 중");
+  setText(detailModalAddress, item.addressZh || "중국어 주소 준비 중");
+  setText(detailModalDuration, formatDuration(item.duration));
+  setText(detailModalDescription, item.note || "");
+  setText(detailModalHours, item.hours || formatOpeningHours(item));
+  setText(detailModalPrice, item.price || "정보 준비 중");
+  setText(detailModalBestTime, item.bestTime || "일정에 맞춰 방문");
+  setText(
+    detailModalTip,
+    item.tips || "편한 신발과 충분한 이동 시간을 준비하세요."
+  );
+  setText(copyFeedback, "");
 
   activeGalleryImages =
     Array.isArray(item.images) && item.images.length > 0
@@ -1506,6 +1594,11 @@ function openDetailModal(itemId, itemType) {
   showGalleryImage(0);
 
   openAmapButton.href = createAmapMarkerUrl(item);
+
+  if (!detailModal) {
+    console.error("상세창 요소를 찾을 수 없습니다.");
+    return;
+  }
 
   detailModal.classList.add("open");
   detailModal.setAttribute("aria-hidden", "false");
@@ -1522,9 +1615,16 @@ function showGalleryImage(index) {
     (index + activeGalleryImages.length) %
     activeGalleryImages.length;
 
-  detailModalImage.src =
-    activeGalleryImages[activeGalleryIndex];
+  const selectedImage =
+    activeGalleryImages[activeGalleryIndex] ||
+    "images/places/default-place.svg";
 
+  detailModalImage.onerror = () => {
+    detailModalImage.onerror = null;
+    detailModalImage.src = "images/places/default-place.svg";
+  };
+
+  detailModalImage.src = selectedImage;
   detailModalImage.alt =
     `${activeDetailItem?.name || "장소"} 사진 ${activeGalleryIndex + 1}`;
 

@@ -29,14 +29,24 @@ const RECOMMENDED_DISTRICT_ORDER = [
 
 const RECOMMENDED_PLACE_IDS = {
   liwan: ["chenClan", "yongqingfang", "shamian"],
-  yuexiu: ["sacredHeart", "beijingRoad"],
-  zhujiang: ["k11", "huachengSquare", "cantonTower"],
+  yuexiu: ["sacredHeart", "beijingRoad", "zhanxiMarket"],
+  zhujiang: [
+    "k11",
+    "huachengSquare",
+    "cantonTower",
+    "haixinBridge",
+    "partyPier"
+  ],
   panyu: ["changlong"]
 };
 
 const RECOMMENDED_RESTAURANT_IDS = {
   liwan: ["dimsumLiwan", "cantoneseLiwan"],
   yuexiu: ["beijingRoadFood"],
-  zhujiang: ["cantoneseZhujiang", "cafeZhujiang", "hotpotZhujiang"],
+  zhujiang: [
+    "cantoneseZhujiang",
+    "cafeZhujiang",
+    "hotpotZhujiang"
+  ],
   panyu: []
 };
