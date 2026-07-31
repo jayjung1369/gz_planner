@@ -1527,3 +1527,4 @@ body.modal-open {
     grid-template-columns: 1fr;
   }
 }
+\n\n/* 관광지·식당 선택 카드 이미지 */\n.choice-card {\n  overflow: hidden;\n  padding: 0;\n}\n\n.choice-image-wrap {\n  display: block;\n  width: 100%;\n  aspect-ratio: 16 / 9;\n  overflow: hidden;\n  background: var(--soft);\n}\n\n.choice-image {\n  width: 100%;\n  height: 100%;\n  display: block;\n  object-fit: cover;\n  transition: transform 0.3s ease;\n}\n\n.choice-card:hover .choice-image {\n  transform: scale(1.035);\n}\n\n.choice-card .choice-check {\n  top: 14px;\n  right: 14px;\n  background: rgba(255, 255, 255, 0.88);\n  backdrop-filter: blur(10px);\n}\n\n.choice-content {\n  padding: 16px 18px 18px;\n}\n

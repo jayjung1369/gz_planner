@@ -46,7 +46,7 @@ const copyFeedback = document.querySelector("#copyFeedback");
 const resetScheduleButton = document.querySelector("#resetScheduleButton");
 const storageStatus = document.querySelector("#storageStatus");
 
-const STORAGE_KEY = "guangzhouWeddingPlannerStateV3";
+const STORAGE_KEY = "guangzhouWeddingPlannerStateV4";
 let storageStatusTimer = null;
 
 const scheduleEditModal = document.querySelector("#scheduleEditModal");
@@ -301,6 +301,10 @@ function renderChoices() {
 }
 
 function createChoiceCard(item, inputClass) {
+  const thumbnail = resolveAssetUrl(
+    item.images?.[0] || "images/places/default-place.svg"
+  );
+
   return `
     <label class="choice-card">
       <input
@@ -308,6 +312,15 @@ function createChoiceCard(item, inputClass) {
         type="checkbox"
         value="${item.id}"
       >
+      <span class="choice-image-wrap">
+        <img
+          class="choice-image"
+          src="${thumbnail}"
+          alt="${item.name} 사진"
+          loading="lazy"
+          onerror="this.onerror=null;this.src='${resolveAssetUrl("images/places/default-place.svg")}'"
+        >
+      </span>
       <span class="choice-check">✓</span>
       <span class="choice-content">
         <strong>${item.name}</strong>
@@ -1558,6 +1571,15 @@ function setText(element, value) {
   }
 }
 
+function resolveAssetUrl(path) {
+  try {
+    return new URL(path, document.baseURI).href;
+  } catch (error) {
+    console.error("이미지 경로 변환 실패:", path, error);
+    return path;
+  }
+}
+
 function openDetailModal(itemId, itemType) {
   const source = itemType === "restaurant" ? RESTAURANTS : PLACES;
   const item = source[itemId];
@@ -1621,10 +1643,10 @@ function showGalleryImage(index) {
 
   detailModalImage.onerror = () => {
     detailModalImage.onerror = null;
-    detailModalImage.src = "images/places/default-place.svg";
+    detailModalImage.src = resolveAssetUrl("images/places/default-place.svg");
   };
 
-  detailModalImage.src = selectedImage;
+  detailModalImage.src = resolveAssetUrl(selectedImage);
   detailModalImage.alt =
     `${activeDetailItem?.name || "장소"} 사진 ${activeGalleryIndex + 1}`;
 
