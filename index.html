@@ -133,6 +133,22 @@
 
         <p class="storage-status" id="storageStatus" aria-live="polite"></p>
 
+        <div class="schedule-share-tools" id="scheduleShareTools" hidden>
+          <div>
+            <p class="eyebrow">SHARE YOUR PLAN</p>
+            <strong>완성한 일정만 저장하거나 공유하세요.</strong>
+          </div>
+          <div class="schedule-share-actions">
+            <button class="planner-sub-button" id="printScheduleButton" type="button">
+              PDF 저장
+            </button>
+            <button class="pill-button dark" id="shareScheduleButton" type="button">
+              카카오톡으로 일정 공유
+            </button>
+          </div>
+        </div>
+        <p class="share-status" id="shareStatus" aria-live="polite"></p>
+
         <div class="schedule-result" id="scheduleResult">
           <div class="empty-state">
             <p class="eyebrow">READY WHEN YOU ARE</p>
@@ -236,6 +252,25 @@
   </footer>
 
 
+
+  <div class="shared-plan-modal" id="sharedPlanModal" aria-hidden="true">
+    <div class="shared-plan-backdrop"></div>
+    <section class="shared-plan-panel" role="dialog" aria-modal="true" aria-labelledby="sharedPlanTitle">
+      <p class="eyebrow">SHARED ITINERARY</p>
+      <h2 id="sharedPlanTitle">공유받은 일정이 있습니다.</h2>
+      <p>
+        먼저 미리보기로 확인한 뒤, 이 브라우저의 내 일정으로 저장할 수 있습니다.
+        저장하면 현재 일정은 공유받은 일정으로 교체됩니다.
+      </p>
+      <div class="shared-plan-summary" id="sharedPlanSummary"></div>
+      <div class="shared-plan-actions">
+        <button class="modal-action secondary" id="previewSharedPlanButton" type="button">미리보기</button>
+        <button class="modal-action primary" id="saveSharedPlanButton" type="button">내 일정으로 저장</button>
+      </div>
+      <button class="shared-plan-cancel" id="cancelSharedPlanButton" type="button">나중에 보기</button>
+    </section>
+  </div>
+
   <div class="detail-modal" id="detailModal" aria-hidden="true">
     <div class="detail-modal-backdrop" data-close-modal></div>
 
@@ -244,6 +279,7 @@
 
       <div class="detail-gallery">
         <img id="detailModalImage" src="" alt="">
+        <span class="detail-photo-status" id="detailPhotoStatus" hidden>사진 준비 중</span>
         <button class="gallery-button gallery-prev" id="galleryPrevButton" type="button" aria-label="이전 사진">‹</button>
         <button class="gallery-button gallery-next" id="galleryNextButton" type="button" aria-label="다음 사진">›</button>
         <div class="gallery-dots" id="galleryDots"></div>
@@ -287,6 +323,65 @@
         <p id="detailModalTip">방문 팁을 준비 중입니다.</p>
       </div>
 
+      <section class="detail-extra-section" id="detailRestaurantInfo" hidden>
+        <div class="detail-section-heading">
+          <p class="eyebrow">FOOD INFORMATION</p>
+          <h3>식당 이용 정보</h3>
+        </div>
+
+        <div class="detail-food-grid">
+          <div>
+            <span>예약</span>
+            <strong id="detailReservation">정보 준비 중</strong>
+          </div>
+          <div>
+            <span>평균 비용</span>
+            <strong id="detailAverageCost">정보 준비 중</strong>
+          </div>
+        </div>
+
+        <div class="detail-menu-block" id="detailMenuBlock" hidden>
+          <span>추천 메뉴</span>
+          <div class="detail-chip-list" id="detailRecommendedMenu"></div>
+        </div>
+      </section>
+
+      <section class="detail-extra-section" id="nearbyPlacesSection" hidden>
+        <div class="detail-section-heading">
+          <p class="eyebrow">NEARBY PLACES</p>
+          <h3>함께 가기 좋은 관광지</h3>
+        </div>
+        <div class="nearby-card-list" id="nearbyPlacesList"></div>
+      </section>
+
+      <section class="detail-extra-section" id="nearbyRestaurantsSection" hidden>
+        <div class="detail-section-heading">
+          <p class="eyebrow">NEARBY FOOD</p>
+          <h3>근처 맛집·카페</h3>
+        </div>
+        <div class="nearby-card-list" id="nearbyRestaurantsList"></div>
+      </section>
+
+      <section class="detail-add-section">
+        <div>
+          <p class="eyebrow">ADD TO ITINERARY</p>
+          <h3>이 장소를 일정에 추가</h3>
+          <p id="detailAddGuide">
+            먼저 추천 일정 또는 직접 선택 일정을 만들어주세요.
+          </p>
+        </div>
+
+        <div class="detail-add-controls">
+          <label>
+            <span>추가할 날짜</span>
+            <select id="detailAddDaySelect"></select>
+          </label>
+          <button class="modal-action primary" id="detailAddButton" type="button">
+            일정에 추가
+          </button>
+        </div>
+      </section>
+
       <div class="detail-modal-actions">
         <button class="modal-action secondary" id="copyAddressButton" type="button">
           중국어 주소 복사
@@ -310,8 +405,8 @@
       <p class="eyebrow">EDIT ITINERARY</p>
       <h2 id="scheduleEditTitle">일정 편집</h2>
       <p class="schedule-edit-guide">
-        시작시간과 소요시간을 바꾸거나 다른 장소로 교체할 수 있습니다.
-        시간이 겹치면 뒤 일정은 자동으로 이동합니다.
+        관광지·식사·이동·개인 일정을 추가하거나 수정할 수 있습니다.
+        이동시간은 직접 확인해 입력하며, 시간이 겹치면 뒤 일정은 자동으로 밀립니다.
       </p>
 
       <form id="scheduleEditForm">
@@ -321,6 +416,7 @@
             <select id="editItemType">
               <option value="place">관광지</option>
               <option value="restaurant">식사</option>
+              <option value="transport">이동</option>
               <option value="custom">직접 입력</option>
             </select>
           </label>
@@ -335,6 +431,40 @@
             <input id="editCustomTitle" type="text" maxlength="40" placeholder="예: 친구 만나기">
           </label>
 
+          <div class="edit-transport-fields" id="editTransportFields" hidden>
+            <label class="edit-field">
+              <span>출발지</span>
+              <input
+                id="editTransportFrom"
+                type="text"
+                maxlength="50"
+                placeholder="예: 영경방"
+              >
+            </label>
+
+            <label class="edit-field">
+              <span>도착지</span>
+              <input
+                id="editTransportTo"
+                type="text"
+                maxlength="50"
+                placeholder="예: 샤미엔"
+              >
+            </label>
+
+            <label class="edit-field">
+              <span>이동수단</span>
+              <select id="editTransportMode">
+                <option value="도보">도보</option>
+                <option value="택시">택시</option>
+                <option value="지하철">지하철</option>
+                <option value="버스">버스</option>
+                <option value="차량">차량</option>
+                <option value="기타">기타</option>
+              </select>
+            </label>
+          </div>
+
           <label class="edit-field">
             <span>시작시간</span>
             <input id="editStartTime" type="time" required>
@@ -342,16 +472,20 @@
 
           <label class="edit-field">
             <span>소요시간</span>
-            <select id="editDuration">
-              <option value="30">30분</option>
-              <option value="60">1시간</option>
-              <option value="90">1시간 30분</option>
-              <option value="120">2시간</option>
-              <option value="150">2시간 30분</option>
-              <option value="180">3시간</option>
-              <option value="240">4시간</option>
-              <option value="480">8시간</option>
-            </select>
+            <div class="duration-input-wrap">
+              <input
+                id="editDuration"
+                type="number"
+                min="5"
+                max="960"
+                step="5"
+                inputmode="numeric"
+                value="90"
+                required
+              >
+              <span>분</span>
+            </div>
+            <small class="edit-field-help">5분 단위로 직접 입력할 수 있습니다.</small>
           </label>
         </div>
 

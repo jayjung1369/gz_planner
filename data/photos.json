@@ -13,45 +13,31 @@
       "images/places/weddingHotel-3.svg"
     ],
     "shamian": [
-      "images/places/shamian-1.svg",
-      "images/places/shamian-2.svg",
-      "images/places/shamian-3.svg"
+      "images/places/shamian-real-1.jpg"
     ],
     "yongqingfang": [
-      "images/places/yongqingfang-1.svg",
-      "images/places/yongqingfang-2.svg",
-      "images/places/yongqingfang-3.svg"
+      "images/places/yongqingfang-real-1.jpg"
     ],
     "chenClan": [
-      "images/places/chenClan-1.svg",
-      "images/places/chenClan-2.svg",
-      "images/places/chenClan-3.svg"
+      "images/places/chenClan-real-1.jpg"
     ],
     "beijingRoad": [
-      "images/places/beijingRoad-1.svg",
-      "images/places/beijingRoad-2.svg",
-      "images/places/beijingRoad-3.svg"
+      "images/places/beijingRoad-real-1.jpg"
     ],
     "sacredHeart": [
-      "images/places/sacredHeart-1.svg",
-      "images/places/sacredHeart-2.svg",
-      "images/places/sacredHeart-3.svg"
+      "images/places/sacredHeart-real-1.jpg"
     ],
     "zhanxiMarket": [
       "images/places/zhanxiMarket-1.jpg"
     ],
     "cantonTower": [
-      "images/places/cantonTower-1.svg",
-      "images/places/cantonTower-2.svg",
-      "images/places/cantonTower-3.svg"
+      "images/places/cantonTower-real-1.jpg"
     ],
     "haixinBridge": [
       "images/places/haixinBridge-1.jpg"
     ],
     "huachengSquare": [
-      "images/places/huachengSquare-1.svg",
-      "images/places/huachengSquare-2.svg",
-      "images/places/huachengSquare-3.svg"
+      "images/places/huachengSquare-real-1.jpg"
     ],
     "k11": [
       "images/places/k11-1.svg",
@@ -94,6 +80,42 @@
     "lateNight": [
       "images/places/lateNight-1.svg",
       "images/places/lateNight-2.svg"
+    ],
+    "shangxiajiu": [
+      "images/places/shangxiajiu-real-1.jpg"
+    ],
+    "lycheeBay": [
+      "images/places/lycheeBay-real-1.jpg"
+    ],
+    "yuexiuPark": [
+      "images/places/yuexiuPark-real-1.jpg"
+    ],
+    "sunYatSenMemorial": [
+      "images/places/sunYatSenMemorial-real-1.jpg"
+    ],
+    "guangdongMuseum": [
+      "images/places/guangdongMuseum-real-1.jpg"
+    ],
+    "guangzhouOperaHouse": [
+      "images/places/guangzhouOperaHouse-real-1.jpg"
+    ],
+    "guangzhouLibrary": [
+      "images/places/guangzhouLibrary-real-1.jpg"
+    ],
+    "baiyunMountain": [
+      "images/places/baiyunMountain-real-1.jpg"
+    ],
+    "guangzhouRestaurantLiwan": [
+      "images/places/guangzhouRestaurantLiwan-real-1.jpg"
+    ],
+    "taoTaoJuLiwan": [
+      "images/places/taoTaoJuLiwan-real-1.jpg"
+    ],
+    "panxiRestaurant": [
+      "images/places/panxiRestaurant-real-1.jpg"
+    ],
+    "lianXiangLou": [
+      "images/places/lianXiangLou-real-1.jpg"
     ]
   }
 }

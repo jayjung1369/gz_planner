@@ -19,27 +19,42 @@
       "liwan-zhujiang": 45,
       "zhujiang-liwan": 45,
       "panyu-zhujiang": 55,
-      "zhujiang-panyu": 55
+      "zhujiang-panyu": 55,
+      "baiyun-baiyun": 15,
+      "yuexiu-baiyun": 40,
+      "baiyun-yuexiu": 40,
+      "zhujiang-baiyun": 45,
+      "baiyun-zhujiang": 45,
+      "liwan-baiyun": 50,
+      "baiyun-liwan": 50
     }
   },
   "recommendedDistrictOrder": [
     "liwan",
     "yuexiu",
     "zhujiang",
-    "panyu"
+    "panyu",
+    "baiyun"
   ],
   "recommendedPlaceIds": {
     "liwan": [
       "chenClan",
+      "lycheeBay",
       "yongqingfang",
+      "shangxiajiu",
       "shamian"
     ],
     "yuexiu": [
+      "yuexiuPark",
+      "sunYatSenMemorial",
       "sacredHeart",
       "beijingRoad",
       "zhanxiMarket"
     ],
     "zhujiang": [
+      "guangdongMuseum",
+      "guangzhouLibrary",
+      "guangzhouOperaHouse",
       "k11",
       "huachengSquare",
       "cantonTower",
@@ -48,12 +63,17 @@
     ],
     "panyu": [
       "changlong"
+    ],
+    "baiyun": [
+      "baiyunMountain"
     ]
   },
   "recommendedRestaurantIds": {
     "liwan": [
-      "dimsumLiwan",
-      "cantoneseLiwan"
+      "guangzhouRestaurantLiwan",
+      "taoTaoJuLiwan",
+      "panxiRestaurant",
+      "lianXiangLou"
     ],
     "yuexiu": [
       "beijingRoadFood"
