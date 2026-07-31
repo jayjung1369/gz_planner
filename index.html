@@ -242,9 +242,31 @@
     <section class="detail-modal-panel" role="dialog" aria-modal="true" aria-labelledby="detailModalTitle">
       <button class="detail-modal-close" type="button" aria-label="닫기" data-close-modal>×</button>
 
+      <div class="detail-gallery">
+        <img id="detailModalImage" src="" alt="">
+        <button class="gallery-button gallery-prev" id="galleryPrevButton" type="button" aria-label="이전 사진">‹</button>
+        <button class="gallery-button gallery-next" id="galleryNextButton" type="button" aria-label="다음 사진">›</button>
+        <div class="gallery-dots" id="galleryDots"></div>
+      </div>
+
       <p class="eyebrow" id="detailModalCategory">PLACE DETAIL</p>
       <h2 id="detailModalTitle">장소 상세정보</h2>
       <p class="detail-modal-chinese" id="detailModalChinese"></p>
+
+      <div class="detail-quick-grid">
+        <div>
+          <span>운영시간</span>
+          <strong id="detailModalHours">정보 준비 중</strong>
+        </div>
+        <div>
+          <span>입장료·예산</span>
+          <strong id="detailModalPrice">정보 준비 중</strong>
+        </div>
+        <div>
+          <span>추천 방문시간</span>
+          <strong id="detailModalBestTime">정보 준비 중</strong>
+        </div>
+      </div>
 
       <div class="detail-modal-info">
         <div>
@@ -252,13 +274,14 @@
           <strong id="detailModalAddress">주소 준비 중</strong>
         </div>
 
-        <div>
-          <span>추천 체류시간</span>
-          <strong id="detailModalDuration">시간 미정</strong>
-        </div>
       </div>
 
       <p class="detail-modal-description" id="detailModalDescription"></p>
+
+      <div class="detail-tip">
+        <span>TIP</span>
+        <p id="detailModalTip">방문 팁을 준비 중입니다.</p>
+      </div>
 
       <div class="detail-modal-actions">
         <button class="modal-action secondary" id="copyAddressButton" type="button">

@@ -19,6 +19,17 @@ const detailModalChinese = document.querySelector("#detailModalChinese");
 const detailModalAddress = document.querySelector("#detailModalAddress");
 const detailModalDuration = document.querySelector("#detailModalDuration");
 const detailModalDescription = document.querySelector("#detailModalDescription");
+const detailModalImage = document.querySelector("#detailModalImage");
+const detailModalHours = document.querySelector("#detailModalHours");
+const detailModalPrice = document.querySelector("#detailModalPrice");
+const detailModalBestTime = document.querySelector("#detailModalBestTime");
+const detailModalTip = document.querySelector("#detailModalTip");
+const galleryPrevButton = document.querySelector("#galleryPrevButton");
+const galleryNextButton = document.querySelector("#galleryNextButton");
+const galleryDots = document.querySelector("#galleryDots");
+
+let activeGalleryImages = [];
+let activeGalleryIndex = 0;
 const copyAddressButton = document.querySelector("#copyAddressButton");
 const openAmapButton = document.querySelector("#openAmapButton");
 const copyFeedback = document.querySelector("#copyFeedback");
@@ -105,6 +116,14 @@ function bindEvents() {
   });
 
   copyAddressButton.addEventListener("click", copyActiveAddress);
+
+  galleryPrevButton.addEventListener("click", () => {
+    showGalleryImage(activeGalleryIndex - 1);
+  });
+
+  galleryNextButton.addEventListener("click", () => {
+    showGalleryImage(activeGalleryIndex + 1);
+  });
 
   document.querySelectorAll("[data-close-edit-modal]").forEach((element) => {
     element.addEventListener("click", closeScheduleEditModal);
@@ -1471,13 +1490,87 @@ function openDetailModal(itemId, itemType) {
   detailModalAddress.textContent = item.addressZh || "중국어 주소 준비 중";
   detailModalDuration.textContent = formatDuration(item.duration);
   detailModalDescription.textContent = item.note || "";
+  detailModalHours.textContent = item.hours || formatOpeningHours(item);
+  detailModalPrice.textContent = item.price || "정보 준비 중";
+  detailModalBestTime.textContent = item.bestTime || "일정에 맞춰 방문";
+  detailModalTip.textContent = item.tips || "편한 신발과 충분한 이동 시간을 준비하세요.";
   copyFeedback.textContent = "";
+
+  activeGalleryImages =
+    Array.isArray(item.images) && item.images.length > 0
+      ? item.images
+      : ["images/places/default-place.svg"];
+
+  activeGalleryIndex = 0;
+  renderGalleryDots();
+  showGalleryImage(0);
 
   openAmapButton.href = createAmapMarkerUrl(item);
 
   detailModal.classList.add("open");
   detailModal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
+}
+
+
+function showGalleryImage(index) {
+  if (activeGalleryImages.length === 0) {
+    return;
+  }
+
+  activeGalleryIndex =
+    (index + activeGalleryImages.length) %
+    activeGalleryImages.length;
+
+  detailModalImage.src =
+    activeGalleryImages[activeGalleryIndex];
+
+  detailModalImage.alt =
+    `${activeDetailItem?.name || "장소"} 사진 ${activeGalleryIndex + 1}`;
+
+  [...galleryDots.children].forEach((dot, dotIndex) => {
+    dot.classList.toggle(
+      "active",
+      dotIndex === activeGalleryIndex
+    );
+  });
+
+  const showButtons = activeGalleryImages.length > 1;
+  galleryPrevButton.hidden = !showButtons;
+  galleryNextButton.hidden = !showButtons;
+}
+
+function renderGalleryDots() {
+  galleryDots.innerHTML = activeGalleryImages
+    .map(
+      (_, index) => `
+        <button
+          class="gallery-dot ${index === 0 ? "active" : ""}"
+          type="button"
+          aria-label="${index + 1}번째 사진"
+          data-gallery-index="${index}"
+        ></button>
+      `
+    )
+    .join("");
+
+  galleryDots
+    .querySelectorAll("[data-gallery-index]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        showGalleryImage(
+          Number(button.dataset.galleryIndex)
+        );
+      });
+    });
+}
+
+function formatOpeningHours(item) {
+  if (item.openTime && item.closeTime) {
+    return `${item.openTime}~${item.closeTime}`;
+  }
+
+  return "정보 준비 중";
 }
 
 function closeDetailModal() {
