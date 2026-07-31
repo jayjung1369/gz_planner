@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guangzhou Wedding Journey</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home">GUANGZHOU WEDDING</a>
+
+    <nav class="desktop-nav">
+      <a href="#planner">Planner</a>
+      <a href="#wedding">Wedding</a>
+      <a href="#travel">Travel</a>
+      <a href="#guide">Guide</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-orb hero-orb-one"></div>
+      <div class="hero-orb hero-orb-two"></div>
+
+      <div class="hero-content reveal">
+        <p class="eyebrow">NOVEMBER 14, 2026 · GUANGZHOU</p>
+        <h1>Our Wedding<br>Journey</h1>
+        <p class="hero-copy">
+          광저우에서의 결혼식과 여행을<br>
+          당신의 일정에 맞게 준비해보세요.
+        </p>
+        <a class="pill-button" href="#planner">일정 만들기</a>
+      </div>
+
+      <a class="scroll-indicator" href="#planner">
+        <span>SCROLL</span>
+        <span class="scroll-line"></span>
+      </a>
+    </section>
+
+    <section class="section planner-section" id="planner">
+      <div class="section-intro reveal">
+        <p class="eyebrow">TRAVEL PLANNER</p>
+        <h2>당신에게 맞는<br>광저우 일정.</h2>
+        <p>
+          도착·출국 시간과 여행 방식을 선택하면
+          결혼식 일정은 고정하고 나머지 시간을 자동으로 구성합니다.
+        </p>
+      </div>
+
+      <div class="planner-shell reveal">
+        <div class="planner-form">
+          <div class="date-field">
+            <label for="arrivalDate">도착일</label>
+            <input id="arrivalDate" type="date" value="2026-11-13">
+          </div>
+
+          <div class="date-field">
+            <label for="arrivalTime">도착시간</label>
+            <input id="arrivalTime" type="time" value="14:30">
+          </div>
+
+          <div class="date-field">
+            <label for="departureDate">출국일</label>
+            <input id="departureDate" type="date" value="2026-11-16">
+          </div>
+
+          <div class="date-field">
+            <label for="departureTime">출발시간</label>
+            <input id="departureTime" type="time" value="18:30">
+          </div>
+        </div>
+
+        <div class="planner-mode">
+          <button class="mode-card active" type="button" data-mode="recommended">
+            <span class="mode-card-index">01</span>
+            <strong>추천 일정</strong>
+            <small>같은 지역을 우선 연결해 이동을 줄입니다.</small>
+          </button>
+
+          <button class="mode-card" type="button" data-mode="custom">
+            <span class="mode-card-index">02</span>
+            <strong>직접 선택</strong>
+            <small>가고 싶은 여행지와 식사를 직접 고릅니다.</small>
+          </button>
+        </div>
+
+        <div class="custom-selector" id="customSelector" hidden>
+          <div class="selector-section">
+            <div class="selector-heading">
+              <div>
+                <p class="eyebrow">PLACES</p>
+                <h3>가고 싶은 여행지</h3>
+              </div>
+              <button class="text-button" id="selectAllPlaces" type="button">전체 선택</button>
+            </div>
+            <div class="choice-grid" id="placeChoices"></div>
+          </div>
+
+          <div class="selector-section">
+            <div class="selector-heading">
+              <div>
+                <p class="eyebrow">FOOD</p>
+                <h3>먹고 싶은 식사</h3>
+              </div>
+              <button class="text-button" id="selectAllRestaurants" type="button">전체 선택</button>
+            </div>
+            <div class="choice-grid" id="restaurantChoices"></div>
+          </div>
+        </div>
+
+        <div class="storage-guide">
+          <div class="storage-guide-icon">✓</div>
+          <div>
+            <strong>이 브라우저에 자동 저장됩니다.</strong>
+            <p>
+              입력한 날짜와 시간, 선택한 장소, 생성된 일정은 현재 기기의
+              브라우저에만 저장됩니다. 다른 기기나 브라우저에는 공유되지 않습니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="planner-actions">
+          <button class="pill-button dark" id="createScheduleButton" type="button">
+            추천 일정 만들기
+          </button>
+
+          <button class="planner-sub-button" id="resetScheduleButton" type="button">
+            저장된 일정 초기화
+          </button>
+        </div>
+
+        <p class="storage-status" id="storageStatus" aria-live="polite"></p>
+
+        <div class="schedule-result" id="scheduleResult">
+          <div class="empty-state">
+            <p class="eyebrow">READY WHEN YOU ARE</p>
+            <h3>여행 방식을 선택하고 일정을 만들어보세요.</h3>
+            <p>일반 일정은 08:00부터 24:00까지 구성됩니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark-section" id="wedding">
+      <div class="section-intro light reveal">
+        <p class="eyebrow">THE WEDDING</p>
+        <h2>November 14.<br>W Guangzhou.</h2>
+        <p>
+          결혼식 일정은 모든 여행 일정에서 가장 먼저 고정됩니다.
+        </p>
+      </div>
+
+      <div class="wedding-feature reveal">
+        <div class="wedding-date">
+          <span>NOVEMBER</span>
+          <strong>14</strong>
+          <span>2026 · SATURDAY</span>
+        </div>
+
+        <div class="wedding-info">
+          <p class="eyebrow">W GUANGZHOU</p>
+          <h3>Wedding Day</h3>
+          <p>
+            광저우 W 호텔에서 새로운 출발의 순간을 함께합니다.
+            상세 시간은 추후 안내됩니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="travel">
+      <div class="section-intro reveal">
+        <p class="eyebrow">GUANGZHOU</p>
+        <h2>도시를 지역별로<br>천천히 경험하세요.</h2>
+        <p>
+          리완, 웨슈, 주장신청처럼 가까운 지역을 하루에 묶어
+          이동 시간을 줄이는 방식으로 추천합니다.
+        </p>
+      </div>
+
+      <div class="story-grid reveal">
+        <article class="story-card large">
+          <span class="story-index">01 · LIWAN</span>
+          <div>
+            <h3>Old Guangzhou</h3>
+            <p>천가사, 영경방, 샤미엔을 잇는 광저우의 오래된 풍경.</p>
+          </div>
+        </article>
+
+        <article class="story-card">
+          <span class="story-index">02 · ZHUJIANG</span>
+          <div>
+            <h3>Modern Skyline</h3>
+            <p>화청광장과 광저우타워에서 만나는 야경.</p>
+          </div>
+        </article>
+
+        <article class="story-card">
+          <span class="story-index">03 · YUEXIU</span>
+          <div>
+            <h3>City Walk</h3>
+            <p>베이징루와 성심대성당을 중심으로 걷는 도심 여행.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section soft-section" id="guide">
+      <div class="section-intro reveal">
+        <p class="eyebrow">TRAVEL GUIDE</p>
+        <h2>필요한 정보는<br>한곳에서.</h2>
+      </div>
+
+      <div class="guide-list reveal">
+        <button class="guide-row" type="button">
+          <span>공항에서 광저우 시내 이동</span>
+          <span>→</span>
+        </button>
+        <button class="guide-row" type="button">
+          <span>중국 결제와 교통카드</span>
+          <span>→</span>
+        </button>
+        <button class="guide-row" type="button">
+          <span>결혼식 장소 안내</span>
+          <span>→</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>November 14, 2026</p>
+    <p>W Guangzhou</p>
+  </footer>
+
+
+  <div class="detail-modal" id="detailModal" aria-hidden="true">
+    <div class="detail-modal-backdrop" data-close-modal></div>
+
+    <section class="detail-modal-panel" role="dialog" aria-modal="true" aria-labelledby="detailModalTitle">
+      <button class="detail-modal-close" type="button" aria-label="닫기" data-close-modal>×</button>
+
+      <p class="eyebrow" id="detailModalCategory">PLACE DETAIL</p>
+      <h2 id="detailModalTitle">장소 상세정보</h2>
+      <p class="detail-modal-chinese" id="detailModalChinese"></p>
+
+      <div class="detail-modal-info">
+        <div>
+          <span>중국어 주소</span>
+          <strong id="detailModalAddress">주소 준비 중</strong>
+        </div>
+
+        <div>
+          <span>추천 체류시간</span>
+          <strong id="detailModalDuration">시간 미정</strong>
+        </div>
+      </div>
+
+      <p class="detail-modal-description" id="detailModalDescription"></p>
+
+      <div class="detail-modal-actions">
+        <button class="modal-action secondary" id="copyAddressButton" type="button">
+          중국어 주소 복사
+        </button>
+
+        <a class="modal-action primary" id="openAmapButton" href="#" target="_blank" rel="noopener">
+          고덕지도 열기
+        </a>
+      </div>
+
+      <p class="copy-feedback" id="copyFeedback" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <div class="schedule-edit-modal" id="scheduleEditModal" aria-hidden="true">
+    <div class="schedule-edit-backdrop" data-close-edit-modal></div>
+
+    <section class="schedule-edit-panel" role="dialog" aria-modal="true" aria-labelledby="scheduleEditTitle">
+      <button class="schedule-edit-close" type="button" aria-label="닫기" data-close-edit-modal>×</button>
+
+      <p class="eyebrow">EDIT ITINERARY</p>
+      <h2 id="scheduleEditTitle">일정 편집</h2>
+      <p class="schedule-edit-guide">
+        시작시간과 소요시간을 바꾸거나 다른 장소로 교체할 수 있습니다.
+        시간이 겹치면 뒤 일정은 자동으로 이동합니다.
+      </p>
+
+      <form id="scheduleEditForm">
+        <div class="edit-form-grid">
+          <label class="edit-field">
+            <span>일정 종류</span>
+            <select id="editItemType">
+              <option value="place">관광지</option>
+              <option value="restaurant">식사</option>
+              <option value="custom">직접 입력</option>
+            </select>
+          </label>
+
+          <label class="edit-field" id="editItemSelectField">
+            <span>장소 또는 식사</span>
+            <select id="editItemSelect"></select>
+          </label>
+
+          <label class="edit-field" id="editCustomTitleField" hidden>
+            <span>일정 이름</span>
+            <input id="editCustomTitle" type="text" maxlength="40" placeholder="예: 친구 만나기">
+          </label>
+
+          <label class="edit-field">
+            <span>시작시간</span>
+            <input id="editStartTime" type="time" required>
+          </label>
+
+          <label class="edit-field">
+            <span>소요시간</span>
+            <select id="editDuration">
+              <option value="30">30분</option>
+              <option value="60">1시간</option>
+              <option value="90">1시간 30분</option>
+              <option value="120">2시간</option>
+              <option value="150">2시간 30분</option>
+              <option value="180">3시간</option>
+              <option value="240">4시간</option>
+              <option value="480">8시간</option>
+            </select>
+          </label>
+        </div>
+
+        <p class="edit-form-message" id="editFormMessage" aria-live="polite"></p>
+
+        <div class="schedule-edit-actions">
+          <button class="modal-action secondary" type="button" data-close-edit-modal>취소</button>
+          <button class="modal-action primary" type="submit">일정 저장</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script src="data/places.js"></script>
+  <script src="data/restaurants.js"></script>
+  <script src="data/scheduleTemplates.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
