@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Guangzhou Wedding Journey</title>  <link rel="stylesheet" href="css/base.css?v=31">
+  <title>Guangzhou Wedding Journey</title>  <link rel="stylesheet" href="css/base.css?v=32">
   <link rel="stylesheet" href="css/layout.css?v=31">
   <link rel="stylesheet" href="css/planner.css?v=31">
   <link rel="stylesheet" href="css/detail.css?v=31">
@@ -36,7 +36,7 @@
           광저우에서의 결혼식과 여행을<br>
           당신의 일정에 맞게 준비해보세요.
         </p>
-        <a class="pill-button" href="#planner">일정 만들기</a>
+        <a class="pill-button" href="#planner">추천 일정 보기</a>
       </div>
 
       <a class="scroll-indicator" href="#planner">
@@ -74,47 +74,27 @@
         <div class="storage-guide">
           <div class="storage-guide-icon">✓</div>
           <div>
-            <strong>관리자 기본 일정으로 자동 생성됩니다.</strong>
+            <strong>추천 일정이 자동으로 생성됩니다.</strong>
             <p>
               입력한 날짜와 생성된 일정은 현재 기기의 브라우저에만 저장됩니다.
-              최대 3일 일정까지 생성할 수 있습니다.
+              최대 3일 일정까지 생성 가능합니다.
             </p>
           </div>
         </div>
 
         <div class="planner-actions">
           <button class="pill-button dark" id="createScheduleButton" type="button">
-            일정 만들기
-          </button>
-
-          <button class="planner-sub-button" id="resetScheduleButton" type="button">
-            저장된 일정 초기화
+            일정 등록
           </button>
         </div>
 
         <p class="storage-status" id="storageStatus" aria-live="polite"></p>
 
-        <div class="schedule-share-tools" id="scheduleShareTools" hidden>
-          <div>
-            <p class="eyebrow">SHARE YOUR PLAN</p>
-            <strong>완성한 일정만 저장하거나 공유하세요.</strong>
-          </div>
-          <div class="schedule-share-actions">
-            <button class="planner-sub-button" id="printScheduleButton" type="button">
-              PDF 저장
-            </button>
-            <button class="pill-button dark" id="shareScheduleButton" type="button">
-              카카오톡으로 일정 공유
-            </button>
-          </div>
-        </div>
-        <p class="share-status" id="shareStatus" aria-live="polite"></p>
-
         <div class="schedule-result" id="scheduleResult">
           <div class="empty-state">
             <p class="eyebrow">READY WHEN YOU ARE</p>
-            <h3>도착일과 출국일을 입력하고 일정을 만들어보세요.</h3>
-            <p>일정은 관리자 기본 템플릿으로 자동 구성됩니다.</p>
+            <h3>도착일과 출국일을 입력하고 추천 일정을 등록해보세요.</h3>
+            <p>최대 3일까지 추천 일정을 생성할 수 있습니다.</p>
           </div>
         </div>
       </div>
@@ -666,13 +646,13 @@
   <script src="js/modules/utils.js?v=32"></script>
   <script src="js/modules/image-loader.js?v=31"></script>
   <script src="js/modules/data.js?v=31"></script>
-  <script src="js/modules/planner.js?v=43"></script>
+  <script src="js/modules/planner.js?v=44"></script>
   <script src="js/modules/travel.js?v=31"></script>
   <script src="js/modules/guide.js?v=31"></script>
   <script src="js/modules/detail.js?v=34"></script>
-  <script src="js/modules/storage.js?v=33"></script>
+  <script src="js/modules/storage.js?v=34"></script>
   <script src="js/modules/share.js?v=31"></script>
-  <script src="js/modules/events.js?v=41"></script>
+  <script src="js/modules/events.js?v=42"></script>
   <script src="js/app.js?v=33"></script>
 </body>
 </html>

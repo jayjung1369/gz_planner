@@ -193,7 +193,7 @@ function setPlannerModeWithoutSaving(mode) {
     customSelector.hidden = true;
   }
 
-  createButton.textContent = "일정 만들기";
+  createButton.textContent = "일정 등록";
 }
 
 function getCheckedValues(className) {

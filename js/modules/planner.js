@@ -906,7 +906,7 @@ function renderSchedule(schedule, context, options = {}) {
   currentContext = context;
 
   const nights = Math.max(context.dates.length - 1, 0);
-  const selectedLabel = "관리자 기본 일정";
+  const selectedLabel = "추천 일정";
 
   scheduleResult.innerHTML = `
     <div class="schedule-header">
@@ -943,7 +943,6 @@ function renderSchedule(schedule, context, options = {}) {
     ${createExcludedItemsSection(context.excludedItems || [])}
   `;
 
-  scheduleShareTools.hidden = false;
   initializeLazyImages(scheduleResult);
   applyActiveScheduleDay(activeScheduleDayIndex);
 

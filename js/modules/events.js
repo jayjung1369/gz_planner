@@ -178,10 +178,6 @@ function bindEvents() {
     );
   });
 
-  resetScheduleButton.addEventListener("click", resetSavedPlanner);
-
-  printScheduleButton.addEventListener("click", printCurrentSchedule);
-  shareScheduleButton.addEventListener("click", shareCurrentSchedule);
   previewSharedPlanButton.addEventListener("click", previewSharedPlan);
   saveSharedPlanButton.addEventListener("click", saveSharedPlan);
   cancelSharedPlanButton.addEventListener("click", closeSharedPlanModal);
@@ -405,7 +401,7 @@ function setPlannerMode(mode) {
     customSelector.hidden = true;
   }
 
-  createButton.textContent = "일정 만들기";
+  createButton.textContent = "일정 등록";
 
   savePlannerState({ clearRenderedSchedule: true });
 }
