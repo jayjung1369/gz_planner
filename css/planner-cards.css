@@ -348,7 +348,8 @@
   margin-top: 14px;
   display: flex;
   flex-direction: column;
-  max-height: min(74vh, 820px);
+  height: min(74vh, 820px);
+  min-height: 320px;
   border-radius: 18px;
   overflow: hidden;
   background: #fff;
@@ -372,10 +373,15 @@
 }
 
 .schedule-day-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
   margin-top: 0;
   padding: 10px 12px 12px;
   overflow-y: auto;
+  overflow-x: hidden;
   overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 .schedule-day-tabs {
@@ -562,7 +568,8 @@
 
 @media (max-width: 820px) {
   .schedule-day-shell {
-    max-height: min(72vh, 760px);
+    height: min(72vh, 760px);
+    min-height: 300px;
     border-radius: 14px;
   }
 
