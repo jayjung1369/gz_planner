@@ -178,7 +178,7 @@ function renderDetailAddControls(item, itemType) {
       '<option>일정을 먼저 생성해주세요</option>';
     setText(
       detailAddGuide,
-      "추천 일정 또는 직접 선택 일정을 만든 뒤 이 장소를 원하는 날짜에 추가할 수 있습니다."
+      "추천 일정 또는 직접 작성 일정을 만든 뒤 이 장소를 원하는 날짜에 추가할 수 있습니다."
     );
     return;
   }

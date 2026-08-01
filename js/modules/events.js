@@ -519,9 +519,9 @@ function setPlannerMode(mode) {
   });
 
   const isCustom = mode === "custom";
-  customSelector.hidden = !isCustom;
+  customSelector.hidden = true;
   createButton.textContent = isCustom
-    ? "선택한 장소로 일정 만들기"
+    ? "직접 작성 일정 만들기"
     : "추천 일정 만들기";
 
   savePlannerState({ clearRenderedSchedule: true });

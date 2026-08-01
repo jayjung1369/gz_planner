@@ -76,22 +76,8 @@ function createSchedule() {
     return;
   }
 
-  const selectedPlaces = plannerMode === "custom"
-    ? getSelectedItems("place-choice", PLACES)
-    : [];
-
-  const selectedRestaurants = plannerMode === "custom"
-    ? getSelectedItems("restaurant-choice", RESTAURANTS)
-    : [];
-
-  if (
-    plannerMode === "custom" &&
-    selectedPlaces.length === 0 &&
-    selectedRestaurants.length === 0
-  ) {
-    showMessage("가고 싶은 여행지나 식사를 한 개 이상 선택해주세요.");
-    return;
-  }
+  const selectedPlaces = [];
+  const selectedRestaurants = [];
 
   const dates = enumerateDates(arrivalDate, departureDate);
   const context = {
@@ -108,14 +94,7 @@ function createSchedule() {
     ? buildRecommendedSchedule(context)
     : buildCustomSchedule(context);
 
-  context.excludedItems =
-    plannerMode === "custom"
-      ? findExcludedSelectedItems(
-          schedule,
-          selectedPlaces,
-          selectedRestaurants
-        )
-      : [];
+  context.excludedItems = [];
 
   renderSchedule(schedule, context);
 }
@@ -172,12 +151,67 @@ function buildRecommendedSchedule(context) {
 }
 
 function buildCustomSchedule(context) {
-  const pool = {
-    places: [...context.selectedPlaces],
-    restaurants: [...context.selectedRestaurants]
-  };
+  return context.dates.map((date, index) => {
+    const isArrivalDay = index === 0;
+    const isDepartureDay = index === context.dates.length - 1;
 
-  return buildScheduleFromPool(context, pool);
+    const dayWindow = getAvailableDayWindow({
+      isArrivalDay,
+      isDepartureDay,
+      arrivalTime: context.arrivalTime,
+      departureTime: context.departureTime
+    });
+
+    const items = buildEmptyCustomDayItems(dayWindow);
+
+    return {
+      date,
+      index,
+      title: getDayTitle({ isArrivalDay, isDepartureDay }),
+      items
+    };
+  });
+}
+
+function buildEmptyCustomDayItems(dayWindow) {
+  const safeStart = Math.max(timeToMinutes(SCHEDULE_RULES.dayStart), dayWindow.start);
+  const safeEnd = Math.min(timeToMinutes(SCHEDULE_RULES.dayEnd), dayWindow.end);
+  const windowMinutes = Math.max(safeEnd - safeStart, 30);
+
+  const slotCount =
+    windowMinutes >= 180
+      ? 3
+      : windowMinutes >= 90
+        ? 2
+        : 1;
+
+  const rawSlotDuration = Math.floor((windowMinutes / slotCount) / 5) * 5;
+  const slotDuration = Math.max(rawSlotDuration, 30);
+  const step = slotCount > 1
+    ? Math.max(Math.floor(((windowMinutes - slotDuration) / (slotCount - 1)) / 5) * 5, 5)
+    : 0;
+
+  const items = [];
+
+  for (let slotIndex = 0; slotIndex < slotCount; slotIndex += 1) {
+    const start = safeStart + (step * slotIndex);
+    const end = Math.min(start + slotDuration, safeEnd);
+
+    if (end <= start) {
+      continue;
+    }
+
+    items.push({
+      start,
+      end,
+      title: `빈 일정 ${slotIndex + 1}`,
+      detail: "원하는 관광지, 식사, 이동, 개인 일정을 직접 채워주세요.",
+      tag: "직접 작성",
+      sourceType: "custom"
+    });
+  }
+
+  return items;
 }
 
 function createRecommendedPool() {
