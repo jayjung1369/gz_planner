@@ -19,18 +19,42 @@ function bindEvents() {
       return;
     }
 
-    if (detailTrigger) {
+    if (itemDetailTrigger) {
+      const timelineItem = itemDetailTrigger.closest("[data-day-index][data-item-index]");
+      const dayIndex = Number(timelineItem?.dataset.dayIndex);
+      const itemIndex = Number(timelineItem?.dataset.itemIndex);
+      const scheduledItem = currentSchedule?.[dayIndex]?.items?.[itemIndex];
+      const isTransportItem =
+        scheduledItem?.sourceType === "transport" ||
+        scheduledItem?.type === "transport";
+
+      if (
+        Number.isInteger(dayIndex) &&
+        Number.isInteger(itemIndex) &&
+        scheduledItem &&
+        !scheduledItem.isWeddingEvent &&
+        !isTransportItem &&
+        scheduledItem.id
+      ) {
+        openScheduleEditModal({
+          mode: "edit",
+          dayIndex,
+          itemIndex
+        });
+        return;
+      }
+
       openDetailModal(
-        detailTrigger.dataset.detailId,
-        detailTrigger.dataset.detailType
+        itemDetailTrigger.dataset.detailId,
+        itemDetailTrigger.dataset.detailType
       );
       return;
     }
 
-    if (itemDetailTrigger) {
+    if (detailTrigger) {
       openDetailModal(
-        itemDetailTrigger.dataset.detailId,
-        itemDetailTrigger.dataset.detailType
+        detailTrigger.dataset.detailId,
+        detailTrigger.dataset.detailType
       );
       return;
     }

@@ -548,6 +548,10 @@
   display: none;
 }
 
+.timeline-mobile-inline-actions {
+  display: none;
+}
+
 .schedule-day-shell .timeline-move-badge {
   display: inline-flex;
   align-items: center;
@@ -666,6 +670,22 @@
 
   .desktop-card-actions {
     display: none !important;
+  }
+
+  .schedule-day-shell .timeline-mobile-inline-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 7px;
+  }
+
+  .schedule-day-shell .timeline-mobile-inline-actions .timeline-edit-button,
+  .schedule-day-shell .timeline-mobile-inline-actions .timeline-delete-button {
+    min-height: 26px;
+    padding: 0 9px;
+    border-radius: 999px;
+    font-size: 10px;
+    line-height: 1;
   }
 
   .timeline-inline-add,

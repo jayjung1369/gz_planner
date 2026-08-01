@@ -926,6 +926,27 @@ function createTimelineItem(item, dayIndex, itemIndex) {
       </div>
     `;
 
+  const mobileInlineActions = locked
+    ? ""
+    : `
+      <div class="timeline-mobile-inline-actions" aria-label="모바일 일정 편집 버튼">
+        <button
+          class="timeline-edit-button"
+          type="button"
+          data-edit-item
+          data-day-index="${dayIndex}"
+          data-item-index="${itemIndex}"
+        >편집</button>
+        <button
+          class="timeline-delete-button"
+          type="button"
+          data-delete-item
+          data-day-index="${dayIndex}"
+          data-item-index="${itemIndex}"
+        >삭제</button>
+      </div>
+    `;
+
   const mobileMenuButton = locked
     ? ""
     : `
@@ -1057,6 +1078,8 @@ function createTimelineItem(item, dayIndex, itemIndex) {
             <div class="timeline-meta">
               ${compactMeta}
             </div>
+
+            ${mobileInlineActions}
 
             ${desktopActions}
           </div>
