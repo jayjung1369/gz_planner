@@ -54,6 +54,13 @@ function openDetailModal(itemId, itemType, options = {}) {
   showGalleryImage(0);
 
   openAmapButton.href = createAmapMarkerUrl(item);
+  
+  // 애플지도 버튼 초기화
+  const openAppleMapsButton = document.getElementById("openAppleMapsButton");
+  if (openAppleMapsButton) {
+    openAppleMapsButton.href = createAppleMapsUrl(item);
+    openAppleMapsButton.hidden = !isAppleDevice();
+  }
 
   if (!detailModal) {
     console.error("상세창 요소를 찾을 수 없습니다.");
@@ -510,4 +517,27 @@ function createAmapMarkerUrl(item) {
   }
 
   return `https://www.amap.com/search?query=${name}`;
+}
+
+function isAppleDevice() {
+  return /iPhone|iPad|iPod|Mac/.test(navigator.userAgent);
+}
+
+function createAppleMapsUrl(item) {
+  const lat = item.latitude;
+  const lng = item.longitude;
+  const chineseName = encodeURIComponent(item.chineseName || item.name);
+  
+  // iOS/Mac: 애플맵 앱으로 열기 (fallback으로 웹 버전)
+  if (Number.isFinite(lat) && Number.isFinite(lng)) {
+    // iOS에서는 maps:// 스킴 사용
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+      return `maps://maps.apple.com/?ll=${lat},${lng}&q=${chineseName}`;
+    }
+    // Mac/웹: https 사용
+    return `https://maps.apple.com/?ll=${lat},${lng}&q=${chineseName}`;
+  }
+  
+  // 좌표 없으면 검색으로 대체
+  return `https://maps.apple.com/?q=${chineseName}`;
 }
