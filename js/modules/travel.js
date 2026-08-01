@@ -371,14 +371,6 @@ function createTravelLibraryCard(item) {
           >
             상세보기
           </button>
-          <button
-            class="primary"
-            type="button"
-            data-travel-add="${item.id}"
-            data-item-type="${item.libraryType}"
-          >
-            일정에 추가
-          </button>
         </div>
       </div>
     </article>

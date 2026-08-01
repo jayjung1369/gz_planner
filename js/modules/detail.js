@@ -45,7 +45,7 @@ function openDetailModal(itemId, itemType, options = {}) {
 
   renderRestaurantDetail(item, itemType);
   renderNearbyItems(item);
-  renderDetailAddControls(item, itemType);
+  // renderDetailAddControls(item, itemType);
 
   activeGalleryImages = getFullImages(item);
 
