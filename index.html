@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="css/layout.css?v=31">
   <link rel="stylesheet" href="css/planner.css?v=31">
   <link rel="stylesheet" href="css/detail.css?v=31">
-  <link rel="stylesheet" href="css/drag.css?v=31">
   <link rel="stylesheet" href="css/guide.css?v=31">
   <link rel="stylesheet" href="css/planner-cards.css?v=31">
   <link rel="stylesheet" href="css/travel.css?v=31">
@@ -584,6 +583,19 @@
             <span>장소 또는 식사</span>
             <select id="editItemSelect"></select>
           </label>
+
+          <section class="edit-picker-controls" id="editPickerControls" hidden>
+            <div class="edit-picker-tabs">
+              <button type="button" data-edit-picker="recommended" class="active">추천</button>
+              <button type="button" data-edit-picker="tour">관광</button>
+              <button type="button" data-edit-picker="food">맛집</button>
+              <button type="button" data-edit-picker="shopping">쇼핑</button>
+            </div>
+            <label class="edit-picker-search">
+              <span class="sr-only">일정 추가용 장소 검색</span>
+              <input id="editPickerSearch" type="search" placeholder="검색: 이름, 중국어명, 지역, 태그">
+            </label>
+          </section>
 
           <section class="edit-item-preview" id="editItemPreview" hidden>
             <div class="edit-item-preview-image-wrap">

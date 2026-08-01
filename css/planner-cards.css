@@ -81,6 +81,44 @@
   background: var(--soft);
 }
 
+.edit-picker-controls {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+}
+
+.edit-picker-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.edit-picker-tabs button {
+  min-height: 32px;
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--subtext);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.edit-picker-tabs button.active {
+  border-color: var(--text);
+  background: var(--text);
+  color: #fff;
+}
+
+.edit-picker-search input {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 12px;
+}
+
 .edit-item-preview-image-wrap {
   position: relative;
   min-height: 150px;
@@ -302,4 +340,220 @@
 
 .schedule-action-sheet {
   display: none;
+}
+
+
+/* Sprint 3-1 mobile-first planner UX refresh */
+.schedule-day-tabs {
+  position: sticky;
+  top: 58px;
+  z-index: 35;
+  display: flex;
+  gap: 8px;
+  padding: 8px 0 10px;
+  margin-top: 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: linear-gradient(180deg, rgba(246, 244, 240, 0.98), rgba(246, 244, 240, 0.88));
+}
+
+.schedule-day-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.schedule-day-tab {
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--subtext);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.schedule-day-tab.active {
+  border-color: var(--text);
+  background: var(--text);
+  color: #fff;
+}
+
+.schedule-day-card {
+  display: block;
+}
+
+.schedule-card {
+  padding: 14px;
+}
+
+.schedule-card-top {
+  margin-bottom: 10px;
+}
+
+.timeline {
+  gap: 6px;
+}
+
+.timeline-item {
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.timeline-time span {
+  font-size: 11px;
+}
+
+.timeline-time small {
+  font-size: 9px;
+}
+
+.timeline-card-layout {
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 9px;
+}
+
+.timeline-thumbnail {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+}
+
+.timeline-title {
+  margin: 0;
+  font-size: 14px;
+}
+
+.timeline-chinese-name {
+  margin-top: 1px;
+  font-size: 10px;
+}
+
+.timeline-detail {
+  display: none;
+}
+
+.timeline-meta {
+  margin-top: 6px;
+}
+
+.timeline-meta span {
+  min-height: 20px;
+  padding: 2px 7px;
+  font-size: 9px;
+}
+
+.timeline-reorder-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.timeline-reorder-controls button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1;
+}
+
+.timeline-reorder-controls button:disabled {
+  opacity: 0.4;
+}
+
+.timeline-edit-actions {
+  margin-top: 8px;
+}
+
+.timeline-edit-actions .detail-button,
+.timeline-edit-actions .timeline-edit-button,
+.timeline-edit-actions .timeline-delete-button,
+.timeline-edit-actions .timeline-insert-button {
+  min-height: 30px;
+  padding: 0 10px;
+  font-size: 10px;
+}
+
+.timeline-inline-add {
+  display: none;
+}
+
+.timeline-transport-mode {
+  margin: 6px 0 0;
+  color: var(--subtext);
+  font-size: 10px;
+}
+
+@media (max-width: 820px) {
+  .schedule-day-tabs {
+    top: calc(64px + env(safe-area-inset-top));
+    margin-top: 10px;
+  }
+
+  .schedule-card {
+    padding: 11px;
+  }
+
+  .timeline-item {
+    grid-template-columns: 45px minmax(0, 1fr);
+    gap: 8px;
+    padding: 7px 0;
+  }
+
+  .timeline-card-layout {
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .timeline-content {
+    padding-right: 0 !important;
+  }
+
+  .timeline-meta {
+    gap: 4px;
+    margin-top: 5px;
+  }
+
+  .timeline-meta span {
+    min-height: 18px;
+    padding: 2px 6px;
+    font-size: 8px;
+  }
+
+  .desktop-card-actions {
+    display: none !important;
+  }
+
+  .timeline-inline-add {
+    position: absolute;
+    top: 9px;
+    right: 0;
+    z-index: 4;
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid rgba(29, 29, 31, 0.15);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .timeline-reorder-controls {
+    margin-top: 6px;
+  }
+
+  .timeline-reorder-controls button {
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+  }
 }

@@ -13,6 +13,57 @@ function getTravelLibraryItems() {
   ];
 }
 
+const TRAVEL_FACETS = [
+  { id: "recommended", label: "추천" },
+  { id: "tour", label: "관광" },
+  { id: "food", label: "맛집" },
+  { id: "shopping", label: "쇼핑" },
+  { id: "cafe", label: "카페" },
+  { id: "night", label: "야경" },
+  { id: "district", label: "지역" },
+  { id: "search", label: "검색" }
+];
+
+function includesKeyword(item, words) {
+  const searchable = [
+    item.name,
+    item.chineseName,
+    item.category,
+    item.note,
+    ...(item.tags || []),
+    ...(item.mealTypes || [])
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  return words.some((word) => searchable.includes(word));
+}
+
+function matchesActiveFacet(item) {
+  if (activeTravelFacet === "tour") {
+    return item.libraryType === "place";
+  }
+
+  if (activeTravelFacet === "food") {
+    return item.libraryType === "restaurant";
+  }
+
+  if (activeTravelFacet === "shopping") {
+    return includesKeyword(item, ["쇼핑", "shopping"]);
+  }
+
+  if (activeTravelFacet === "cafe") {
+    return includesKeyword(item, ["카페", "cafe"]);
+  }
+
+  if (activeTravelFacet === "night") {
+    return includesKeyword(item, ["야경", "야식", "night", "late", "evening"]);
+  }
+
+  return true;
+}
+
 function renderTravelLibrary() {
   travelVisibleCount = TRAVEL_BATCH_SIZE;
   const items = getTravelLibraryItems();
@@ -25,14 +76,15 @@ function renderTravelLibrary() {
     )
   ];
 
-  travelTypeFilters
-    .querySelectorAll("[data-travel-type]")
-    .forEach((button) => {
-      button.classList.toggle(
-        "active",
-        button.dataset.travelType === activeTravelType
-      );
-    });
+  travelTypeFilters.innerHTML = TRAVEL_FACETS.map((facet) => `
+    <button
+      type="button"
+      class="${facet.id === activeTravelFacet ? "active" : ""}"
+      data-travel-facet="${facet.id}"
+    >
+      ${facet.label}
+    </button>
+  `).join("");
 
   travelDistrictFilters.innerHTML = districts
     .map((district) => `
@@ -82,6 +134,14 @@ function compareTravelItems(first, second) {
 function updateTravelActiveFilterText() {
   const labels = [];
 
+  const facetLabel = TRAVEL_FACETS.find(
+    (facet) => facet.id === activeTravelFacet
+  )?.label;
+
+  if (facetLabel) {
+    labels.push(facetLabel);
+  }
+
   if (activeTravelType === "place") {
     labels.push("관광지");
   } else if (activeTravelType === "restaurant") {
@@ -113,6 +173,7 @@ function updateTravelActiveFilterText() {
 
 function resetTravelLibraryFilters() {
   activeTravelType = "all";
+  activeTravelFacet = "recommended";
   activeTravelDistrict = "all";
   activeTravelSort = "recommended";
   travelVisibleCount = TRAVEL_BATCH_SIZE;
@@ -150,6 +211,7 @@ function renderTravelLibraryCards() {
         .toLowerCase();
 
       return (
+        matchesActiveFacet(item) &&
         typeMatch &&
         districtMatch &&
         searchable.includes(keyword)
@@ -343,7 +405,10 @@ function addTravelLibraryItem(itemId, itemType) {
 
   openScheduleEditModal({
     mode: "add",
-    dayIndex: 0,
+    dayIndex: Math.min(
+      activeScheduleDayIndex,
+      Math.max(currentSchedule.length - 1, 0)
+    ),
     itemType,
     itemId,
     duration: item.duration || 90

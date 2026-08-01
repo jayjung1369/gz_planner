@@ -4,12 +4,19 @@ function bindEvents() {
   createButton.addEventListener("click", createSchedule);
 
   scheduleResult.addEventListener("click", (event) => {
+    const dayTabTrigger = event.target.closest("[data-day-tab]");
     const detailTrigger = event.target.closest("[data-detail-id]");
     const editTrigger = event.target.closest("[data-edit-item]");
     const deleteTrigger = event.target.closest("[data-delete-item]");
     const addTrigger = event.target.closest("[data-add-day]");
+    const addAfterTrigger = event.target.closest("[data-add-after-item]");
     const moveTrigger = event.target.closest("[data-move-item]");
     const sheetTrigger = event.target.closest("[data-open-action-sheet]");
+
+    if (dayTabTrigger) {
+      applyActiveScheduleDay(Number(dayTabTrigger.dataset.dayTab));
+      return;
+    }
 
     if (detailTrigger) {
       openDetailModal(
@@ -56,12 +63,68 @@ function bindEvents() {
     if (addTrigger) {
       openScheduleEditModal({
         mode: "add",
-        dayIndex: Number(addTrigger.dataset.addDay)
+        dayIndex: Number(addTrigger.dataset.addDay),
+        insertAfterIndex:
+          (currentSchedule[Number(addTrigger.dataset.addDay)]?.items?.length || 0) - 1
+      });
+      return;
+    }
+
+    if (addAfterTrigger) {
+      const dayIndex = Number(addAfterTrigger.dataset.dayIndex);
+
+      openScheduleEditModal({
+        mode: "add",
+        dayIndex,
+        itemType: addAfterTrigger.dataset.itemType || "place",
+        insertAfterIndex: Number(addAfterTrigger.dataset.itemIndex)
       });
     }
   });
 
-  bindScheduleDragEvents();
+  scheduleResult.addEventListener("touchstart", (event) => {
+    const activeCard = event.target.closest("[data-day-card].active");
+
+    if (!activeCard) {
+      scheduleSwipeState = null;
+      return;
+    }
+
+    const touch = event.changedTouches?.[0];
+
+    if (!touch) {
+      return;
+    }
+
+    scheduleSwipeState = {
+      startX: touch.clientX,
+      startY: touch.clientY
+    };
+  }, { passive: true });
+
+  scheduleResult.addEventListener("touchend", (event) => {
+    if (!scheduleSwipeState) {
+      return;
+    }
+
+    const touch = event.changedTouches?.[0];
+
+    if (!touch) {
+      scheduleSwipeState = null;
+      return;
+    }
+
+    const deltaX = touch.clientX - scheduleSwipeState.startX;
+    const deltaY = touch.clientY - scheduleSwipeState.startY;
+
+    scheduleSwipeState = null;
+
+    if (Math.abs(deltaX) < 42 || Math.abs(deltaY) > 34) {
+      return;
+    }
+
+    moveScheduleDayByStep(deltaX < 0 ? 1 : -1);
+  }, { passive: true });
 
   document.querySelectorAll("[data-close-modal]").forEach((element) => {
     element.addEventListener("click", closeDetailModal);
@@ -107,6 +170,21 @@ function bindEvents() {
     renderEditItemPreview(true);
   });
 
+  editPickerControls.addEventListener("click", (event) => {
+    const pickerButton = event.target.closest("[data-edit-picker]");
+
+    if (!pickerButton) {
+      return;
+    }
+
+    activeEditPicker = pickerButton.dataset.editPicker;
+    updateEditItemOptions();
+  });
+
+  editPickerSearch.addEventListener("input", () => {
+    updateEditItemOptions();
+  });
+
   editItemPreviewDetailButton.addEventListener("click", () => {
     const itemId = editItemPreviewDetailButton.dataset.itemId;
     const itemType = editItemPreviewDetailButton.dataset.itemType;
@@ -150,6 +228,9 @@ function bindEvents() {
     .addEventListener("click", closeSharedPlanModal);
 
   travelLibrarySearch.addEventListener("input", () => {
+    if (travelLibrarySearch.value.trim()) {
+      activeTravelFacet = "search";
+    }
     travelVisibleCount = TRAVEL_BATCH_SIZE;
     renderTravelLibraryCards();
   });
@@ -171,6 +252,35 @@ function bindEvents() {
   );
 
   travelTypeFilters.addEventListener("click", (event) => {
+    const facetButton = event.target.closest("[data-travel-facet]");
+
+    if (facetButton) {
+      activeTravelFacet = facetButton.dataset.travelFacet;
+
+      if (activeTravelFacet === "district") {
+        travelDistrictFilters.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest"
+        });
+      }
+
+      if (activeTravelFacet === "search") {
+        travelLibrarySearch.focus();
+      }
+
+      if (activeTravelFacet === "tour") {
+        activeTravelType = "place";
+      } else if (activeTravelFacet === "food") {
+        activeTravelType = "restaurant";
+      } else {
+        activeTravelType = "all";
+      }
+
+      travelVisibleCount = TRAVEL_BATCH_SIZE;
+      renderTravelLibrary();
+      return;
+    }
+
     const button = event.target.closest("[data-travel-type]");
 
     if (!button) {
@@ -178,6 +288,12 @@ function bindEvents() {
     }
 
     activeTravelType = button.dataset.travelType;
+    activeTravelFacet =
+      activeTravelType === "place"
+        ? "tour"
+        : activeTravelType === "restaurant"
+          ? "food"
+          : "recommended";
     renderTravelLibrary();
   });
 

@@ -139,6 +139,8 @@ const editItemPreviewAddress = document.querySelector("#editItemPreviewAddress")
 const editItemPreviewDuration = document.querySelector("#editItemPreviewDuration");
 const editItemPreviewHours = document.querySelector("#editItemPreviewHours");
 const editItemSelectField = document.querySelector("#editItemSelectField");
+const editPickerControls = document.querySelector("#editPickerControls");
+const editPickerSearch = document.querySelector("#editPickerSearch");
 const editCustomTitle = document.querySelector("#editCustomTitle");
 const editCustomTitleField = document.querySelector("#editCustomTitleField");
 const editTransportFields = document.querySelector("#editTransportFields");
@@ -151,12 +153,14 @@ const editFormMessage = document.querySelector("#editFormMessage");
 
 let currentSchedule = [];
 let activeScheduleAction = null;
-let dragState = null;
-let pointerDragState = null;
 let currentContext = null;
 let editTarget = null;
+let activeScheduleDayIndex = 0;
+let scheduleSwipeState = null;
 
 let activeDetailItem = null;
+let activeEditPicker = "recommended";
 
 
 let plannerMode = "recommended";
+let activeTravelFacet = "recommended";

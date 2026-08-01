@@ -21,6 +21,16 @@
   gap: 8px;
 }
 
+.travel-type-filters {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.travel-type-filters::-webkit-scrollbar {
+  display: none;
+}
+
 .travel-type-filters button,
 .travel-district-filters button {
   min-height: 38px;

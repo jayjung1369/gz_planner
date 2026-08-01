@@ -306,7 +306,7 @@ function buildScheduleFromPool(context, pool) {
       date,
       index,
       title: getDayTitle({ isArrivalDay, isDepartureDay }),
-      items: normalizeItems(items)
+      items: compactDayItems(items)
     };
   });
 }
@@ -573,7 +573,114 @@ function normalizeItems(items) {
     .sort((a, b) => a.start - b.start);
 }
 
+function compactDayItems(items) {
+  const normalized = normalizeItems(items).map((item) => ({ ...item }));
+
+  if (normalized.length === 0) {
+    return normalized;
+  }
+
+  let cursor = Math.max(normalized[0].start, 8 * 60);
+
+  for (const item of normalized) {
+    if (item.isWeddingEvent) {
+      cursor = item.end;
+      continue;
+    }
+
+    const duration = item.end - item.start;
+    const source = getScheduleSourceItem(item);
+    let nextStart = cursor;
+
+    if (source?.openTime) {
+      nextStart = Math.max(nextStart, timeToMinutes(source.openTime));
+    }
+
+    item.start = nextStart;
+    item.end = nextStart + duration;
+    cursor = item.end;
+  }
+
+  return normalized;
+}
+
+function ensureActiveScheduleDayIndex(schedule) {
+  if (!Array.isArray(schedule) || schedule.length === 0) {
+    activeScheduleDayIndex = 0;
+    return;
+  }
+
+  activeScheduleDayIndex = Math.max(
+    0,
+    Math.min(activeScheduleDayIndex, schedule.length - 1)
+  );
+}
+
+function createScheduleDayTabs(schedule) {
+  if (!schedule || schedule.length === 0) {
+    return "";
+  }
+
+  return `
+    <nav class="schedule-day-tabs" aria-label="일정 날짜 탭">
+      ${schedule
+        .map((day, dayIndex) => `
+          <button
+            type="button"
+            class="schedule-day-tab ${dayIndex === activeScheduleDayIndex ? "active" : ""}"
+            data-day-tab="${dayIndex}"
+            aria-selected="${dayIndex === activeScheduleDayIndex ? "true" : "false"}"
+          >
+            DAY ${day.index + 1}
+          </button>
+        `)
+        .join("")}
+    </nav>
+  `;
+}
+
+function applyActiveScheduleDay(index) {
+  const cards = [...scheduleResult.querySelectorAll("[data-day-card]")];
+  const tabs = [...scheduleResult.querySelectorAll("[data-day-tab]")];
+
+  if (cards.length === 0) {
+    return;
+  }
+
+  const safeIndex = Math.max(0, Math.min(index, cards.length - 1));
+  activeScheduleDayIndex = safeIndex;
+
+  cards.forEach((card, cardIndex) => {
+    const isActive = cardIndex === safeIndex;
+    card.hidden = !isActive;
+    card.classList.toggle("active", isActive);
+  });
+
+  tabs.forEach((tab, tabIndex) => {
+    const isActive = tabIndex === safeIndex;
+    tab.classList.toggle("active", isActive);
+    tab.setAttribute("aria-selected", String(isActive));
+  });
+
+  const activeTab = tabs[safeIndex];
+  activeTab?.scrollIntoView({
+    block: "nearest",
+    inline: "center"
+  });
+}
+
+function moveScheduleDayByStep(step) {
+  const cards = scheduleResult.querySelectorAll("[data-day-card]");
+
+  if (!cards.length) {
+    return;
+  }
+
+  applyActiveScheduleDay(activeScheduleDayIndex + step);
+}
+
 function renderSchedule(schedule, context, options = {}) {
+  ensureActiveScheduleDayIndex(schedule);
   currentSchedule = schedule;
   currentContext = context;
 
@@ -595,8 +702,18 @@ function renderSchedule(schedule, context, options = {}) {
 
     ${createOverallRouteNotice(schedule)}
 
-    <div class="schedule-list">
-      ${schedule.map((day, dayIndex) => createScheduleCard(day, dayIndex)).join("")}
+    ${createScheduleDayTabs(schedule)}
+
+    <div class="schedule-list" id="scheduleDayPanels">
+      ${schedule
+        .map((day, dayIndex) =>
+          createScheduleCard(
+            day,
+            dayIndex,
+            dayIndex === activeScheduleDayIndex
+          )
+        )
+        .join("")}
     </div>
 
     ${createExcludedItemsSection(context.excludedItems || [])}
@@ -604,6 +721,7 @@ function renderSchedule(schedule, context, options = {}) {
 
   scheduleShareTools.hidden = false;
   initializeLazyImages(scheduleResult);
+  applyActiveScheduleDay(activeScheduleDayIndex);
 
   savePlannerState({
     renderedScheduleHtml: scheduleResult.innerHTML
@@ -727,11 +845,15 @@ function createExcludedItemsSection(items) {
   `;
 }
 
-function createScheduleCard(day, dayIndex) {
+function createScheduleCard(day, dayIndex, isActive) {
   const totalDuration = calculateDayDuration(day.items);
 
   return `
-    <article class="schedule-card">
+    <article
+      class="schedule-card schedule-day-card ${isActive ? "active" : ""}"
+      data-day-card="${dayIndex}"
+      ${isActive ? "" : "hidden"}
+    >
       <div class="schedule-card-top">
         <div>
           <div class="date-label">
@@ -765,7 +887,7 @@ function createScheduleCard(day, dayIndex) {
         type="button"
         data-add-day="${dayIndex}"
       >
-        + 이 날짜에 일정 추가
+        + 이 위치에 일정 추가
       </button>
     </article>
   `;
@@ -783,6 +905,8 @@ function createTimelineItem(item, dayIndex, itemIndex) {
     item.sourceType === "restaurant"
       ? "restaurant"
       : "place";
+
+  const dayItemCount = currentSchedule[dayIndex]?.items?.length || 0;
 
   const rawImage =
     getThumbnailImage(sourceItem) ||
@@ -815,11 +939,6 @@ function createTimelineItem(item, dayIndex, itemIndex) {
     ? `<span class="timeline-chinese-name">${escapeHtml(sourceItem.chineseName)}</span>`
     : "";
 
-  const shortDescription =
-    sourceItem?.note ||
-    item.detail ||
-    "";
-
   const desktopActions = locked
     ? `
       <div class="timeline-edit-actions desktop-card-actions">
@@ -845,6 +964,14 @@ function createTimelineItem(item, dayIndex, itemIndex) {
             >상세보기</button>`
           : ""}
         <button
+          class="timeline-insert-button"
+          type="button"
+          data-add-after-item
+          data-day-index="${dayIndex}"
+          data-item-index="${itemIndex}"
+          data-item-type="${itemType}"
+        >+ 추가</button>
+        <button
           class="timeline-edit-button"
           type="button"
           data-edit-item
@@ -865,54 +992,38 @@ function createTimelineItem(item, dayIndex, itemIndex) {
     ? ""
     : `
       <button
-        class="timeline-more-button"
+        class="timeline-inline-add"
         type="button"
-        aria-label="${escapeHtml(item.title)} 일정 관리"
-        data-open-action-sheet
+        aria-label="${escapeHtml(item.title)} 뒤에 일정 추가"
+        data-add-after-item
         data-day-index="${dayIndex}"
         data-item-index="${itemIndex}"
+        data-item-type="${itemType}"
       >
-        <span></span><span></span><span></span>
+        +
       </button>
     `;
-
-  const draggableAttributes = locked
-    ? ""
-    : `draggable="true"
-       data-draggable-item
-       data-day-index="${dayIndex}"
-       data-item-index="${itemIndex}"`;
 
   const reorderControls = locked
     ? ""
     : `
-      <div class="timeline-reorder-controls desktop-reorder-controls">
+      <div class="timeline-reorder-controls">
         <button
-          class="timeline-drag-handle"
           type="button"
-          aria-label="${escapeHtml(item.title)} 일정 순서 변경"
-          title="드래그해서 순서 변경"
-          data-drag-handle
-        >
-          <span></span><span></span><span></span>
-        </button>
-        <div class="timeline-step-buttons">
-          <button
-            type="button"
-            aria-label="위로 이동"
-            data-move-item="-1"
-            data-day-index="${dayIndex}"
-            data-item-index="${itemIndex}"
-            ${itemIndex === 0 ? "disabled" : ""}
-          >↑</button>
-          <button
-            type="button"
-            aria-label="아래로 이동"
-            data-move-item="1"
-            data-day-index="${dayIndex}"
-            data-item-index="${itemIndex}"
-          >↓</button>
-        </div>
+          aria-label="위로 이동"
+          data-move-item="-1"
+          data-day-index="${dayIndex}"
+          data-item-index="${itemIndex}"
+          ${itemIndex === 0 ? "disabled" : ""}
+        >↑</button>
+        <button
+          type="button"
+          aria-label="아래로 이동"
+          data-move-item="1"
+          data-day-index="${dayIndex}"
+          data-item-index="${itemIndex}"
+          ${itemIndex === dayItemCount - 1 ? "disabled" : ""}
+        >↓</button>
       </div>
     `;
 
@@ -931,9 +1042,7 @@ function createTimelineItem(item, dayIndex, itemIndex) {
         <i aria-hidden="true">↓</i>
         <strong>${escapeHtml(item.transportTo || "도착지")}</strong>
       </div>
-      <p class="timeline-detail">
-        ${escapeHtml(item.transportMode || "이동")}
-      </p>
+      <p class="timeline-transport-mode">${escapeHtml(item.transportMode || "이동")}</p>
     `
     : `
       <div class="timeline-title-row">
@@ -942,7 +1051,6 @@ function createTimelineItem(item, dayIndex, itemIndex) {
         </p>
         ${chineseName}
       </div>
-      <p class="timeline-detail">${escapeHtml(shortDescription)}</p>
     `;
 
   const weddingBody = item.isWeddingEvent
@@ -952,14 +1060,12 @@ function createTimelineItem(item, dayIndex, itemIndex) {
         <strong title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</strong>
         ${chineseName}
       </div>
-      <p class="timeline-detail">${escapeHtml(shortDescription)}</p>
     `
     : transportBody;
 
   return `
     <article
       class="timeline-item ${weddingEventClass} ${isTransport ? "transport-event" : "place-event"}"
-      ${draggableAttributes}
       data-day-index="${dayIndex}"
       data-item-index="${itemIndex}"
     >
@@ -1088,224 +1194,6 @@ function getScheduleSourceItem(item) {
   }
 
   return PLACES[item.id] || RESTAURANTS[item.id] || null;
-}
-
-function bindScheduleDragEvents() {
-  scheduleResult.addEventListener("dragstart", handleScheduleDragStart);
-  scheduleResult.addEventListener("dragover", handleScheduleDragOver);
-  scheduleResult.addEventListener("drop", handleScheduleDrop);
-  scheduleResult.addEventListener("dragend", clearScheduleDragState);
-
-  scheduleResult.addEventListener("pointerdown", handlePointerDragStart);
-  window.addEventListener("pointermove", handlePointerDragMove);
-  window.addEventListener("pointerup", handlePointerDragEnd);
-  window.addEventListener("pointercancel", handlePointerDragEnd);
-}
-
-function handleScheduleDragStart(event) {
-  const itemElement = event.target.closest("[data-draggable-item]");
-
-  if (!itemElement || event.target.closest("button:not([data-drag-handle])")) {
-    event.preventDefault();
-    return;
-  }
-
-  dragState = {
-    dayIndex: Number(itemElement.dataset.dayIndex),
-    itemIndex: Number(itemElement.dataset.itemIndex),
-    element: itemElement
-  };
-
-  itemElement.classList.add("is-dragging");
-  event.dataTransfer.effectAllowed = "move";
-  event.dataTransfer.setData("text/plain", "schedule-item");
-}
-
-function handleScheduleDragOver(event) {
-  if (!dragState) {
-    return;
-  }
-
-  const target = event.target.closest("[data-draggable-item]");
-
-  if (
-    !target ||
-    Number(target.dataset.dayIndex) !== dragState.dayIndex
-  ) {
-    return;
-  }
-
-  event.preventDefault();
-  event.dataTransfer.dropEffect = "move";
-
-  const timeline = target.closest(".timeline");
-  const dragging = dragState.element;
-
-  if (!timeline || !dragging || target === dragging) {
-    return;
-  }
-
-  const rect = target.getBoundingClientRect();
-  const insertAfter = event.clientY > rect.top + rect.height / 2;
-
-  timeline.insertBefore(
-    dragging,
-    insertAfter ? target.nextSibling : target
-  );
-}
-
-function handleScheduleDrop(event) {
-  if (!dragState) {
-    return;
-  }
-
-  event.preventDefault();
-  commitDomScheduleOrder(dragState.dayIndex);
-  clearScheduleDragState();
-}
-
-function clearScheduleDragState() {
-  if (dragState?.element) {
-    dragState.element.classList.remove("is-dragging");
-  }
-
-  dragState = null;
-}
-
-function handlePointerDragStart(event) {
-  const handle = event.target.closest("[data-drag-handle]");
-
-  if (!handle || event.pointerType === "mouse") {
-    return;
-  }
-
-  const itemElement = handle.closest("[data-draggable-item]");
-
-  if (!itemElement) {
-    return;
-  }
-
-  event.preventDefault();
-  handle.setPointerCapture?.(event.pointerId);
-
-  pointerDragState = {
-    pointerId: event.pointerId,
-    dayIndex: Number(itemElement.dataset.dayIndex),
-    element: itemElement,
-    startY: event.clientY,
-    moved: false
-  };
-
-  itemElement.classList.add("is-pointer-dragging");
-  document.body.classList.add("schedule-drag-active");
-}
-
-function handlePointerDragMove(event) {
-  if (
-    !pointerDragState ||
-    event.pointerId !== pointerDragState.pointerId
-  ) {
-    return;
-  }
-
-  event.preventDefault();
-
-  if (Math.abs(event.clientY - pointerDragState.startY) > 5) {
-    pointerDragState.moved = true;
-  }
-
-  const target = document
-    .elementFromPoint(event.clientX, event.clientY)
-    ?.closest("[data-draggable-item]");
-
-  if (
-    !target ||
-    target === pointerDragState.element ||
-    Number(target.dataset.dayIndex) !== pointerDragState.dayIndex
-  ) {
-    return;
-  }
-
-  const timeline = target.closest(".timeline");
-  const rect = target.getBoundingClientRect();
-  const insertAfter = event.clientY > rect.top + rect.height / 2;
-
-  timeline.insertBefore(
-    pointerDragState.element,
-    insertAfter ? target.nextSibling : target
-  );
-
-  const edge = 80;
-
-  if (event.clientY < edge) {
-    window.scrollBy(0, -12);
-  } else if (event.clientY > window.innerHeight - edge) {
-    window.scrollBy(0, 12);
-  }
-}
-
-function handlePointerDragEnd(event) {
-  if (
-    !pointerDragState ||
-    event.pointerId !== pointerDragState.pointerId
-  ) {
-    return;
-  }
-
-  const { dayIndex, element, moved } = pointerDragState;
-
-  element.classList.remove("is-pointer-dragging");
-  document.body.classList.remove("schedule-drag-active");
-  pointerDragState = null;
-
-  if (moved) {
-    commitDomScheduleOrder(dayIndex);
-  }
-}
-
-function commitDomScheduleOrder(dayIndex) {
-  const day = currentSchedule[dayIndex];
-
-  if (!day) {
-    return;
-  }
-
-  const card = scheduleResult.querySelectorAll(".schedule-card")[dayIndex];
-  const itemElements = card
-    ? [...card.querySelectorAll("[data-draggable-item], .wedding-event")]
-    : [];
-
-  if (itemElements.length !== day.items.length) {
-    renderSchedule(currentSchedule, currentContext, { skipScroll: true });
-    return;
-  }
-
-  const oldItems = day.items.map((item) => ({ ...item }));
-  const reordered = itemElements.map((element) => {
-    const originalIndex = Number(element.dataset.itemIndex);
-    return { ...oldItems[originalIndex] };
-  });
-
-  const result = reflowOrderedDayItems(reordered);
-
-  if (!result.ok) {
-    renderSchedule(currentSchedule, currentContext, { skipScroll: true });
-    showStorageStatus(result.message);
-    return;
-  }
-
-  day.items = result.items;
-  renderSchedule(currentSchedule, currentContext, { skipScroll: true });
-
-  const transportWarning = findTransportOrderWarning(day.items);
-  const routeWarnings = getDayRouteWarnings(day);
-
-  showStorageStatus(
-    transportWarning ||
-    (routeWarnings.length > 0
-      ? "순서를 변경했습니다. 동선을 다시 확인해주세요."
-      : "일정 순서와 시간이 자동으로 변경되었습니다.")
-  );
 }
 
 function moveScheduleItemByStep(dayIndex, itemIndex, step) {
@@ -1461,6 +1349,8 @@ function openScheduleEditModal(target) {
 
   editTarget = target;
   editFormMessage.textContent = "";
+  editPickerSearch.value = "";
+  activeEditPicker = "recommended";
 
   if (target.mode === "edit") {
     const item = currentSchedule[target.dayIndex].items[target.itemIndex];
@@ -1491,6 +1381,13 @@ function openScheduleEditModal(target) {
   } else {
     scheduleEditTitle.textContent = "일정 추가";
     editItemType.value = target.itemType || "place";
+
+    if (editItemType.value === "restaurant") {
+      activeEditPicker = "food";
+    } else if (editItemType.value === "place") {
+      activeEditPicker = "tour";
+    }
+
     updateEditItemOptions();
 
     if (target.itemId) {
@@ -1506,7 +1403,10 @@ function openScheduleEditModal(target) {
     editTransportFrom.value = "";
     editTransportTo.value = "";
     editTransportMode.value = "도보";
-    editStartTime.value = findSuggestedStartTime(target.dayIndex);
+    editStartTime.value = findSuggestedStartTime(
+      target.dayIndex,
+      target.insertAfterIndex
+    );
     editDuration.value = String(target.duration || 90);
   }
 
@@ -1531,6 +1431,7 @@ function updateEditItemOptions() {
   const usesSelect = type === "place" || type === "restaurant";
 
   editItemSelectField.hidden = !usesSelect;
+  editPickerControls.hidden = !usesSelect;
   editCustomTitleField.hidden = !isCustom;
   editTransportFields.hidden = !isTransport;
   editItemPreview.hidden = !usesSelect;
@@ -1546,7 +1447,62 @@ function updateEditItemOptions() {
       ? RESTAURANT_OPTIONS
       : PLACE_OPTIONS;
 
-  editItemSelect.innerHTML = items
+  renderEditItemSelectOptions(items, type);
+  renderEditItemPreview(false);
+}
+
+function renderEditItemSelectOptions(items, type) {
+  const keyword = editPickerSearch.value.trim().toLowerCase();
+
+  editPickerControls
+    .querySelectorAll("[data-edit-picker]")
+    .forEach((button) => {
+      button.classList.toggle(
+        "active",
+        button.dataset.editPicker === activeEditPicker
+      );
+    });
+
+  const filteredItems = items.filter((item) => {
+    const searchable = [
+      item.name,
+      item.chineseName,
+      item.category,
+      item.district,
+      getDistrictLabel(item.district),
+      ...(item.tags || []),
+      ...(item.mealTypes || [])
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    const keywordMatch = !keyword || searchable.includes(keyword);
+
+    if (!keywordMatch) {
+      return false;
+    }
+
+    if (activeEditPicker === "tour") {
+      return type === "place";
+    }
+
+    if (activeEditPicker === "food") {
+      return type === "restaurant";
+    }
+
+    if (activeEditPicker === "shopping") {
+      return searchable.includes("쇼핑") || searchable.includes("shopping");
+    }
+
+    if (activeEditPicker === "recommended") {
+      return (item.priority || 0) >= 7;
+    }
+
+    return true;
+  });
+
+  editItemSelect.innerHTML = filteredItems
     .map(
       (item) => `
         <option value="${item.id}">
@@ -1556,7 +1512,15 @@ function updateEditItemOptions() {
     )
     .join("");
 
-  renderEditItemPreview(false);
+  if (filteredItems.length === 0) {
+    editItemSelect.innerHTML = "<option value=''>검색 결과가 없습니다.</option>";
+    clearEditItemPreview();
+    return;
+  }
+
+  if (!filteredItems.some((item) => item.id === editItemSelect.value)) {
+    editItemSelect.value = filteredItems[0].id;
+  }
 }
 
 function getEditSelectedItem() {
@@ -1724,14 +1688,27 @@ function saveScheduleEdit(event) {
 
   const day = currentSchedule[editTarget.dayIndex];
   const candidateItems = day.items.map((item) => ({ ...item }));
+  const insertAfterIndex = Number.isInteger(editTarget.insertAfterIndex)
+    ? editTarget.insertAfterIndex
+    : null;
 
   if (editTarget.mode === "edit") {
     candidateItems[editTarget.itemIndex] = newItem;
   } else {
-    candidateItems.push(newItem);
+    if (
+      insertAfterIndex !== null &&
+      insertAfterIndex >= -1 &&
+      insertAfterIndex < candidateItems.length
+    ) {
+      candidateItems.splice(insertAfterIndex + 1, 0, newItem);
+    } else {
+      candidateItems.push(newItem);
+    }
   }
 
-  const result = reflowDayItems(candidateItems);
+  const result = editTarget.mode === "edit"
+    ? reflowDayItems(candidateItems)
+    : reflowOrderedDayItems(candidateItems);
 
   if (!result.ok) {
     showEditError(result.message);
@@ -1816,8 +1793,17 @@ function isTransportOrAirportItem(item) {
   return item.type === "transport" || item.sourceType === "transport";
 }
 
-function findSuggestedStartTime(dayIndex) {
+function findSuggestedStartTime(dayIndex, insertAfterIndex) {
   const items = currentSchedule[dayIndex]?.items || [];
+
+  if (
+    Number.isInteger(insertAfterIndex) &&
+    insertAfterIndex >= 0 &&
+    insertAfterIndex < items.length
+  ) {
+    return formatTime(Math.min(items[insertAfterIndex].end, 22 * 60));
+  }
+
   const lastEnd = items.reduce(
     (latest, item) => Math.max(latest, item.end),
     8 * 60
