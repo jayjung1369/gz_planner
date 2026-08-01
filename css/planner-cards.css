@@ -452,7 +452,7 @@
 
 .schedule-day-shell .timeline-card-layout {
   display: grid;
-  grid-template-columns: 112px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
 }
 
@@ -465,13 +465,21 @@
 }
 
 .schedule-day-shell .timeline-thumbnail {
-  width: 112px;
-  height: 86px;
-  border-radius: 12px;
+  display: none;
 }
 
 .schedule-day-shell .timeline-card-copy {
   width: 100%;
+}
+
+.schedule-day-shell .timeline-card-copy[data-open-item-detail] {
+  cursor: pointer;
+}
+
+.schedule-day-shell .timeline-card-copy[data-open-item-detail]:focus-visible {
+  outline: 2px solid rgba(29, 29, 31, 0.35);
+  outline-offset: 2px;
+  border-radius: 8px;
 }
 
 .schedule-day-shell .timeline-title {

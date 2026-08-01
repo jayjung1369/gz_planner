@@ -920,36 +920,7 @@ function createTimelineItem(item, dayIndex, itemIndex) {
 
   const dayItemCount = currentSchedule[dayIndex]?.items?.length || 0;
 
-  const rawImage =
-    getThumbnailImage(sourceItem) ||
-    (item.isWeddingEvent
-      ? getThumbnailImage(PLACES.weddingHotel)
-      : "");
-
-  const imageMarkup =
-    rawImage && !isTransport
-      ? `
-        <button
-          class="timeline-thumbnail"
-          type="button"
-          ${item.id
-            ? `data-detail-id="${item.id}" data-detail-type="${itemType}"`
-            : ""}
-          aria-label="${escapeHtml(item.title)} 상세보기"
-        >
-          ${createLazyImageMarkup({
-            src: rawImage,
-            alt: `${item.title} 대표 사진`,
-            className: "timeline-thumbnail-image",
-            fallbackType: "timeline"
-          })}
-        </button>
-      `
-      : "";
-
-  const cardLayoutClass = imageMarkup
-    ? "timeline-card-layout has-thumbnail"
-    : "timeline-card-layout no-thumbnail";
+  const cardLayoutClass = "timeline-card-layout no-thumbnail";
 
   const chineseName = sourceItem?.chineseName
     ? `<span class="timeline-chinese-name">${escapeHtml(sourceItem.chineseName)}</span>`
@@ -958,27 +929,11 @@ function createTimelineItem(item, dayIndex, itemIndex) {
   const desktopActions = locked
     ? `
       <div class="timeline-edit-actions desktop-card-actions">
-        ${item.id
-          ? `<button
-              class="detail-button"
-              type="button"
-              data-detail-id="${item.id}"
-              data-detail-type="${itemType}"
-            >상세보기</button>`
-          : ""}
         <span class="locked-schedule-label">필수 일정</span>
       </div>
     `
     : `
       <div class="timeline-edit-actions desktop-card-actions">
-        ${item.id
-          ? `<button
-              class="detail-button"
-              type="button"
-              data-detail-id="${item.id}"
-              data-detail-type="${itemType}"
-            >상세보기</button>`
-          : ""}
         <button
           class="timeline-insert-button"
           type="button"
@@ -1124,9 +1079,12 @@ function createTimelineItem(item, dayIndex, itemIndex) {
 
       <div class="timeline-content">
         <div class="${cardLayoutClass}">
-          ${imageMarkup}
-
-          <div class="timeline-card-copy">
+          <div
+            class="timeline-card-copy"
+            ${item.id && !isTransport
+              ? `data-open-item-detail data-detail-id="${item.id}" data-detail-type="${itemType}" role="button" tabindex="0" aria-label="${escapeHtml(item.title)} 상세보기 열기"`
+              : ""}
+          >
             ${weddingBody}
 
             <div class="timeline-meta">

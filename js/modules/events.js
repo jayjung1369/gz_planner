@@ -6,6 +6,7 @@ function bindEvents() {
   scheduleResult.addEventListener("click", (event) => {
     const dayTabTrigger = event.target.closest("[data-day-tab]");
     const detailTrigger = event.target.closest("[data-detail-id]");
+    const itemDetailTrigger = event.target.closest("[data-open-item-detail]");
     const editTrigger = event.target.closest("[data-edit-item]");
     const deleteTrigger = event.target.closest("[data-delete-item]");
     const addTrigger = event.target.closest("[data-add-day]");
@@ -22,6 +23,14 @@ function bindEvents() {
       openDetailModal(
         detailTrigger.dataset.detailId,
         detailTrigger.dataset.detailType
+      );
+      return;
+    }
+
+    if (itemDetailTrigger) {
+      openDetailModal(
+        itemDetailTrigger.dataset.detailId,
+        itemDetailTrigger.dataset.detailType
       );
       return;
     }
@@ -178,6 +187,24 @@ function bindEvents() {
   scheduleResult.addEventListener("touchend", () => {
     scheduleInnerScrollState = null;
   }, { passive: true });
+
+  scheduleResult.addEventListener("keydown", (event) => {
+    const itemDetailTrigger = event.target.closest("[data-open-item-detail]");
+
+    if (!itemDetailTrigger) {
+      return;
+    }
+
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    event.preventDefault();
+    openDetailModal(
+      itemDetailTrigger.dataset.detailId,
+      itemDetailTrigger.dataset.detailType
+    );
+  });
 
   document.querySelectorAll("[data-close-modal]").forEach((element) => {
     element.addEventListener("click", closeDetailModal);
