@@ -80,6 +80,20 @@ function createSchedule() {
   }
 
   const dates = enumerateDates(arrivalDate, departureDate);
+  
+  // 결혼식 날짜(11월 14일) 확인
+  const weddingDate = new Date(WEDDING_DATE);
+  const weddingIncluded = dates.some(date => 
+    date.getFullYear() === weddingDate.getFullYear() &&
+    date.getMonth() === weddingDate.getMonth() &&
+    date.getDate() === weddingDate.getDate()
+  );
+  
+  if (!weddingIncluded) {
+    const weddingDateStr = formatShortDate(weddingDate);
+    showMessage(`결혼식 일정은 ${weddingDateStr}에 포함되어야 합니다. 도착일 또는 출국일을 조정해주세요.`);
+    return;
+  }
 
   if (dates.length > 4) {
     dates.length = 4;
@@ -171,14 +185,14 @@ function buildManagedSchedule(context) {
     ].filter(Boolean),
     [
       {
-        start: 14 * 60,
-        end: 17 * 60,
+        start: 15 * 60,
+        end: 19 * 60,
         title: PLACES.weddingHotel.name,
         detail: PLACES.weddingHotel.note,
         tag: "Wedding",
         isWeddingEvent: true
       },
-      createManagedSourceItem("cantoneseZhujiang", "restaurant", 18 * 60)
+      createManagedSourceItem("cantoneseZhujiang", "restaurant", 19 * 60 + 30)
     ].filter(Boolean),
     [
       createManagedSourceItem("k11", "place", 10 * 60 + 30),
