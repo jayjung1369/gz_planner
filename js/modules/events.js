@@ -7,47 +7,9 @@ function bindEvents() {
     const dayTabTrigger = event.target.closest("[data-day-tab]");
     const detailTrigger = event.target.closest("[data-detail-id]");
     const itemDetailTrigger = event.target.closest("[data-open-item-detail]");
-    const editTrigger = event.target.closest("[data-edit-item]");
-    const deleteTrigger = event.target.closest("[data-delete-item]");
-    const addTrigger = event.target.closest("[data-add-day]");
-    const addAfterTrigger = event.target.closest("[data-add-after-item]");
-    const moveTrigger = event.target.closest("[data-move-item]");
-    const sheetTrigger = event.target.closest("[data-open-action-sheet]");
 
     if (dayTabTrigger) {
       applyActiveScheduleDay(Number(dayTabTrigger.dataset.dayTab));
-      return;
-    }
-
-    if (itemDetailTrigger) {
-      const timelineItem = itemDetailTrigger.closest("[data-day-index][data-item-index]");
-      const dayIndex = Number(timelineItem?.dataset.dayIndex);
-      const itemIndex = Number(timelineItem?.dataset.itemIndex);
-      const scheduledItem = currentSchedule?.[dayIndex]?.items?.[itemIndex];
-      const isTransportItem =
-        scheduledItem?.sourceType === "transport" ||
-        scheduledItem?.type === "transport";
-
-      if (
-        Number.isInteger(dayIndex) &&
-        Number.isInteger(itemIndex) &&
-        scheduledItem &&
-        !scheduledItem.isWeddingEvent &&
-        !isTransportItem &&
-        scheduledItem.id
-      ) {
-        openScheduleEditModal({
-          mode: "edit",
-          dayIndex,
-          itemIndex
-        });
-        return;
-      }
-
-      openDetailModal(
-        itemDetailTrigger.dataset.detailId,
-        itemDetailTrigger.dataset.detailType
-      );
       return;
     }
 
@@ -59,59 +21,12 @@ function bindEvents() {
       return;
     }
 
-    if (editTrigger) {
-      openScheduleEditModal({
-        mode: "edit",
-        dayIndex: Number(editTrigger.dataset.dayIndex),
-        itemIndex: Number(editTrigger.dataset.itemIndex)
-      });
-      return;
-    }
-
-    if (deleteTrigger) {
-      deleteScheduleItem(
-        Number(deleteTrigger.dataset.dayIndex),
-        Number(deleteTrigger.dataset.itemIndex)
+    if (itemDetailTrigger) {
+      openDetailModal(
+        itemDetailTrigger.dataset.detailId,
+        itemDetailTrigger.dataset.detailType
       );
       return;
-    }
-
-    if (sheetTrigger) {
-      openScheduleActionSheet(
-        Number(sheetTrigger.dataset.dayIndex),
-        Number(sheetTrigger.dataset.itemIndex)
-      );
-      return;
-    }
-
-    if (moveTrigger) {
-      moveScheduleItemByStep(
-        Number(moveTrigger.dataset.dayIndex),
-        Number(moveTrigger.dataset.itemIndex),
-        Number(moveTrigger.dataset.moveItem)
-      );
-      return;
-    }
-
-    if (addTrigger) {
-      openScheduleEditModal({
-        mode: "add",
-        dayIndex: Number(addTrigger.dataset.addDay),
-        insertAfterIndex:
-          (currentSchedule[Number(addTrigger.dataset.addDay)]?.items?.length || 0) - 1
-      });
-      return;
-    }
-
-    if (addAfterTrigger) {
-      const dayIndex = Number(addAfterTrigger.dataset.dayIndex);
-
-      openScheduleEditModal({
-        mode: "add",
-        dayIndex,
-        itemType: addAfterTrigger.dataset.itemType || "place",
-        insertAfterIndex: Number(addAfterTrigger.dataset.itemIndex)
-      });
     }
   });
 
@@ -263,81 +178,7 @@ function bindEvents() {
     );
   });
 
-  detailAddButton.addEventListener("click", addActiveDetailToSchedule);
-  detailAddDaySelect.addEventListener("change", updateDetailAddActionState);
-
-  document.querySelectorAll("[data-close-edit-modal]").forEach((element) => {
-    element.addEventListener("click", closeScheduleEditModal);
-  });
-
-  editItemType.addEventListener("change", updateEditItemOptions);
-  editItemSelect.addEventListener("change", () => {
-    renderEditItemPreview(true);
-  });
-
-  editPickerControls.addEventListener("click", (event) => {
-    const pickerButton = event.target.closest("[data-edit-picker]");
-
-    if (!pickerButton) {
-      return;
-    }
-
-    activeEditPicker = pickerButton.dataset.editPicker;
-    updateEditItemOptions();
-  });
-
-  editPickerSearch.addEventListener("input", () => {
-    updateEditItemOptions();
-  });
-
-  editItemPreviewDetailButton.addEventListener("click", () => {
-    const itemId = editItemPreviewDetailButton.dataset.itemId;
-    const itemType = editItemPreviewDetailButton.dataset.itemType;
-
-    if (!itemId || !itemType) {
-      return;
-    }
-
-    detailReturnToEditContext = {
-      target: editTarget
-        ? { ...editTarget }
-        : null,
-      draft: {
-        type: editItemType.value,
-        selectedItemId: editItemSelect.value,
-        customTitle: editCustomTitle.value,
-        transportFrom: editTransportFrom.value,
-        transportTo: editTransportTo.value,
-        transportMode: editTransportMode.value,
-        startTime: editStartTime.value,
-        duration: editDuration.value
-      }
-    };
-
-    closeScheduleEditModal();
-    openDetailModal(itemId, itemType, { returnToEdit: true });
-  });
-  scheduleEditForm.addEventListener("submit", saveScheduleEdit);
-
   resetScheduleButton.addEventListener("click", resetSavedPlanner);
-
-  scheduleActionSheet.addEventListener("click", (event) => {
-    const closeTrigger =
-      event.target.closest("[data-close-action-sheet]");
-    const actionTrigger =
-      event.target.closest("[data-sheet-action]");
-
-    if (closeTrigger) {
-      closeScheduleActionSheet();
-      return;
-    }
-
-    if (actionTrigger) {
-      handleScheduleSheetAction(
-        actionTrigger.dataset.sheetAction
-      );
-    }
-  });
 
   printScheduleButton.addEventListener("click", printCurrentSchedule);
   shareScheduleButton.addEventListener("click", shareCurrentSchedule);
@@ -513,10 +354,6 @@ function bindEvents() {
 
     if (detailModal.classList.contains("open")) {
       closeDetailModal();
-    }
-
-    if (scheduleEditModal.classList.contains("open")) {
-      closeScheduleEditModal();
     }
   });
 

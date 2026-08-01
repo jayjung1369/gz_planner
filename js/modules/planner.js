@@ -923,7 +923,7 @@ function renderSchedule(schedule, context, options = {}) {
       <div class="schedule-day-shell-header">
         ${createScheduleDayTabs(schedule)}
         <p class="schedule-quick-guide">
-          DAY 탭 또는 좌우 스와이프로 날짜를 이동하고, 순서는 위/아래 버튼으로 바꿀 수 있습니다.
+          DAY 탭 또는 좌우 스와이프로 날짜를 이동할 수 있습니다.
         </p>
       </div>
 
@@ -1035,23 +1035,12 @@ function createScheduleCard(day, dayIndex, isActive) {
           `}
       </div>
 
-      <button
-        class="add-schedule-button"
-        type="button"
-        data-add-day="${dayIndex}"
-      >
-        + 일정 추가
-      </button>
     </article>
   `;
 }
 
 function createTimelineItem(item, dayIndex, itemIndex) {
   const weddingEventClass = item.isWeddingEvent ? "wedding-event" : "";
-  const locked = item.isWeddingEvent;
-  const isRecentlyMoved =
-    recentScheduleMove?.dayIndex === dayIndex &&
-    recentScheduleMove?.itemIndex === itemIndex;
   const sourceItem = getScheduleSourceItem(item);
   const isTransport =
     item.sourceType === "transport" ||
@@ -1062,136 +1051,13 @@ function createTimelineItem(item, dayIndex, itemIndex) {
       ? "restaurant"
       : "place";
 
-  const dayItemCount = currentSchedule[dayIndex]?.items?.length || 0;
-
   const cardLayoutClass = "timeline-card-layout no-thumbnail";
 
   const chineseName = sourceItem?.chineseName
     ? `<span class="timeline-chinese-name">${escapeHtml(sourceItem.chineseName)}</span>`
     : "";
 
-  const desktopActions = locked
-    ? `
-      <div class="timeline-edit-actions desktop-card-actions">
-        <span class="locked-schedule-label">필수 일정</span>
-      </div>
-    `
-    : `
-      <div class="timeline-edit-actions desktop-card-actions">
-        <button
-          class="timeline-insert-button"
-          type="button"
-          data-add-after-item
-          data-day-index="${dayIndex}"
-          data-item-index="${itemIndex}"
-          data-item-type="${itemType}"
-        >+ 추가</button>
-        <button
-          class="timeline-edit-button"
-          type="button"
-          data-edit-item
-          data-day-index="${dayIndex}"
-          data-item-index="${itemIndex}"
-        >편집</button>
-        <button
-          class="timeline-delete-button"
-          type="button"
-          data-delete-item
-          data-day-index="${dayIndex}"
-          data-item-index="${itemIndex}"
-        >삭제</button>
-      </div>
-    `;
-
-  const mobileInlineActions = locked
-    ? ""
-    : `
-      <div class="timeline-mobile-inline-actions" aria-label="모바일 일정 편집 버튼">
-        <button
-          class="timeline-edit-button"
-          type="button"
-          data-edit-item
-          data-day-index="${dayIndex}"
-          data-item-index="${itemIndex}"
-        >편집</button>
-        <button
-          class="timeline-delete-button"
-          type="button"
-          data-delete-item
-          data-day-index="${dayIndex}"
-          data-item-index="${itemIndex}"
-        >삭제</button>
-      </div>
-    `;
-
-  const mobileMenuButton = locked
-    ? ""
-    : `
-      <button
-        class="timeline-inline-add"
-        type="button"
-        aria-label="${escapeHtml(item.title)} 뒤에 일정 추가"
-        data-add-after-item
-        data-day-index="${dayIndex}"
-        data-item-index="${itemIndex}"
-        data-item-type="${itemType}"
-      >
-        +
-      </button>
-    `;
-
-  const mobileMoveButtons = locked
-    ? ""
-    : `
-      <div class="timeline-mobile-move-buttons" aria-label="모바일 순서 변경 버튼">
-        <button
-          class="timeline-mobile-move"
-          type="button"
-          aria-label="위로 이동"
-          data-move-item="-1"
-          data-day-index="${dayIndex}"
-          data-item-index="${itemIndex}"
-          ${itemIndex === 0 ? "disabled" : ""}
-        >↑</button>
-        <button
-          class="timeline-mobile-move"
-          type="button"
-          aria-label="아래로 이동"
-          data-move-item="1"
-          data-day-index="${dayIndex}"
-          data-item-index="${itemIndex}"
-          ${itemIndex === dayItemCount - 1 ? "disabled" : ""}
-        >↓</button>
-      </div>
-    `;
-
-  const reorderControls = locked
-    ? ""
-    : `
-      <div class="timeline-reorder-controls">
-        <button
-          type="button"
-          aria-label="위로 이동"
-          data-move-item="-1"
-          data-day-index="${dayIndex}"
-          data-item-index="${itemIndex}"
-          ${itemIndex === 0 ? "disabled" : ""}
-        >↑</button>
-        <button
-          type="button"
-          aria-label="아래로 이동"
-          data-move-item="1"
-          data-day-index="${dayIndex}"
-          data-item-index="${itemIndex}"
-          ${itemIndex === dayItemCount - 1 ? "disabled" : ""}
-        >↓</button>
-      </div>
-    `;
-
   const compactMeta = [
-    isRecentlyMoved
-      ? `<span class="timeline-move-badge">변경됨</span>`
-      : "",
     sourceItem?.district
       ? `<span class="district-tag">${escapeHtml(getDistrictLabel(sourceItem.district))}</span>`
       : "",
@@ -1229,14 +1095,10 @@ function createTimelineItem(item, dayIndex, itemIndex) {
 
   return `
     <article
-      class="timeline-item ${weddingEventClass} ${isTransport ? "transport-event" : "place-event"} ${isRecentlyMoved ? "recently-moved" : ""}"
+      class="timeline-item ${weddingEventClass} ${isTransport ? "transport-event" : "place-event"}"
       data-day-index="${dayIndex}"
       data-item-index="${itemIndex}"
     >
-      ${reorderControls}
-      ${mobileMenuButton}
-      ${mobileMoveButtons}
-
       <div class="timeline-time">
         <span>${formatTime(item.start)}</span>
         <small>${formatTime(item.end)}</small>
@@ -1255,103 +1117,11 @@ function createTimelineItem(item, dayIndex, itemIndex) {
             <div class="timeline-meta">
               ${compactMeta}
             </div>
-
-            ${mobileInlineActions}
-
-            ${desktopActions}
           </div>
         </div>
       </div>
     </article>
   `;
-}
-
-function openScheduleActionSheet(dayIndex, itemIndex) {
-  const day = currentSchedule[dayIndex];
-  const item = day?.items?.[itemIndex];
-
-  if (!item || item.isWeddingEvent) {
-    return;
-  }
-
-  activeScheduleAction = {
-    dayIndex,
-    itemIndex
-  };
-
-  scheduleActionTitle.textContent = item.title;
-  scheduleActionSheet.classList.add("open");
-  scheduleActionSheet.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
-
-  const detailButton =
-    scheduleActionSheet.querySelector('[data-sheet-action="detail"]');
-
-  detailButton.hidden = !item.id;
-}
-
-function closeScheduleActionSheet() {
-  scheduleActionSheet.classList.remove("open");
-  scheduleActionSheet.setAttribute("aria-hidden", "true");
-  activeScheduleAction = null;
-
-  if (
-    !detailModal.classList.contains("open") &&
-    !scheduleEditModal.classList.contains("open") &&
-    !sharedPlanModal.classList.contains("open") &&
-    !travelGuideModal.classList.contains("open")
-  ) {
-    document.body.classList.remove("modal-open");
-  }
-}
-
-function handleScheduleSheetAction(action) {
-  if (!activeScheduleAction) {
-    return;
-  }
-
-  const { dayIndex, itemIndex } = activeScheduleAction;
-  const item = currentSchedule[dayIndex]?.items?.[itemIndex];
-
-  if (!item) {
-    closeScheduleActionSheet();
-    return;
-  }
-
-  closeScheduleActionSheet();
-
-  if (action === "detail" && item.id) {
-    openDetailModal(
-      item.id,
-      item.sourceType === "restaurant"
-        ? "restaurant"
-        : "place"
-    );
-    return;
-  }
-
-  if (action === "edit") {
-    openScheduleEditModal({
-      mode: "edit",
-      dayIndex,
-      itemIndex
-    });
-    return;
-  }
-
-  if (action === "delete") {
-    deleteScheduleItem(dayIndex, itemIndex);
-    return;
-  }
-
-  if (action === "move-up") {
-    moveScheduleItemByStep(dayIndex, itemIndex, -1);
-    return;
-  }
-
-  if (action === "move-down") {
-    moveScheduleItemByStep(dayIndex, itemIndex, 1);
-  }
 }
 
 function getScheduleSourceItem(item) {
@@ -1364,102 +1134,6 @@ function getScheduleSourceItem(item) {
   }
 
   return PLACES[item.id] || RESTAURANTS[item.id] || null;
-}
-
-function moveScheduleItemByStep(dayIndex, itemIndex, step) {
-  const day = currentSchedule[dayIndex];
-  const targetIndex = itemIndex + step;
-
-  if (
-    !day ||
-    targetIndex < 0 ||
-    targetIndex >= day.items.length
-  ) {
-    return;
-  }
-
-  if (
-    day.items[itemIndex]?.isWeddingEvent ||
-    day.items[targetIndex]?.isWeddingEvent
-  ) {
-    showStorageStatus("결혼식 일정은 위치를 변경할 수 없습니다.");
-    return;
-  }
-
-  const reordered = day.items.map((item) => ({ ...item }));
-  const [moved] = reordered.splice(itemIndex, 1);
-  reordered.splice(targetIndex, 0, moved);
-
-  const result = reflowOrderedDayItems(reordered);
-
-  if (!result.ok) {
-    showStorageStatus(result.message);
-    return;
-  }
-
-  day.items = result.items;
-  recentScheduleMove = {
-    dayIndex,
-    itemIndex: targetIndex,
-    changedAt: Date.now()
-  };
-  renderSchedule(currentSchedule, currentContext, {
-    skipScroll: true,
-    preserveMoveIndicator: true
-  });
-  showStorageStatus("일정 순서와 시간이 자동으로 변경되었습니다.");
-}
-
-function reflowOrderedDayItems(items) {
-  const ordered = items.map((item) => ({ ...item }));
-  const weddingIndex = ordered.findIndex((item) => item.isWeddingEvent);
-  const dayStart = Math.max(
-    8 * 60,
-    Math.min(...ordered.map((item) => item.start))
-  );
-
-  if (weddingIndex === -1) {
-    let cursor = dayStart;
-
-    for (const item of ordered) {
-      const duration = item.end - item.start;
-      item.start = cursor;
-      item.end = cursor + duration;
-      cursor = item.end;
-    }
-
-    return { ok: true, items: ordered };
-  }
-
-  const wedding = ordered[weddingIndex];
-  let cursor = dayStart;
-
-  for (let index = 0; index < weddingIndex; index += 1) {
-    const item = ordered[index];
-    const duration = item.end - item.start;
-    item.start = cursor;
-    item.end = cursor + duration;
-    cursor = item.end;
-
-    if (item.end > wedding.start) {
-      return {
-        ok: false,
-        message: "변경한 순서로는 결혼식 시작 전 일정을 모두 배치할 수 없습니다."
-      };
-    }
-  }
-
-  cursor = wedding.end;
-
-  for (let index = weddingIndex + 1; index < ordered.length; index += 1) {
-    const item = ordered[index];
-    const duration = item.end - item.start;
-    item.start = cursor;
-    item.end = cursor + duration;
-    cursor = item.end;
-  }
-
-  return { ok: true, items: ordered };
 }
 
 function findTransportOrderWarning(items) {
