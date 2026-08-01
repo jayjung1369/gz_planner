@@ -704,6 +704,9 @@ function renderSchedule(schedule, context, options = {}) {
       <div class="schedule-day-shell-header">
         ${createOverallRouteNotice(schedule)}
         ${createScheduleDayTabs(schedule)}
+        <p class="schedule-quick-guide">
+          DAY 탭 또는 좌우 스와이프로 날짜를 이동하고, 순서는 ↑↓ 또는 모바일 드래그 버튼으로 바꿀 수 있습니다.
+        </p>
       </div>
 
       <div class="schedule-list schedule-day-scroll" id="scheduleDayPanels">
@@ -938,6 +941,10 @@ function createTimelineItem(item, dayIndex, itemIndex) {
       `
       : "";
 
+  const cardLayoutClass = imageMarkup
+    ? "timeline-card-layout has-thumbnail"
+    : "timeline-card-layout no-thumbnail";
+
   const chineseName = sourceItem?.chineseName
     ? `<span class="timeline-chinese-name">${escapeHtml(sourceItem.chineseName)}</span>`
     : "";
@@ -1004,6 +1011,21 @@ function createTimelineItem(item, dayIndex, itemIndex) {
         data-item-type="${itemType}"
       >
         +
+      </button>
+    `;
+
+  const mobileDragButton = locked
+    ? ""
+    : `
+      <button
+        class="timeline-mobile-drag"
+        type="button"
+        aria-label="${escapeHtml(item.title)} 순서 변경"
+        data-mobile-reorder
+        data-day-index="${dayIndex}"
+        data-item-index="${itemIndex}"
+      >
+        ⇅
       </button>
     `;
 
@@ -1074,6 +1096,7 @@ function createTimelineItem(item, dayIndex, itemIndex) {
     >
       ${reorderControls}
       ${mobileMenuButton}
+      ${mobileDragButton}
 
       <div class="timeline-time">
         <span>${formatTime(item.start)}</span>
@@ -1081,7 +1104,7 @@ function createTimelineItem(item, dayIndex, itemIndex) {
       </div>
 
       <div class="timeline-content">
-        <div class="timeline-card-layout">
+        <div class="${cardLayoutClass}">
           ${imageMarkup}
 
           <div class="timeline-card-copy">
