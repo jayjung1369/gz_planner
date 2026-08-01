@@ -432,14 +432,15 @@ canvas {
   /* 일정 등록 모달 */
   .schedule-edit-modal {
     padding: 0;
-    align-items: flex-end;
+    align-items: stretch;
   }
 
   .schedule-edit-panel {
     width: 100%;
-    max-height: 94svh;
-    padding: 20px 16px max(18px, env(safe-area-inset-bottom));
-    border-radius: 24px 24px 0 0;
+    height: 100svh;
+    max-height: 100svh;
+    padding: max(14px, env(safe-area-inset-top)) 16px max(18px, env(safe-area-inset-bottom));
+    border-radius: 0;
   }
 
   .schedule-edit-grid {

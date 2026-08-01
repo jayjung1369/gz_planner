@@ -824,7 +824,7 @@ function createScheduleCard(day, dayIndex, isActive) {
         type="button"
         data-add-day="${dayIndex}"
       >
-        + 이 위치에 일정 추가
+        + 일정 추가
       </button>
     </article>
   `;
