@@ -616,9 +616,22 @@
   }
 
   .schedule-day-shell .timeline-item {
-    grid-template-columns: 45px minmax(0, 1fr);
+    grid-template-columns: 56px minmax(0, 1fr);
     gap: 8px;
     padding: 7px 0 40px;
+  }
+
+  .schedule-day-shell .timeline-time {
+    width: 56px;
+    min-width: 56px;
+  }
+
+  .schedule-day-shell .timeline-time span,
+  .schedule-day-shell .timeline-time small {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
 
   .schedule-day-shell .timeline-card-layout {
