@@ -157,6 +157,7 @@ let currentContext = null;
 let editTarget = null;
 let activeScheduleDayIndex = 0;
 let scheduleSwipeState = null;
+let scheduleInnerScrollState = null;
 
 let activeDetailItem = null;
 let activeEditPicker = "recommended";

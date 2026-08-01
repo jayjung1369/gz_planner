@@ -83,6 +83,55 @@ function bindEvents() {
   });
 
   scheduleResult.addEventListener("touchstart", (event) => {
+    const scroller = event.target.closest(".schedule-day-scroll");
+
+    if (!scroller || scroller.scrollHeight <= scroller.clientHeight) {
+      scheduleInnerScrollState = null;
+      return;
+    }
+
+    const touch = event.changedTouches?.[0];
+
+    if (!touch) {
+      return;
+    }
+
+    scheduleInnerScrollState = {
+      scroller,
+      startX: touch.clientX,
+      startY: touch.clientY,
+      startTop: scroller.scrollTop
+    };
+  }, { passive: true });
+
+  scheduleResult.addEventListener("touchmove", (event) => {
+    if (!scheduleInnerScrollState) {
+      return;
+    }
+
+    const touch = event.changedTouches?.[0];
+
+    if (!touch) {
+      return;
+    }
+
+    const deltaX = touch.clientX - scheduleInnerScrollState.startX;
+    const deltaY = touch.clientY - scheduleInnerScrollState.startY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY) + 8) {
+      return;
+    }
+
+    event.preventDefault();
+    scheduleInnerScrollState.scroller.scrollTop =
+      scheduleInnerScrollState.startTop - deltaY;
+  }, { passive: false });
+
+  scheduleResult.addEventListener("touchcancel", () => {
+    scheduleInnerScrollState = null;
+  }, { passive: true });
+
+  scheduleResult.addEventListener("touchstart", (event) => {
     const reorderHandle = event.target.closest("[data-mobile-reorder]");
 
     if (reorderHandle) {
@@ -164,6 +213,10 @@ function bindEvents() {
     }
 
     moveScheduleDayByStep(deltaX < 0 ? 1 : -1);
+  }, { passive: true });
+
+  scheduleResult.addEventListener("touchend", () => {
+    scheduleInnerScrollState = null;
   }, { passive: true });
 
   document.querySelectorAll("[data-close-modal]").forEach((element) => {
