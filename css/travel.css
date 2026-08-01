@@ -1,0 +1,317 @@
+/* Travel library, filters and place cards.
+   Extracted from legacy style.css during Sprint 1-1. */
+
+/* 모든 관광지·맛집 Travel 라이브러리 */
+.travel-library-section {
+  background: #fff;
+}
+
+.travel-library-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 34px;
+}
+
+.travel-type-filters,
+.travel-district-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.travel-type-filters button,
+.travel-district-filters button {
+  min-height: 38px;
+  padding: 0 15px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+  color: var(--subtext);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.travel-type-filters button.active,
+.travel-district-filters button.active {
+  border-color: var(--text);
+  background: var(--text);
+  color: white;
+}
+
+.travel-library-search {
+  flex: 0 1 390px;
+}
+
+.travel-library-search input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+.travel-district-filters {
+  margin-top: 14px;
+}
+
+.travel-library-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 22px;
+  color: var(--subtext);
+  font-size: 12px;
+}
+
+.travel-library-summary strong {
+  color: var(--text);
+}
+
+.travel-library-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.travel-library-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: white;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04);
+}
+
+.travel-library-image {
+  position: relative;
+  width: 100%;
+  height: 190px;
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  background: var(--soft);
+  cursor: pointer;
+}
+
+.travel-library-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.travel-library-card:hover .travel-library-image img {
+  transform: scale(1.035);
+}
+
+.travel-library-image span {
+  position: absolute;
+  left: 13px;
+  top: 13px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(20, 20, 22, 0.7);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.travel-library-card-content {
+  padding: 18px;
+}
+
+.travel-library-card-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.travel-library-card-heading > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.travel-library-card-heading strong {
+  font-size: 18px;
+  letter-spacing: -0.04em;
+}
+
+.travel-library-card-heading span {
+  margin-top: 3px;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.travel-library-card-heading em {
+  flex: 0 0 auto;
+  color: var(--subtext);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.travel-library-card-content > p {
+  display: -webkit-box;
+  min-height: 57px;
+  margin: 14px 0 0;
+  overflow: hidden;
+  color: var(--subtext);
+  font-size: 12px;
+  line-height: 1.6;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.travel-library-card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.travel-library-card-actions button {
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+  cursor: pointer;
+}
+
+.travel-library-card-actions button.primary {
+  border-color: var(--text);
+  background: var(--text);
+  color: white;
+}
+
+.travel-library-empty {
+  grid-column: 1 / -1;
+  padding: 50px;
+  border: 1px dashed var(--line);
+  border-radius: 22px;
+  text-align: center;
+}
+
+.travel-library-empty p {
+  margin: 6px 0 0;
+  color: var(--subtext);
+}
+
+@media (max-width: 1050px) {
+  .travel-library-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .edit-item-preview {
+    grid-template-columns: 1fr;
+  }
+
+  .edit-item-preview-image-wrap,
+  .edit-item-preview-image-wrap img {
+    min-height: 190px;
+  }
+
+  .edit-item-preview-info {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-card-layout {
+    grid-template-columns: 92px 1fr;
+    gap: 13px;
+  }
+
+  .timeline-thumbnail {
+    width: 92px;
+    height: 82px;
+  }
+
+  .travel-library-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .travel-library-search {
+    flex-basis: auto;
+  }
+
+  .travel-library-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .travel-library-summary {
+    flex-direction: column;
+    gap: 3px;
+  }
+}
+
+@media (max-width: 540px) {
+  .timeline-card-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-thumbnail {
+    width: 100%;
+    height: 150px;
+  }
+}
+
+@media print {
+  body.printing-schedule .timeline-card-layout {
+    grid-template-columns: 28mm 1fr !important;
+  }
+
+  body.printing-schedule .timeline-thumbnail {
+    width: 28mm !important;
+    height: 22mm !important;
+  }
+
+  body.printing-schedule .timeline-tip {
+    display: none !important;
+  }
+}
+
+
+
+
+/* Sprint 1-3 progressive Travel loading */
+.travel-load-more-wrap {
+  display: grid;
+  place-items: center;
+  min-height: 42px;
+  margin-top: 22px;
+}
+
+.travel-load-more {
+  min-width: 170px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+  color: var(--text);
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.travel-load-sentinel {
+  width: 100%;
+  height: 2px;
+}
+
+.travel-library-image {
+  background:
+    linear-gradient(
+      100deg,
+      rgba(235, 235, 238, 0.8) 20%,
+      rgba(248, 248, 250, 0.95) 40%,
+      rgba(235, 235, 238, 0.8) 60%
+    );
+  background-size: 200% 100%;
+  animation: image-skeleton 1.3s linear infinite;
+}

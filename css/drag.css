@@ -1,0 +1,124 @@
+/* Schedule drag-and-drop controls.
+   Extracted from legacy style.css during Sprint 1-1. */
+
+/* V20 일정 드래그 순서 변경 */
+.timeline-item {
+  position: relative;
+}
+
+.timeline-reorder-controls {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.timeline-drag-handle {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.88);
+  cursor: grab;
+  touch-action: none;
+}
+
+.timeline-drag-handle:active {
+  cursor: grabbing;
+}
+
+.timeline-drag-handle span {
+  display: block;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--subtext);
+}
+
+.timeline-step-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.timeline-step-buttons button {
+  width: 28px;
+  height: 19px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: white;
+  color: var(--subtext);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.timeline-step-buttons button:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+.timeline-item.is-dragging,
+.timeline-item.is-pointer-dragging {
+  z-index: 20;
+  opacity: 0.72;
+  transform: scale(1.015);
+  border-color: rgba(169, 135, 93, 0.75);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.14);
+}
+
+.timeline-item.is-pointer-dragging {
+  pointer-events: none;
+}
+
+.schedule-drag-active {
+  user-select: none;
+  overscroll-behavior: contain;
+}
+
+.timeline-item:not(.wedding-event) .timeline-content {
+  padding-right: 82px;
+}
+
+.wedding-event .timeline-reorder-controls {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  .timeline-reorder-controls {
+    top: 10px;
+    right: 10px;
+  }
+
+  .timeline-drag-handle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .timeline-step-buttons {
+    display: none;
+  }
+
+  .timeline-item:not(.wedding-event) .timeline-content {
+    padding-right: 58px;
+  }
+}
+
+@media print {
+  body.printing-schedule .timeline-reorder-controls {
+    display: none !important;
+  }
+
+  body.printing-schedule .timeline-item:not(.wedding-event) .timeline-content {
+    padding-right: 0 !important;
+  }
+}
+
+

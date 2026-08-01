@@ -1,0 +1,1839 @@
+/* Sprint 1-2 planner module. Classic scripts preserve existing global behavior. */
+
+function renderChoices() {
+  placeChoices.innerHTML = PLACE_OPTIONS.map((place) =>
+    createChoiceCard(place, "place-choice")
+  ).join("");
+
+  restaurantChoices.innerHTML = RESTAURANT_OPTIONS.map((restaurant) =>
+    createChoiceCard(restaurant, "restaurant-choice")
+  ).join("");
+}
+
+function createChoiceCard(item, inputClass) {
+  const rawImage = getThumbnailImage(item);
+  const thumbnail = resolveAssetUrl(rawImage);
+  const isPlaceholder = isPlaceholderImage(rawImage);
+
+  return `
+    <label class="choice-card">
+      <input
+        class="${inputClass}"
+        type="checkbox"
+        value="${item.id}"
+      >
+      <span class="choice-image-wrap">
+        ${createLazyImageMarkup({
+          src: rawImage,
+          alt: `${item.name} 사진`,
+          className: "choice-image",
+          fallbackType: "choice"
+        })}
+        ${isPlaceholder
+          ? `<span class="choice-photo-status">사진 준비 중</span>`
+          : ""}
+      </span>
+      <span class="choice-check">✓</span>
+      <span class="choice-content">
+        <strong>${item.name}</strong>
+        <small>${getDistrictLabel(item.district)} · ${item.category}</small>
+        <em>${formatDuration(item.duration)}</em>
+      </span>
+    </label>
+  `;
+}
+
+function toggleAllChoices(className, button) {
+  const checkboxes = [...document.querySelectorAll(`.${className}`)];
+  const shouldSelectAll = checkboxes.some((checkbox) => !checkbox.checked);
+
+  checkboxes.forEach((checkbox) => {
+    checkbox.checked = shouldSelectAll;
+  });
+
+  button.textContent = shouldSelectAll ? "전체 해제" : "전체 선택";
+  savePlannerState({ clearRenderedSchedule: true });
+}
+
+function createSchedule() {
+  const arrivalDate = parseDate(arrivalInput.value);
+  const departureDate = parseDate(departureInput.value);
+  const arrivalTime = arrivalTimeInput.value;
+  const departureTime = departureTimeInput.value;
+
+  if (!arrivalDate || !departureDate || !arrivalTime || !departureTime) {
+    showMessage("도착·출국 날짜와 시간을 모두 선택해주세요.");
+    return;
+  }
+
+  if (arrivalDate > departureDate) {
+    showMessage("출국일은 도착일보다 늦어야 합니다.");
+    return;
+  }
+
+  if (!isDateWithinRange(WEDDING_DATE, arrivalDate, departureDate)) {
+    showMessage("선택한 일정에는 2026년 11월 14일 결혼식이 포함되어야 합니다.");
+    return;
+  }
+
+  const selectedPlaces = plannerMode === "custom"
+    ? getSelectedItems("place-choice", PLACES)
+    : [];
+
+  const selectedRestaurants = plannerMode === "custom"
+    ? getSelectedItems("restaurant-choice", RESTAURANTS)
+    : [];
+
+  if (
+    plannerMode === "custom" &&
+    selectedPlaces.length === 0 &&
+    selectedRestaurants.length === 0
+  ) {
+    showMessage("가고 싶은 여행지나 식사를 한 개 이상 선택해주세요.");
+    return;
+  }
+
+  const dates = enumerateDates(arrivalDate, departureDate);
+  const context = {
+    arrivalDate,
+    departureDate,
+    arrivalTime,
+    departureTime,
+    dates,
+    selectedPlaces,
+    selectedRestaurants
+  };
+
+  const schedule = plannerMode === "recommended"
+    ? buildRecommendedSchedule(context)
+    : buildCustomSchedule(context);
+
+  context.excludedItems =
+    plannerMode === "custom"
+      ? findExcludedSelectedItems(
+          schedule,
+          selectedPlaces,
+          selectedRestaurants
+        )
+      : [];
+
+  renderSchedule(schedule, context);
+}
+
+function findExcludedSelectedItems(
+  schedule,
+  selectedPlaces,
+  selectedRestaurants
+) {
+  const scheduledIds = new Set();
+
+  schedule.forEach((day) => {
+    day.items.forEach((item) => {
+      if (item.id) {
+        scheduledIds.add(item.id);
+      }
+    });
+  });
+
+  return [
+    ...selectedPlaces.map((item) => ({
+      ...item,
+      itemType: "관광지"
+    })),
+    ...selectedRestaurants.map((item) => ({
+      ...item,
+      itemType: "식사"
+    }))
+  ]
+    .filter((item) => !scheduledIds.has(item.id))
+    .map((item) => ({
+      id: item.id,
+      name: item.name,
+      itemType: item.itemType,
+      reason: getExclusionReason(item)
+    }));
+}
+
+function getExclusionReason(item) {
+  if (item.duration >= 360) {
+    return "하루에 가까운 시간이 필요해 남은 시간에 배치하지 못했습니다.";
+  }
+
+  if (item.openTime && item.closeTime) {
+    return "운영시간과 이용 가능한 시간이 맞지 않거나 일정 시간이 부족합니다.";
+  }
+
+  return "선택한 전체 일정을 배치하기에 이용 가능한 시간이 부족합니다.";
+}
+
+function buildRecommendedSchedule(context) {
+  const pool = createRecommendedPool();
+  return buildScheduleFromPool(context, pool);
+}
+
+function buildCustomSchedule(context) {
+  const pool = {
+    places: [...context.selectedPlaces],
+    restaurants: [...context.selectedRestaurants]
+  };
+
+  return buildScheduleFromPool(context, pool);
+}
+
+function createRecommendedPool() {
+  const places = [];
+  const restaurants = [];
+
+  RECOMMENDED_DISTRICT_ORDER.forEach((district) => {
+    (RECOMMENDED_PLACE_IDS[district] || []).forEach((id) => {
+      if (PLACES[id]) {
+        places.push(PLACES[id]);
+      }
+    });
+
+    (RECOMMENDED_RESTAURANT_IDS[district] || []).forEach((id) => {
+      if (RESTAURANTS[id]) {
+        restaurants.push(RESTAURANTS[id]);
+      }
+    });
+  });
+
+  return { places, restaurants };
+}
+
+function buildScheduleFromPool(context, pool) {
+  const remainingPlaces = [...pool.places];
+  const remainingRestaurants = [...pool.restaurants];
+
+  return context.dates.map((date, index) => {
+    const isArrivalDay = index === 0;
+    const isDepartureDay = index === context.dates.length - 1;
+    const isWeddingDay = isSameDate(date, WEDDING_DATE);
+
+    if (isWeddingDay) {
+      return buildWeddingDay(date, index);
+    }
+
+    const dayWindow = getAvailableDayWindow({
+      isArrivalDay,
+      isDepartureDay,
+      arrivalTime: context.arrivalTime,
+      departureTime: context.departureTime
+    });
+
+    const items = [];
+
+    if (isArrivalDay) {
+      const airportArrival = timeToMinutes(context.arrivalTime);
+      items.push({
+        start: airportArrival,
+        end: airportArrival + 45,
+        title: PLACES.airport.name,
+        detail: PLACES.airport.note,
+        tag: "입국",
+        type: "transport"
+      });
+
+      items.push({
+        start: airportArrival + 45,
+        end: airportArrival + 45 + SCHEDULE_RULES.airportToHotelMinutes,
+        title: "W Guangzhou 이동 및 체크인",
+        detail: "공항에서 호텔로 이동한 뒤 체크인합니다.",
+        tag: "이동",
+        type: "transport"
+      });
+    }
+
+    const availableStart = isArrivalDay
+      ? Math.max(dayWindow.start, timeToMinutes(context.arrivalTime) + 135)
+      : dayWindow.start;
+
+    const availableEnd = isDepartureDay
+      ? Math.min(
+          dayWindow.end,
+          timeToMinutes(context.departureTime) -
+            SCHEDULE_RULES.airportBufferMinutes -
+            SCHEDULE_RULES.hotelToAirportMinutes
+        )
+      : dayWindow.end;
+
+    if (availableEnd - availableStart >= 60) {
+      const preferredDistrict = chooseBestDistrict(
+        remainingPlaces,
+        remainingRestaurants,
+        availableStart,
+        availableEnd
+      );
+
+      const dayItems = planDayByDistrict({
+        district: preferredDistrict,
+        start: availableStart,
+        end: availableEnd,
+        places: remainingPlaces,
+        restaurants: remainingRestaurants
+      });
+
+      items.push(...dayItems);
+      removeScheduledItems(dayItems, remainingPlaces, remainingRestaurants);
+    }
+
+    if (isDepartureDay) {
+      const airportDepartureStart =
+        timeToMinutes(context.departureTime) -
+        SCHEDULE_RULES.airportBufferMinutes -
+        SCHEDULE_RULES.hotelToAirportMinutes;
+
+      items.push({
+        start: airportDepartureStart,
+        end: airportDepartureStart + SCHEDULE_RULES.hotelToAirportMinutes,
+        title: "호텔 체크아웃 및 공항 이동",
+        detail: "출발 2시간 전 공항 도착을 기준으로 이동합니다.",
+        tag: "출국",
+        type: "transport"
+      });
+
+      items.push({
+        start: airportDepartureStart + SCHEDULE_RULES.hotelToAirportMinutes,
+        end: timeToMinutes(context.departureTime),
+        title: "출국 수속",
+        detail: "수하물 위탁과 보안검색 후 탑승을 준비합니다.",
+        tag: "공항",
+        type: "transport"
+      });
+    }
+
+    return {
+      date,
+      index,
+      title: getDayTitle({ isArrivalDay, isDepartureDay }),
+      items: normalizeItems(items)
+    };
+  });
+}
+
+function buildWeddingDay(date, index) {
+  return {
+    date,
+    index,
+    title: "Wedding Day",
+    items: [
+      {
+        start: 8 * 60,
+        end: 10 * 60,
+        title: "아침 식사 및 휴식",
+        detail: "호텔에서 여유롭게 아침을 보내고 예식을 준비합니다.",
+        tag: "준비"
+      },
+      {
+        start: 10 * 60,
+        end: 14 * 60,
+        title: "개인 준비 시간",
+        detail: "의상과 이동 준비를 위한 여유 시간입니다.",
+        tag: "준비"
+      },
+      {
+        start: 14 * 60,
+        end: 17 * 60,
+        title: PLACES.weddingHotel.name,
+        detail: PLACES.weddingHotel.note,
+        tag: "Wedding",
+        isWeddingEvent: true
+      },
+      {
+        start: 17 * 60,
+        end: 20 * 60,
+        title: "피로연 및 저녁 식사",
+        detail: "결혼식 후 하객들과 함께하는 저녁 일정입니다.",
+        tag: "Wedding"
+      },
+      {
+        start: 20 * 60,
+        end: 24 * 60,
+        title: "자유 일정",
+        detail: "호텔에서 휴식하거나 가까운 지역에서 자유롭게 시간을 보냅니다.",
+        tag: "휴식"
+      }
+    ]
+  };
+}
+
+function getAvailableDayWindow({
+  isArrivalDay,
+  isDepartureDay,
+  arrivalTime,
+  departureTime
+}) {
+  let start = timeToMinutes(SCHEDULE_RULES.dayStart);
+  let end = timeToMinutes(SCHEDULE_RULES.dayEnd);
+
+  if (isArrivalDay) {
+    start = Math.max(start, timeToMinutes(arrivalTime));
+  }
+
+  if (isDepartureDay) {
+    end = Math.min(end, timeToMinutes(departureTime));
+  }
+
+  return { start, end };
+}
+
+function chooseBestDistrict(places, restaurants, start, end) {
+  const availableMinutes = end - start;
+
+  const districtScores = RECOMMENDED_DISTRICT_ORDER.map((district) => {
+    const districtPlaces = places.filter((item) => item.district === district);
+    const districtRestaurants = restaurants.filter(
+      (item) => item.district === district
+    );
+
+    const score =
+      districtPlaces.reduce((sum, item) => sum + (item.priority || 1), 0) +
+      districtRestaurants.reduce((sum, item) => sum + (item.priority || 1), 0);
+
+    const totalDuration =
+      districtPlaces.reduce((sum, item) => sum + item.duration, 0) +
+      districtRestaurants.reduce((sum, item) => sum + item.duration, 0);
+
+    return {
+      district,
+      score,
+      fits: totalDuration <= availableMinutes + 180,
+      itemCount: districtPlaces.length + districtRestaurants.length
+    };
+  });
+
+  const best = districtScores
+    .filter((item) => item.itemCount > 0)
+    .sort((a, b) => {
+      if (a.fits !== b.fits) {
+        return Number(b.fits) - Number(a.fits);
+      }
+      return b.score - a.score;
+    })[0];
+
+  return best?.district || places[0]?.district || restaurants[0]?.district || "zhujiang";
+}
+
+function planDayByDistrict({
+  district,
+  start,
+  end,
+  places,
+  restaurants
+}) {
+  const districtPlaces = places
+    .filter((item) => item.district === district)
+    .sort((a, b) => {
+      const aNight = (a.recommendedTime || []).includes("night");
+      const bNight = (b.recommendedTime || []).includes("night");
+
+      if (aNight !== bNight) {
+        return Number(aNight) - Number(bNight);
+      }
+
+      return (b.priority || 0) - (a.priority || 0);
+    });
+
+  const districtRestaurants = restaurants
+    .filter((item) => item.district === district)
+    .sort((a, b) => (b.priority || 0) - (a.priority || 0));
+
+  const items = [];
+  let cursor = start;
+  let previousDistrict = district;
+  let lunchAdded = false;
+  let dinnerAdded = false;
+
+  for (const place of districtPlaces) {
+    if (!lunchAdded && cursor >= 11 * 60 && cursor < 14 * 60) {
+      const lunch = findMeal(districtRestaurants, "lunch", cursor, end);
+
+      if (lunch) {
+        const mealItem = createScheduledItem(lunch, cursor, "restaurant");
+        items.push(mealItem);
+        cursor = mealItem.end + 15;
+        lunchAdded = true;
+      }
+    }
+
+    if (!dinnerAdded && cursor >= 17 * 60 && cursor < 21 * 60) {
+      const dinner = findMeal(districtRestaurants, "dinner", cursor, end);
+
+      if (dinner) {
+        const mealItem = createScheduledItem(dinner, cursor, "restaurant");
+        items.push(mealItem);
+        cursor = mealItem.end + 15;
+        dinnerAdded = true;
+      }
+    }
+
+    const travelMinutes = getTravelMinutes(previousDistrict, place.district);
+    const placeStart = Math.max(cursor + travelMinutes, timeToMinutes(place.openTime));
+    const placeEnd = placeStart + place.duration;
+
+    if (
+      placeEnd > end ||
+      placeEnd > timeToMinutes(place.closeTime)
+    ) {
+      continue;
+    }
+
+    if (travelMinutes > 0) {
+      items.push({
+        start: cursor,
+        end: cursor + travelMinutes,
+        title: `${place.name} 이동`,
+        detail: `${getDistrictLabel(place.district)} 지역 내 이동`,
+        tag: "이동",
+        type: "transport"
+      });
+    }
+
+    items.push(createScheduledItem(place, placeStart, "place"));
+    cursor = placeEnd;
+    previousDistrict = place.district;
+  }
+
+  if (!lunchAdded && cursor < 15 * 60) {
+    const lunch = findMeal(districtRestaurants, "lunch", cursor, end);
+
+    if (lunch) {
+      items.push(createScheduledItem(lunch, cursor, "restaurant"));
+      cursor += lunch.duration;
+    }
+  }
+
+  if (!dinnerAdded && cursor < end - 60) {
+    const dinner = findMeal(districtRestaurants, "dinner", Math.max(cursor, 17 * 60), end);
+
+    if (dinner) {
+      const dinnerStart = Math.max(cursor, 17 * 60);
+      items.push(createScheduledItem(dinner, dinnerStart, "restaurant"));
+    }
+  }
+
+  return items;
+}
+
+function findMeal(restaurants, mealType, cursor, end) {
+  return restaurants.find((restaurant) => {
+    const canServeMeal = restaurant.mealTypes.includes(mealType);
+    const start = Math.max(cursor, timeToMinutes(restaurant.openTime));
+    const finish = start + restaurant.duration;
+
+    return (
+      canServeMeal &&
+      finish <= end &&
+      finish <= timeToMinutes(restaurant.closeTime)
+    );
+  });
+}
+
+function createScheduledItem(item, start, sourceType) {
+  return {
+    id: item.id,
+    sourceType,
+    start,
+    end: start + item.duration,
+    title: item.name,
+    detail: item.note,
+    tag: item.category,
+    district: item.district
+  };
+}
+
+function removeScheduledItems(items, places, restaurants) {
+  const scheduledPlaceIds = new Set(
+    items
+      .filter((item) => item.sourceType === "place")
+      .map((item) => item.id)
+  );
+
+  const scheduledRestaurantIds = new Set(
+    items
+      .filter((item) => item.sourceType === "restaurant")
+      .map((item) => item.id)
+  );
+
+  removeByIds(places, scheduledPlaceIds);
+  removeByIds(restaurants, scheduledRestaurantIds);
+}
+
+function removeByIds(items, ids) {
+  for (let index = items.length - 1; index >= 0; index -= 1) {
+    if (ids.has(items[index].id)) {
+      items.splice(index, 1);
+    }
+  }
+}
+
+function normalizeItems(items) {
+  return items
+    .filter((item) => item.end > item.start)
+    .sort((a, b) => a.start - b.start);
+}
+
+function renderSchedule(schedule, context, options = {}) {
+  currentSchedule = schedule;
+  currentContext = context;
+
+  const nights = Math.max(context.dates.length - 1, 0);
+  const selectedLabel = plannerMode === "recommended"
+    ? "동선을 고려한 추천 일정"
+    : "선택한 장소 중심 일정";
+
+  scheduleResult.innerHTML = `
+    <div class="schedule-header">
+      <p class="eyebrow">${selectedLabel.toUpperCase()}</p>
+      <h3>${nights}박 ${context.dates.length}일 일정</h3>
+      <p>
+        ${formatDate(context.arrivalDate)} ${context.arrivalTime}
+        도착 · ${formatDate(context.departureDate)}
+        ${context.departureTime} 출국
+      </p>
+    </div>
+
+    ${createOverallRouteNotice(schedule)}
+
+    <div class="schedule-list">
+      ${schedule.map((day, dayIndex) => createScheduleCard(day, dayIndex)).join("")}
+    </div>
+
+    ${createExcludedItemsSection(context.excludedItems || [])}
+  `;
+
+  scheduleShareTools.hidden = false;
+  initializeLazyImages(scheduleResult);
+
+  savePlannerState({
+    renderedScheduleHtml: scheduleResult.innerHTML
+  });
+
+  if (!options.skipScroll) {
+    scheduleResult.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+}
+
+function createOverallRouteNotice(schedule) {
+  const warningDays = schedule.filter(
+    (day) => getDayRouteWarnings(day).length > 0
+  );
+
+  if (warningDays.length === 0) {
+    return "";
+  }
+
+  return `
+    <div class="route-overall-notice">
+      <strong>동선 확인이 필요한 일정이 있습니다.</strong>
+      <p>
+        지역을 반복해서 이동하는 날짜가 표시되었습니다.
+        저장은 가능하지만 실제 이동시간을 확인해주세요.
+      </p>
+    </div>
+  `;
+}
+
+function createDayRouteWarning(day) {
+  const warnings = getDayRouteWarnings(day);
+
+  if (warnings.length === 0) {
+    return "";
+  }
+
+  return `
+    <div class="day-route-warning">
+      <strong>동선 확인</strong>
+      <span>${warnings.join(" ")}</span>
+    </div>
+  `;
+}
+
+function getDayRouteWarnings(day) {
+  const districtItems = day.items.filter(
+    (item) =>
+      item.district &&
+      item.sourceType !== "transport" &&
+      item.type !== "transport"
+  );
+
+  if (districtItems.length < 3) {
+    return [];
+  }
+
+  const sequence = districtItems.map((item) => item.district);
+  const compact = sequence.filter(
+    (district, index) =>
+      index === 0 || district !== sequence[index - 1]
+  );
+
+  const warnings = [];
+  const visited = new Set();
+  let repeatedDistrict = false;
+
+  compact.forEach((district) => {
+    if (visited.has(district)) {
+      repeatedDistrict = true;
+    }
+    visited.add(district);
+  });
+
+  if (repeatedDistrict) {
+    warnings.push(
+      "이미 방문한 지역으로 다시 돌아가는 일정입니다."
+    );
+  }
+
+  if (compact.length >= 4) {
+    warnings.push(
+      `지역 이동이 ${compact.length - 1}회 포함되어 있습니다.`
+    );
+  }
+
+  return warnings;
+}
+
+function createExcludedItemsSection(items) {
+  if (!items || items.length === 0) {
+    return "";
+  }
+
+  return `
+    <section class="excluded-section">
+      <div class="excluded-heading">
+        <p class="eyebrow">NOT INCLUDED</p>
+        <h4>일정에 포함되지 않은 선택 항목</h4>
+        <p>
+          시간이 부족하거나 운영시간과 맞지 않아 자동 일정에
+          넣지 못했습니다. 날짜별 일정 추가 버튼으로 직접 넣을 수 있습니다.
+        </p>
+      </div>
+
+      <div class="excluded-list">
+        ${items.map((item) => `
+          <div class="excluded-item">
+            <div>
+              <strong>${item.name}</strong>
+              <span>${item.itemType}</span>
+            </div>
+            <p>${item.reason}</p>
+          </div>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function createScheduleCard(day, dayIndex) {
+  const totalDuration = calculateDayDuration(day.items);
+
+  return `
+    <article class="schedule-card">
+      <div class="schedule-card-top">
+        <div>
+          <div class="date-label">
+            DAY ${day.index + 1}<br>
+            ${formatShortDate(new Date(day.date))}
+          </div>
+          <div class="day-duration">전체 일정 ${totalDuration}</div>
+        </div>
+
+        <h4>${day.title}</h4>
+      </div>
+
+      ${createDayRouteWarning(day)}
+
+      <div class="timeline">
+        ${day.items.length > 0
+          ? day.items
+              .map((item, itemIndex) =>
+                createTimelineItem(item, dayIndex, itemIndex)
+              )
+              .join("")
+          : `
+            <div class="timeline-empty">
+              이용 가능한 시간이 부족해 별도 일정이 없습니다.
+            </div>
+          `}
+      </div>
+
+      <button
+        class="add-schedule-button"
+        type="button"
+        data-add-day="${dayIndex}"
+      >
+        + 이 날짜에 일정 추가
+      </button>
+    </article>
+  `;
+}
+
+function createTimelineItem(item, dayIndex, itemIndex) {
+  const weddingEventClass = item.isWeddingEvent ? "wedding-event" : "";
+  const locked = item.isWeddingEvent;
+  const sourceItem = getScheduleSourceItem(item);
+  const isTransport =
+    item.sourceType === "transport" ||
+    item.type === "transport";
+
+  const itemType =
+    item.sourceType === "restaurant"
+      ? "restaurant"
+      : "place";
+
+  const rawImage =
+    getThumbnailImage(sourceItem) ||
+    (item.isWeddingEvent
+      ? getThumbnailImage(PLACES.weddingHotel)
+      : "");
+
+  const imageMarkup =
+    rawImage && !isTransport
+      ? `
+        <button
+          class="timeline-thumbnail"
+          type="button"
+          ${item.id
+            ? `data-detail-id="${item.id}" data-detail-type="${itemType}"`
+            : ""}
+          aria-label="${escapeHtml(item.title)} 상세보기"
+        >
+          ${createLazyImageMarkup({
+            src: rawImage,
+            alt: `${item.title} 대표 사진`,
+            className: "timeline-thumbnail-image",
+            fallbackType: "timeline"
+          })}
+        </button>
+      `
+      : "";
+
+  const chineseName = sourceItem?.chineseName
+    ? `<span class="timeline-chinese-name">${escapeHtml(sourceItem.chineseName)}</span>`
+    : "";
+
+  const shortDescription =
+    sourceItem?.note ||
+    item.detail ||
+    "";
+
+  const desktopActions = locked
+    ? `
+      <div class="timeline-edit-actions desktop-card-actions">
+        ${item.id
+          ? `<button
+              class="detail-button"
+              type="button"
+              data-detail-id="${item.id}"
+              data-detail-type="${itemType}"
+            >상세보기</button>`
+          : ""}
+        <span class="locked-schedule-label">필수 일정</span>
+      </div>
+    `
+    : `
+      <div class="timeline-edit-actions desktop-card-actions">
+        ${item.id
+          ? `<button
+              class="detail-button"
+              type="button"
+              data-detail-id="${item.id}"
+              data-detail-type="${itemType}"
+            >상세보기</button>`
+          : ""}
+        <button
+          class="timeline-edit-button"
+          type="button"
+          data-edit-item
+          data-day-index="${dayIndex}"
+          data-item-index="${itemIndex}"
+        >편집</button>
+        <button
+          class="timeline-delete-button"
+          type="button"
+          data-delete-item
+          data-day-index="${dayIndex}"
+          data-item-index="${itemIndex}"
+        >삭제</button>
+      </div>
+    `;
+
+  const mobileMenuButton = locked
+    ? ""
+    : `
+      <button
+        class="timeline-more-button"
+        type="button"
+        aria-label="${escapeHtml(item.title)} 일정 관리"
+        data-open-action-sheet
+        data-day-index="${dayIndex}"
+        data-item-index="${itemIndex}"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    `;
+
+  const draggableAttributes = locked
+    ? ""
+    : `draggable="true"
+       data-draggable-item
+       data-day-index="${dayIndex}"
+       data-item-index="${itemIndex}"`;
+
+  const reorderControls = locked
+    ? ""
+    : `
+      <div class="timeline-reorder-controls desktop-reorder-controls">
+        <button
+          class="timeline-drag-handle"
+          type="button"
+          aria-label="${escapeHtml(item.title)} 일정 순서 변경"
+          title="드래그해서 순서 변경"
+          data-drag-handle
+        >
+          <span></span><span></span><span></span>
+        </button>
+        <div class="timeline-step-buttons">
+          <button
+            type="button"
+            aria-label="위로 이동"
+            data-move-item="-1"
+            data-day-index="${dayIndex}"
+            data-item-index="${itemIndex}"
+            ${itemIndex === 0 ? "disabled" : ""}
+          >↑</button>
+          <button
+            type="button"
+            aria-label="아래로 이동"
+            data-move-item="1"
+            data-day-index="${dayIndex}"
+            data-item-index="${itemIndex}"
+          >↓</button>
+        </div>
+      </div>
+    `;
+
+  const compactMeta = [
+    sourceItem?.district
+      ? `<span class="district-tag">${escapeHtml(getDistrictLabel(sourceItem.district))}</span>`
+      : "",
+    `<span class="place-tag">${escapeHtml(item.tag)}</span>`,
+    `<span class="duration-tag">⏱ ${formatDuration(item.end - item.start)}</span>`
+  ].filter(Boolean).join("");
+
+  const transportBody = isTransport
+    ? `
+      <div class="transport-route-visual">
+        <span>${escapeHtml(item.transportFrom || "출발지")}</span>
+        <i aria-hidden="true">↓</i>
+        <strong>${escapeHtml(item.transportTo || "도착지")}</strong>
+      </div>
+      <p class="timeline-detail">
+        ${escapeHtml(item.transportMode || "이동")}
+      </p>
+    `
+    : `
+      <div class="timeline-title-row">
+        <p class="timeline-title" title="${escapeHtml(item.title)}">
+          ${escapeHtml(item.title)}
+        </p>
+        ${chineseName}
+      </div>
+      <p class="timeline-detail">${escapeHtml(shortDescription)}</p>
+    `;
+
+  const weddingBody = item.isWeddingEvent
+    ? `
+      <div class="wedding-mobile-heading">
+        <span class="wedding-event-label">WEDDING DAY</span>
+        <strong title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</strong>
+        ${chineseName}
+      </div>
+      <p class="timeline-detail">${escapeHtml(shortDescription)}</p>
+    `
+    : transportBody;
+
+  return `
+    <article
+      class="timeline-item ${weddingEventClass} ${isTransport ? "transport-event" : "place-event"}"
+      ${draggableAttributes}
+      data-day-index="${dayIndex}"
+      data-item-index="${itemIndex}"
+    >
+      ${reorderControls}
+      ${mobileMenuButton}
+
+      <div class="timeline-time">
+        <span>${formatTime(item.start)}</span>
+        <small>${formatTime(item.end)}</small>
+      </div>
+
+      <div class="timeline-content">
+        <div class="timeline-card-layout">
+          ${imageMarkup}
+
+          <div class="timeline-card-copy">
+            ${weddingBody}
+
+            <div class="timeline-meta">
+              ${compactMeta}
+            </div>
+
+            ${desktopActions}
+          </div>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function openScheduleActionSheet(dayIndex, itemIndex) {
+  const day = currentSchedule[dayIndex];
+  const item = day?.items?.[itemIndex];
+
+  if (!item || item.isWeddingEvent) {
+    return;
+  }
+
+  activeScheduleAction = {
+    dayIndex,
+    itemIndex
+  };
+
+  scheduleActionTitle.textContent = item.title;
+  scheduleActionSheet.classList.add("open");
+  scheduleActionSheet.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+
+  const detailButton =
+    scheduleActionSheet.querySelector('[data-sheet-action="detail"]');
+
+  detailButton.hidden = !item.id;
+}
+
+function closeScheduleActionSheet() {
+  scheduleActionSheet.classList.remove("open");
+  scheduleActionSheet.setAttribute("aria-hidden", "true");
+  activeScheduleAction = null;
+
+  if (
+    !detailModal.classList.contains("open") &&
+    !scheduleEditModal.classList.contains("open") &&
+    !sharedPlanModal.classList.contains("open") &&
+    !travelGuideModal.classList.contains("open")
+  ) {
+    document.body.classList.remove("modal-open");
+  }
+}
+
+function handleScheduleSheetAction(action) {
+  if (!activeScheduleAction) {
+    return;
+  }
+
+  const { dayIndex, itemIndex } = activeScheduleAction;
+  const item = currentSchedule[dayIndex]?.items?.[itemIndex];
+
+  if (!item) {
+    closeScheduleActionSheet();
+    return;
+  }
+
+  closeScheduleActionSheet();
+
+  if (action === "detail" && item.id) {
+    openDetailModal(
+      item.id,
+      item.sourceType === "restaurant"
+        ? "restaurant"
+        : "place"
+    );
+    return;
+  }
+
+  if (action === "edit") {
+    openScheduleEditModal({
+      mode: "edit",
+      dayIndex,
+      itemIndex
+    });
+    return;
+  }
+
+  if (action === "delete") {
+    deleteScheduleItem(dayIndex, itemIndex);
+    return;
+  }
+
+  if (action === "move-up") {
+    moveScheduleItemByStep(dayIndex, itemIndex, -1);
+    return;
+  }
+
+  if (action === "move-down") {
+    moveScheduleItemByStep(dayIndex, itemIndex, 1);
+  }
+}
+
+function getScheduleSourceItem(item) {
+  if (!item?.id) {
+    return null;
+  }
+
+  if (item.sourceType === "restaurant") {
+    return RESTAURANTS[item.id] || null;
+  }
+
+  return PLACES[item.id] || RESTAURANTS[item.id] || null;
+}
+
+function bindScheduleDragEvents() {
+  scheduleResult.addEventListener("dragstart", handleScheduleDragStart);
+  scheduleResult.addEventListener("dragover", handleScheduleDragOver);
+  scheduleResult.addEventListener("drop", handleScheduleDrop);
+  scheduleResult.addEventListener("dragend", clearScheduleDragState);
+
+  scheduleResult.addEventListener("pointerdown", handlePointerDragStart);
+  window.addEventListener("pointermove", handlePointerDragMove);
+  window.addEventListener("pointerup", handlePointerDragEnd);
+  window.addEventListener("pointercancel", handlePointerDragEnd);
+}
+
+function handleScheduleDragStart(event) {
+  const itemElement = event.target.closest("[data-draggable-item]");
+
+  if (!itemElement || event.target.closest("button:not([data-drag-handle])")) {
+    event.preventDefault();
+    return;
+  }
+
+  dragState = {
+    dayIndex: Number(itemElement.dataset.dayIndex),
+    itemIndex: Number(itemElement.dataset.itemIndex),
+    element: itemElement
+  };
+
+  itemElement.classList.add("is-dragging");
+  event.dataTransfer.effectAllowed = "move";
+  event.dataTransfer.setData("text/plain", "schedule-item");
+}
+
+function handleScheduleDragOver(event) {
+  if (!dragState) {
+    return;
+  }
+
+  const target = event.target.closest("[data-draggable-item]");
+
+  if (
+    !target ||
+    Number(target.dataset.dayIndex) !== dragState.dayIndex
+  ) {
+    return;
+  }
+
+  event.preventDefault();
+  event.dataTransfer.dropEffect = "move";
+
+  const timeline = target.closest(".timeline");
+  const dragging = dragState.element;
+
+  if (!timeline || !dragging || target === dragging) {
+    return;
+  }
+
+  const rect = target.getBoundingClientRect();
+  const insertAfter = event.clientY > rect.top + rect.height / 2;
+
+  timeline.insertBefore(
+    dragging,
+    insertAfter ? target.nextSibling : target
+  );
+}
+
+function handleScheduleDrop(event) {
+  if (!dragState) {
+    return;
+  }
+
+  event.preventDefault();
+  commitDomScheduleOrder(dragState.dayIndex);
+  clearScheduleDragState();
+}
+
+function clearScheduleDragState() {
+  if (dragState?.element) {
+    dragState.element.classList.remove("is-dragging");
+  }
+
+  dragState = null;
+}
+
+function handlePointerDragStart(event) {
+  const handle = event.target.closest("[data-drag-handle]");
+
+  if (!handle || event.pointerType === "mouse") {
+    return;
+  }
+
+  const itemElement = handle.closest("[data-draggable-item]");
+
+  if (!itemElement) {
+    return;
+  }
+
+  event.preventDefault();
+  handle.setPointerCapture?.(event.pointerId);
+
+  pointerDragState = {
+    pointerId: event.pointerId,
+    dayIndex: Number(itemElement.dataset.dayIndex),
+    element: itemElement,
+    startY: event.clientY,
+    moved: false
+  };
+
+  itemElement.classList.add("is-pointer-dragging");
+  document.body.classList.add("schedule-drag-active");
+}
+
+function handlePointerDragMove(event) {
+  if (
+    !pointerDragState ||
+    event.pointerId !== pointerDragState.pointerId
+  ) {
+    return;
+  }
+
+  event.preventDefault();
+
+  if (Math.abs(event.clientY - pointerDragState.startY) > 5) {
+    pointerDragState.moved = true;
+  }
+
+  const target = document
+    .elementFromPoint(event.clientX, event.clientY)
+    ?.closest("[data-draggable-item]");
+
+  if (
+    !target ||
+    target === pointerDragState.element ||
+    Number(target.dataset.dayIndex) !== pointerDragState.dayIndex
+  ) {
+    return;
+  }
+
+  const timeline = target.closest(".timeline");
+  const rect = target.getBoundingClientRect();
+  const insertAfter = event.clientY > rect.top + rect.height / 2;
+
+  timeline.insertBefore(
+    pointerDragState.element,
+    insertAfter ? target.nextSibling : target
+  );
+
+  const edge = 80;
+
+  if (event.clientY < edge) {
+    window.scrollBy(0, -12);
+  } else if (event.clientY > window.innerHeight - edge) {
+    window.scrollBy(0, 12);
+  }
+}
+
+function handlePointerDragEnd(event) {
+  if (
+    !pointerDragState ||
+    event.pointerId !== pointerDragState.pointerId
+  ) {
+    return;
+  }
+
+  const { dayIndex, element, moved } = pointerDragState;
+
+  element.classList.remove("is-pointer-dragging");
+  document.body.classList.remove("schedule-drag-active");
+  pointerDragState = null;
+
+  if (moved) {
+    commitDomScheduleOrder(dayIndex);
+  }
+}
+
+function commitDomScheduleOrder(dayIndex) {
+  const day = currentSchedule[dayIndex];
+
+  if (!day) {
+    return;
+  }
+
+  const card = scheduleResult.querySelectorAll(".schedule-card")[dayIndex];
+  const itemElements = card
+    ? [...card.querySelectorAll("[data-draggable-item], .wedding-event")]
+    : [];
+
+  if (itemElements.length !== day.items.length) {
+    renderSchedule(currentSchedule, currentContext, { skipScroll: true });
+    return;
+  }
+
+  const oldItems = day.items.map((item) => ({ ...item }));
+  const reordered = itemElements.map((element) => {
+    const originalIndex = Number(element.dataset.itemIndex);
+    return { ...oldItems[originalIndex] };
+  });
+
+  const result = reflowOrderedDayItems(reordered);
+
+  if (!result.ok) {
+    renderSchedule(currentSchedule, currentContext, { skipScroll: true });
+    showStorageStatus(result.message);
+    return;
+  }
+
+  day.items = result.items;
+  renderSchedule(currentSchedule, currentContext, { skipScroll: true });
+
+  const transportWarning = findTransportOrderWarning(day.items);
+  const routeWarnings = getDayRouteWarnings(day);
+
+  showStorageStatus(
+    transportWarning ||
+    (routeWarnings.length > 0
+      ? "순서를 변경했습니다. 동선을 다시 확인해주세요."
+      : "일정 순서와 시간이 자동으로 변경되었습니다.")
+  );
+}
+
+function moveScheduleItemByStep(dayIndex, itemIndex, step) {
+  const day = currentSchedule[dayIndex];
+  const targetIndex = itemIndex + step;
+
+  if (
+    !day ||
+    targetIndex < 0 ||
+    targetIndex >= day.items.length
+  ) {
+    return;
+  }
+
+  if (
+    day.items[itemIndex]?.isWeddingEvent ||
+    day.items[targetIndex]?.isWeddingEvent
+  ) {
+    showStorageStatus("결혼식 일정은 위치를 변경할 수 없습니다.");
+    return;
+  }
+
+  const reordered = day.items.map((item) => ({ ...item }));
+  const [moved] = reordered.splice(itemIndex, 1);
+  reordered.splice(targetIndex, 0, moved);
+
+  const result = reflowOrderedDayItems(reordered);
+
+  if (!result.ok) {
+    showStorageStatus(result.message);
+    return;
+  }
+
+  day.items = result.items;
+  renderSchedule(currentSchedule, currentContext, { skipScroll: true });
+  showStorageStatus(
+    findTransportOrderWarning(day.items) ||
+    "일정 순서와 시간이 자동으로 변경되었습니다."
+  );
+}
+
+function reflowOrderedDayItems(items) {
+  const ordered = items.map((item) => ({ ...item }));
+  const weddingIndex = ordered.findIndex((item) => item.isWeddingEvent);
+  const dayStart = Math.max(
+    8 * 60,
+    Math.min(...ordered.map((item) => item.start))
+  );
+
+  if (weddingIndex === -1) {
+    let cursor = dayStart;
+
+    for (const item of ordered) {
+      const duration = item.end - item.start;
+      item.start = cursor;
+      item.end = cursor + duration;
+      cursor = item.end;
+
+      if (item.end > 24 * 60) {
+        return {
+          ok: false,
+          message: "순서를 변경하면 일정이 24시를 넘습니다."
+        };
+      }
+    }
+
+    return { ok: true, items: ordered };
+  }
+
+  const wedding = ordered[weddingIndex];
+  let cursor = dayStart;
+
+  for (let index = 0; index < weddingIndex; index += 1) {
+    const item = ordered[index];
+    const duration = item.end - item.start;
+    item.start = cursor;
+    item.end = cursor + duration;
+    cursor = item.end;
+
+    if (item.end > wedding.start) {
+      return {
+        ok: false,
+        message: "변경한 순서로는 결혼식 시작 전 일정을 모두 배치할 수 없습니다."
+      };
+    }
+  }
+
+  cursor = wedding.end;
+
+  for (let index = weddingIndex + 1; index < ordered.length; index += 1) {
+    const item = ordered[index];
+    const duration = item.end - item.start;
+    item.start = cursor;
+    item.end = cursor + duration;
+    cursor = item.end;
+
+    if (item.end > 24 * 60) {
+      return {
+        ok: false,
+        message: "변경한 순서로는 결혼식 이후 일정이 24시를 넘습니다."
+      };
+    }
+  }
+
+  return { ok: true, items: ordered };
+}
+
+function findTransportOrderWarning(items) {
+  for (let index = 0; index < items.length; index += 1) {
+    const item = items[index];
+
+    if (
+      item.sourceType !== "transport" &&
+      item.type !== "transport"
+    ) {
+      continue;
+    }
+
+    if (!item.transportFrom || !item.transportTo) {
+      continue;
+    }
+
+    const previous = items[index - 1];
+    const next = items[index + 1];
+
+    if (
+      (previous && !item.title.includes(previous.title)) ||
+      (next && !item.title.includes(next.title))
+    ) {
+      return "순서는 변경됐지만 이동 일정의 출발지·도착지를 확인해주세요.";
+    }
+  }
+
+  return "";
+}
+
+function calculateDayDuration(items) {
+  return formatDuration(
+    items.reduce((sum, item) => sum + (item.end - item.start), 0)
+  );
+}
+
+function getSelectedItems(className, sourceObject) {
+  return [...document.querySelectorAll(`.${className}:checked`)]
+    .map((input) => sourceObject[input.value])
+    .filter(Boolean);
+}
+
+function openScheduleEditModal(target) {
+  if (!currentSchedule[target.dayIndex]) {
+    return;
+  }
+
+  editTarget = target;
+  editFormMessage.textContent = "";
+
+  if (target.mode === "edit") {
+    const item = currentSchedule[target.dayIndex].items[target.itemIndex];
+
+    if (!item || item.isWeddingEvent) {
+      return;
+    }
+
+    scheduleEditTitle.textContent = "일정 편집";
+    editItemType.value = item.sourceType || item.type || "custom";
+    updateEditItemOptions();
+
+    if (item.id) {
+      editItemSelect.value = item.id;
+    }
+
+    editCustomTitle.value =
+      item.sourceType === "custom" || (!item.sourceType && !item.type)
+        ? item.title
+        : "";
+
+    editTransportFrom.value = item.transportFrom || "";
+    editTransportTo.value = item.transportTo || "";
+    editTransportMode.value = item.transportMode || "도보";
+
+    editStartTime.value = formatTime(item.start);
+    setDurationValue(item.end - item.start);
+  } else {
+    scheduleEditTitle.textContent = "일정 추가";
+    editItemType.value = target.itemType || "place";
+    updateEditItemOptions();
+
+    if (target.itemId) {
+      editItemSelect.value = target.itemId;
+
+      if (editItemSelect.value !== target.itemId) {
+        editFormMessage.textContent =
+          "선택한 장소를 일정 목록에서 찾지 못했습니다.";
+      }
+    }
+
+    editCustomTitle.value = "";
+    editTransportFrom.value = "";
+    editTransportTo.value = "";
+    editTransportMode.value = "도보";
+    editStartTime.value = findSuggestedStartTime(target.dayIndex);
+    editDuration.value = String(target.duration || 90);
+  }
+
+  renderEditItemPreview(false);
+
+  scheduleEditModal.classList.add("open");
+  scheduleEditModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
+
+function closeScheduleEditModal() {
+  scheduleEditModal.classList.remove("open");
+  scheduleEditModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+  editTarget = null;
+}
+
+function updateEditItemOptions() {
+  const type = editItemType.value;
+  const isCustom = type === "custom";
+  const isTransport = type === "transport";
+  const usesSelect = type === "place" || type === "restaurant";
+
+  editItemSelectField.hidden = !usesSelect;
+  editCustomTitleField.hidden = !isCustom;
+  editTransportFields.hidden = !isTransport;
+  editItemPreview.hidden = !usesSelect;
+
+  if (!usesSelect) {
+    editItemSelect.innerHTML = "";
+    clearEditItemPreview();
+    return;
+  }
+
+  const items =
+    type === "restaurant"
+      ? RESTAURANT_OPTIONS
+      : PLACE_OPTIONS;
+
+  editItemSelect.innerHTML = items
+    .map(
+      (item) => `
+        <option value="${item.id}">
+          ${item.name} · ${getDistrictLabel(item.district)} · ${item.category || ""}
+        </option>
+      `
+    )
+    .join("");
+
+  renderEditItemPreview(false);
+}
+
+function getEditSelectedItem() {
+  const type = editItemType.value;
+  const itemId = editItemSelect.value;
+
+  if (type === "restaurant") {
+    return RESTAURANTS[itemId] || null;
+  }
+
+  if (type === "place") {
+    return PLACES[itemId] || null;
+  }
+
+  return null;
+}
+
+function clearEditItemPreview() {
+  editItemPreview.hidden = true;
+  editItemPreviewImage.removeAttribute("src");
+  editItemPreviewTags.innerHTML = "";
+  editItemPreviewDescription.textContent = "";
+}
+
+function renderEditItemPreview(updateDuration = false) {
+  const item = getEditSelectedItem();
+
+  if (!item) {
+    clearEditItemPreview();
+    return;
+  }
+
+  const itemType = editItemType.value;
+  const rawImage = getThumbnailImage(item);
+
+  editItemPreview.hidden = false;
+  editItemPreviewImage.onerror = () => {
+    editItemPreviewImage.onerror = null;
+    editItemPreviewImage.src = resolveAssetUrl(
+      "images/places/default-place.svg"
+    );
+    editItemPreviewStatus.hidden = false;
+  };
+
+  editItemPreviewImage.src = resolveAssetUrl(rawImage);
+  editItemPreviewImage.alt = `${item.name} 대표 사진`;
+  editItemPreviewStatus.hidden = !isPlaceholderImage(rawImage);
+
+  setText(editItemPreviewName, item.name);
+  setText(editItemPreviewChinese, item.chineseName || "");
+  setText(
+    editItemPreviewDescription,
+    item.note || item.tips || "상세 설명을 준비 중입니다."
+  );
+  setText(editItemPreviewAddress, item.addressZh || "주소 준비 중");
+  setText(
+    editItemPreviewDuration,
+    formatDuration(item.duration || 90)
+  );
+  setText(
+    editItemPreviewHours,
+    item.hours || formatOpeningHours(item)
+  );
+
+  const tags = [
+    getDistrictLabel(item.district),
+    item.category,
+    ...(item.tags || []).slice(0, 2)
+  ].filter(Boolean);
+
+  editItemPreviewTags.innerHTML = tags
+    .map((tag) => `<span>${escapeHtml(tag)}</span>`)
+    .join("");
+
+  editItemPreviewDetailButton.dataset.itemId = item.id;
+  editItemPreviewDetailButton.dataset.itemType = itemType;
+
+  if (updateDuration && item.duration) {
+    editDuration.value = String(item.duration);
+  }
+}
+
+function saveScheduleEdit(event) {
+  event.preventDefault();
+
+  if (!editTarget || !currentSchedule[editTarget.dayIndex]) {
+    return;
+  }
+
+  const type = editItemType.value;
+  const start = timeToMinutes(editStartTime.value);
+  const duration = Number(editDuration.value);
+  let newItem;
+
+  if (
+    !editStartTime.value ||
+    !Number.isFinite(duration) ||
+    duration < 5 ||
+    duration > 960
+  ) {
+    showEditError(
+      "시작시간과 소요시간을 확인해주세요. 소요시간은 5~960분 사이로 입력할 수 있습니다."
+    );
+    return;
+  }
+
+  if (type === "transport") {
+    const transportFrom = editTransportFrom.value.trim();
+    const transportTo = editTransportTo.value.trim();
+    const transportMode = editTransportMode.value;
+
+    if (!transportFrom || !transportTo) {
+      showEditError("이동 일정의 출발지와 도착지를 입력해주세요.");
+      return;
+    }
+
+    newItem = {
+      start,
+      end: start + duration,
+      title: `${transportFrom} → ${transportTo}`,
+      detail: `${transportMode} 이동 · 직접 입력한 이동시간`,
+      tag: "이동",
+      type: "transport",
+      sourceType: "transport",
+      transportFrom,
+      transportTo,
+      transportMode
+    };
+  } else if (type === "custom") {
+    const title = editCustomTitle.value.trim();
+
+    if (!title) {
+      showEditError("직접 입력할 일정 이름을 적어주세요.");
+      return;
+    }
+
+    newItem = {
+      start,
+      end: start + duration,
+      title,
+      detail: "사용자가 직접 추가한 일정입니다.",
+      tag: "개인 일정",
+      sourceType: "custom"
+    };
+  } else {
+    const source = type === "restaurant" ? RESTAURANTS : PLACES;
+    const selected = source[editItemSelect.value];
+
+    if (!selected) {
+      showEditError("장소 또는 식사를 선택해주세요.");
+      return;
+    }
+
+    newItem = {
+      id: selected.id,
+      sourceType: type,
+      start,
+      end: start + duration,
+      title: selected.name,
+      detail: selected.note,
+      tag: selected.category,
+      district: selected.district
+    };
+  }
+
+  const day = currentSchedule[editTarget.dayIndex];
+  const candidateItems = day.items.map((item) => ({ ...item }));
+
+  if (editTarget.mode === "edit") {
+    candidateItems[editTarget.itemIndex] = newItem;
+  } else {
+    candidateItems.push(newItem);
+  }
+
+  const result = reflowDayItems(candidateItems);
+
+  if (!result.ok) {
+    showEditError(result.message);
+    return;
+  }
+
+  day.items = result.items;
+  renderSchedule(currentSchedule, currentContext, { skipScroll: true });
+  closeScheduleEditModal();
+
+  const routeWarnings = getDayRouteWarnings(day);
+
+  showStorageStatus(
+    routeWarnings.length > 0
+      ? "일정은 저장됐지만 동선 확인이 필요합니다."
+      : "수정한 일정이 자동 저장되었습니다."
+  );
+}
+
+function deleteScheduleItem(dayIndex, itemIndex) {
+  const day = currentSchedule[dayIndex];
+  const item = day?.items[itemIndex];
+
+  if (!item || item.isWeddingEvent) {
+    return;
+  }
+
+  const confirmed = window.confirm(`“${item.title}” 일정을 삭제할까요?`);
+
+  if (!confirmed) {
+    return;
+  }
+
+  day.items.splice(itemIndex, 1);
+  renderSchedule(currentSchedule, currentContext, { skipScroll: true });
+  showStorageStatus("일정을 삭제하고 자동 저장했습니다.");
+}
+
+function reflowDayItems(items) {
+  const sorted = items
+    .filter((item) => item.end > item.start)
+    .sort((a, b) => a.start - b.start)
+    .map((item) => ({ ...item }));
+
+  for (let index = 0; index < sorted.length; index += 1) {
+    const current = sorted[index];
+    const duration = current.end - current.start;
+
+    if (current.start < 8 * 60 && !isTransportOrAirportItem(current)) {
+      current.start = 8 * 60;
+      current.end = current.start + duration;
+    }
+
+    if (index > 0) {
+      const previous = sorted[index - 1];
+
+      if (current.start < previous.end) {
+        if (current.isWeddingEvent) {
+          return {
+            ok: false,
+            message: "변경한 일정이 결혼식 시간과 겹칩니다. 시작시간이나 소요시간을 줄여주세요."
+          };
+        }
+
+        current.start = previous.end;
+        current.end = current.start + duration;
+      }
+    }
+
+    if (current.end > 24 * 60) {
+      return {
+        ok: false,
+        message: "뒤 일정을 이동하면 24시를 넘습니다. 시작시간이나 소요시간을 줄여주세요."
+      };
+    }
+  }
+
+  return { ok: true, items: sorted };
+}
+
+function isTransportOrAirportItem(item) {
+  return item.type === "transport" || item.sourceType === "transport";
+}
+
+function findSuggestedStartTime(dayIndex) {
+  const items = currentSchedule[dayIndex]?.items || [];
+  const lastEnd = items.reduce(
+    (latest, item) => Math.max(latest, item.end),
+    8 * 60
+  );
+  return formatTime(Math.min(lastEnd, 22 * 60));
+}
+
+function setDurationValue(duration) {
+  const normalized = Math.max(
+    5,
+    Math.min(960, Math.round(duration / 5) * 5)
+  );
+
+  editDuration.value = String(normalized);
+}
+
+function showEditError(message) {
+  editFormMessage.textContent = message;
+}

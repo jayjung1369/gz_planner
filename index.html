@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Guangzhou Wedding Journey</title>
-  <link rel="stylesheet" href="style.css?v=25">
+  <title>Guangzhou Wedding Journey</title>  <link rel="stylesheet" href="css/base.css?v=29">
+  <link rel="stylesheet" href="css/layout.css?v=29">
+  <link rel="stylesheet" href="css/planner.css?v=29">
+  <link rel="stylesheet" href="css/detail.css?v=29">
+  <link rel="stylesheet" href="css/drag.css?v=29">
+  <link rel="stylesheet" href="css/guide.css?v=29">
+  <link rel="stylesheet" href="css/planner-cards.css?v=29">
+  <link rel="stylesheet" href="css/travel.css?v=29">
+  <link rel="stylesheet" href="css/mobile.css?v=29">
 </head>
 <body>
   <header class="site-header">
@@ -221,6 +228,23 @@
       </div>
 
       <div class="travel-library-grid reveal" id="travelLibraryGrid"></div>
+
+      <div class="travel-load-more-wrap">
+        <button
+          class="travel-load-more"
+          id="travelLoadMoreButton"
+          type="button"
+          hidden
+        >
+          더 보기
+        </button>
+        <div
+          class="travel-load-sentinel"
+          id="travelLoadSentinel"
+          aria-hidden="true"
+          hidden
+        ></div>
+      </div>
     </section>
 
     <section class="section soft-section" id="guide">
@@ -432,6 +456,51 @@
     </section>
   </div>
 
+
+  <div class="schedule-action-sheet" id="scheduleActionSheet" aria-hidden="true">
+    <div class="schedule-action-backdrop" data-close-action-sheet></div>
+
+    <section
+      class="schedule-action-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="scheduleActionTitle"
+    >
+      <div class="schedule-action-grabber" aria-hidden="true"></div>
+
+      <header class="schedule-action-header">
+        <div>
+          <span>일정 관리</span>
+          <strong id="scheduleActionTitle">선택한 일정</strong>
+        </div>
+        <button
+          class="schedule-action-close"
+          type="button"
+          aria-label="일정 관리 메뉴 닫기"
+          data-close-action-sheet
+        >×</button>
+      </header>
+
+      <div class="schedule-action-list">
+        <button type="button" data-sheet-action="detail">
+          <span>상세보기</span><small>장소 정보 확인</small>
+        </button>
+        <button type="button" data-sheet-action="edit">
+          <span>편집</span><small>시간과 내용을 수정</small>
+        </button>
+        <button type="button" data-sheet-action="move-up">
+          <span>위로 이동</span><small>이전 일정 앞으로 이동</small>
+        </button>
+        <button type="button" data-sheet-action="move-down">
+          <span>아래로 이동</span><small>다음 일정 뒤로 이동</small>
+        </button>
+        <button class="danger" type="button" data-sheet-action="delete">
+          <span>삭제</span><small>이 일정을 제거</small>
+        </button>
+      </div>
+    </section>
+  </div>
+
   <div class="schedule-edit-modal" id="scheduleEditModal" aria-hidden="true">
     <div class="schedule-edit-backdrop" data-close-edit-modal></div>
 
@@ -572,6 +641,17 @@
     </section>
   </div>
 
-  <script src="script.js"></script>
+  <script src="js/state.js?v=29"></script>
+  <script src="js/modules/utils.js?v=29"></script>
+  <script src="js/modules/image-loader.js?v=29"></script>
+  <script src="js/modules/data.js?v=29"></script>
+  <script src="js/modules/planner.js?v=29"></script>
+  <script src="js/modules/travel.js?v=29"></script>
+  <script src="js/modules/guide.js?v=29"></script>
+  <script src="js/modules/detail.js?v=29"></script>
+  <script src="js/modules/storage.js?v=29"></script>
+  <script src="js/modules/share.js?v=29"></script>
+  <script src="js/modules/events.js?v=29"></script>
+  <script src="js/app.js?v=29"></script>
 </body>
 </html>
