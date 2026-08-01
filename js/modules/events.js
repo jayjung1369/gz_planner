@@ -274,8 +274,24 @@ function bindEvents() {
       return;
     }
 
+    detailReturnToEditContext = {
+      target: editTarget
+        ? { ...editTarget }
+        : null,
+      draft: {
+        type: editItemType.value,
+        selectedItemId: editItemSelect.value,
+        customTitle: editCustomTitle.value,
+        transportFrom: editTransportFrom.value,
+        transportTo: editTransportTo.value,
+        transportMode: editTransportMode.value,
+        startTime: editStartTime.value,
+        duration: editDuration.value
+      }
+    };
+
     closeScheduleEditModal();
-    openDetailModal(itemId, itemType);
+    openDetailModal(itemId, itemType, { returnToEdit: true });
   });
   scheduleEditForm.addEventListener("submit", saveScheduleEdit);
 

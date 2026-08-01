@@ -1,6 +1,10 @@
 /* Sprint 1-2 detail module. Classic scripts preserve existing global behavior. */
 
-function openDetailModal(itemId, itemType) {
+function openDetailModal(itemId, itemType, options = {}) {
+  if (!options.returnToEdit) {
+    detailReturnToEditContext = null;
+  }
+
   const source = itemType === "restaurant" ? RESTAURANTS : PLACES;
   const item = source[itemId];
 
@@ -437,10 +441,42 @@ function addActiveDetailFromMobile() {
 }
 
 function closeDetailModal() {
+  const returnContext = detailReturnToEditContext;
+
   detailModal.classList.remove("open");
   detailModal.setAttribute("aria-hidden", "true");
   document.body.classList.remove("modal-open");
   activeDetailItem = null;
+  detailReturnToEditContext = null;
+
+  if (!returnContext?.target) {
+    return;
+  }
+
+  openScheduleEditModal(returnContext.target);
+
+  if (!returnContext.draft) {
+    return;
+  }
+
+  editItemType.value = returnContext.draft.type || editItemType.value;
+  updateEditItemOptions();
+
+  if (returnContext.draft.selectedItemId) {
+    editItemSelect.value = returnContext.draft.selectedItemId;
+  }
+
+  editCustomTitle.value = returnContext.draft.customTitle || "";
+  editTransportFrom.value = returnContext.draft.transportFrom || "";
+  editTransportTo.value = returnContext.draft.transportTo || "";
+  editTransportMode.value = returnContext.draft.transportMode || "도보";
+  editStartTime.value = returnContext.draft.startTime || editStartTime.value;
+
+  if (returnContext.draft.duration) {
+    setDurationValue(Number(returnContext.draft.duration));
+  }
+
+  renderEditItemPreview(false);
 }
 
 async function copyActiveAddress() {

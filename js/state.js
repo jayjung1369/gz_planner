@@ -159,6 +159,7 @@ let activeScheduleDayIndex = 0;
 let scheduleSwipeState = null;
 let scheduleInnerScrollState = null;
 let recentScheduleMove = null;
+let detailReturnToEditContext = null;
 
 let activeDetailItem = null;
 let activeEditPicker = "recommended";
