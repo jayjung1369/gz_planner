@@ -157,17 +157,43 @@ function buildCustomSchedule(context) {
     const isWeddingDay = isSameDate(date, WEDDING_DATE);
 
     if (isWeddingDay) {
-      return buildWeddingDay(date, index);
+      return buildCustomWeddingDay(date, index);
     }
 
-    const dayWindow = getAvailableDayWindow({
-      isArrivalDay,
-      isDepartureDay,
-      arrivalTime: context.arrivalTime,
-      departureTime: context.departureTime
-    });
+    const items = [];
 
-    const items = buildEmptyCustomDayItems(dayWindow);
+    if (isArrivalDay) {
+      const arrivalStart = timeToMinutes(context.arrivalTime);
+
+      items.push({
+        start: arrivalStart,
+        end: arrivalStart + 60,
+        title: "광저우 도착",
+        detail: "도착 후 필요한 준비를 진행하세요.",
+        tag: "도착",
+        type: "transport",
+        sourceType: "transport",
+        transportFrom: "공항",
+        transportTo: "광저우"
+      });
+    }
+
+    if (isDepartureDay) {
+      const departureEnd = timeToMinutes(context.departureTime);
+      const departureStart = Math.max(departureEnd - 60, 0);
+
+      items.push({
+        start: departureStart,
+        end: departureEnd,
+        title: "광저우 출발",
+        detail: "출국 전 이동 및 탑승 준비를 진행하세요.",
+        tag: "출발",
+        type: "transport",
+        sourceType: "transport",
+        transportFrom: "광저우",
+        transportTo: "공항"
+      });
+    }
 
     return {
       date,
@@ -176,6 +202,24 @@ function buildCustomSchedule(context) {
       items
     };
   });
+}
+
+function buildCustomWeddingDay(date, index) {
+  return {
+    date,
+    index,
+    title: "Wedding Day",
+    items: [
+      {
+        start: 14 * 60,
+        end: 17 * 60,
+        title: PLACES.weddingHotel.name,
+        detail: PLACES.weddingHotel.note,
+        tag: "Wedding",
+        isWeddingEvent: true
+      }
+    ]
+  };
 }
 
 function buildEmptyCustomDayItems(dayWindow) {
