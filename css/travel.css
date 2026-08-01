@@ -315,3 +315,68 @@
   background-size: 200% 100%;
   animation: image-skeleton 1.3s linear infinite;
 }
+
+
+/* Sprint 2-3 Travel controls */
+.travel-library-summary > div:first-child {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.travel-library-summary > div:first-child span {
+  margin-top: 4px;
+  overflow: hidden;
+  color: var(--subtext);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.travel-library-sort-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.travel-library-sort-wrap label {
+  color: var(--subtext);
+  font-size: 10px;
+}
+
+.travel-library-sort-wrap select,
+.travel-library-sort-wrap button {
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+  color: var(--text);
+  font-size: 11px;
+}
+
+.travel-library-sort-wrap select {
+  padding: 0 32px 0 13px;
+}
+
+.travel-library-sort-wrap button {
+  padding: 0 13px;
+  cursor: pointer;
+}
+
+.travel-load-complete {
+  margin: 0;
+  color: var(--subtext);
+  font-size: 11px;
+  text-align: center;
+}
+
+.travel-library-empty button {
+  min-height: 40px;
+  margin-top: 14px;
+  padding: 0 16px;
+  border: 1px solid var(--text);
+  border-radius: 999px;
+  background: var(--text);
+  color: white;
+  cursor: pointer;
+}

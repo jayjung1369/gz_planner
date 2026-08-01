@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Guangzhou Wedding Journey</title>  <link rel="stylesheet" href="css/base.css?v=29">
-  <link rel="stylesheet" href="css/layout.css?v=29">
-  <link rel="stylesheet" href="css/planner.css?v=29">
-  <link rel="stylesheet" href="css/detail.css?v=29">
-  <link rel="stylesheet" href="css/drag.css?v=29">
-  <link rel="stylesheet" href="css/guide.css?v=29">
-  <link rel="stylesheet" href="css/planner-cards.css?v=29">
-  <link rel="stylesheet" href="css/travel.css?v=29">
-  <link rel="stylesheet" href="css/mobile.css?v=29">
+  <title>Guangzhou Wedding Journey</title>  <link rel="stylesheet" href="css/base.css?v=31">
+  <link rel="stylesheet" href="css/layout.css?v=31">
+  <link rel="stylesheet" href="css/planner.css?v=31">
+  <link rel="stylesheet" href="css/detail.css?v=31">
+  <link rel="stylesheet" href="css/drag.css?v=31">
+  <link rel="stylesheet" href="css/guide.css?v=31">
+  <link rel="stylesheet" href="css/planner-cards.css?v=31">
+  <link rel="stylesheet" href="css/travel.css?v=31">
+  <link rel="stylesheet" href="css/mobile.css?v=31">
 </head>
 <body>
   <header class="site-header">
@@ -223,8 +223,21 @@
       <div class="travel-district-filters reveal" id="travelDistrictFilters"></div>
 
       <div class="travel-library-summary reveal">
-        <strong id="travelLibraryCount">0개 장소</strong>
-        <span>카드를 누르면 상세정보를 볼 수 있습니다.</span>
+        <div>
+          <strong id="travelLibraryCount">0개 장소</strong>
+          <span id="travelActiveFilterText">전체 장소</span>
+        </div>
+
+        <div class="travel-library-sort-wrap">
+          <label for="travelSortSelect">정렬</label>
+          <select id="travelSortSelect">
+            <option value="recommended">추천순</option>
+            <option value="name">이름순</option>
+            <option value="district">지역순</option>
+            <option value="duration">짧은 소요시간순</option>
+          </select>
+          <button id="travelResetButton" type="button">초기화</button>
+        </div>
       </div>
 
       <div class="travel-library-grid reveal" id="travelLibraryGrid"></div>
@@ -244,6 +257,9 @@
           aria-hidden="true"
           hidden
         ></div>
+        <p class="travel-load-complete" id="travelLoadComplete" hidden>
+          모든 장소를 확인했습니다.
+        </p>
       </div>
     </section>
 
@@ -330,10 +346,25 @@
 
     <section class="detail-modal-panel" role="dialog" aria-modal="true" aria-labelledby="detailModalTitle">
       <div class="detail-modal-toolbar">
+        <button
+          class="detail-modal-back"
+          type="button"
+          aria-label="상세보기 닫기"
+          data-close-modal
+        >
+          <span aria-hidden="true">‹</span>
+          <b>닫기</b>
+        </button>
+
         <span class="detail-modal-toolbar-title">장소 상세보기</span>
-        <button class="detail-modal-close" type="button" aria-label="상세보기 닫기" data-close-modal>
-          <span>닫기</span>
-          <b aria-hidden="true">×</b>
+
+        <button
+          class="detail-modal-share"
+          id="detailModalShareButton"
+          type="button"
+          aria-label="장소 정보 공유"
+        >
+          공유
         </button>
       </div>
 
@@ -348,6 +379,12 @@
       <p class="eyebrow" id="detailModalCategory">PLACE DETAIL</p>
       <h2 id="detailModalTitle">장소 상세정보</h2>
       <p class="detail-modal-chinese" id="detailModalChinese"></p>
+
+      <div class="detail-mobile-summary" id="detailMobileSummary">
+        <span id="detailMobileDistrict"></span>
+        <span id="detailMobileCategory"></span>
+        <span id="detailMobileDuration"></span>
+      </div>
 
       <div class="detail-quick-grid">
         <div>
@@ -453,6 +490,23 @@
       </div>
 
       <p class="copy-feedback" id="copyFeedback" aria-live="polite"></p>
+
+      <div class="detail-mobile-actionbar">
+        <button
+          class="detail-mobile-map"
+          id="detailMobileMapButton"
+          type="button"
+        >
+          지도
+        </button>
+        <button
+          class="detail-mobile-add"
+          id="detailMobileAddButton"
+          type="button"
+        >
+          일정에 추가
+        </button>
+      </div>
     </section>
   </div>
 
@@ -641,17 +695,17 @@
     </section>
   </div>
 
-  <script src="js/state.js?v=29"></script>
-  <script src="js/modules/utils.js?v=29"></script>
-  <script src="js/modules/image-loader.js?v=29"></script>
-  <script src="js/modules/data.js?v=29"></script>
-  <script src="js/modules/planner.js?v=29"></script>
-  <script src="js/modules/travel.js?v=29"></script>
-  <script src="js/modules/guide.js?v=29"></script>
-  <script src="js/modules/detail.js?v=29"></script>
-  <script src="js/modules/storage.js?v=29"></script>
-  <script src="js/modules/share.js?v=29"></script>
-  <script src="js/modules/events.js?v=29"></script>
-  <script src="js/app.js?v=29"></script>
+  <script src="js/state.js?v=31"></script>
+  <script src="js/modules/utils.js?v=31"></script>
+  <script src="js/modules/image-loader.js?v=31"></script>
+  <script src="js/modules/data.js?v=31"></script>
+  <script src="js/modules/planner.js?v=31"></script>
+  <script src="js/modules/travel.js?v=31"></script>
+  <script src="js/modules/guide.js?v=31"></script>
+  <script src="js/modules/detail.js?v=31"></script>
+  <script src="js/modules/storage.js?v=31"></script>
+  <script src="js/modules/share.js?v=31"></script>
+  <script src="js/modules/events.js?v=31"></script>
+  <script src="js/app.js?v=31"></script>
 </body>
 </html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/detail.css">
+<link rel="stylesheet" href="../css/mobile.css">
+<style>
+body{background:#ddd}
+.detail-modal{display:flex!important;position:relative;min-height:100vh}
+.detail-modal-panel{position:relative}
+</style>
+</head>
+<body>
+<div class="detail-modal open">
+<section class="detail-modal-panel">
+  <div class="detail-modal-toolbar">
+    <button class="detail-modal-back"><span>‹</span><b>닫기</b></button>
+    <span class="detail-modal-toolbar-title">장소 상세보기</span>
+    <button class="detail-modal-share">공유</button>
+  </div>
+
+  <div class="detail-gallery">
+    <img src="../images/full/guangdongMuseum-1.webp">
+  </div>
+
+  <h2>광둥성박물관과 매우 긴 상세페이지 장소명 테스트</h2>
+  <p class="detail-modal-chinese">广东省博物馆与非常长的中文名称布局测试</p>
+
+  <div class="detail-mobile-summary">
+    <span>주장신청</span><span>박물관</span><span>⏱ 2시간 30분</span>
+  </div>
+
+  <p class="detail-description">
+    광둥 지역의 역사와 자연, 도자기와 공예품을 폭넓게 볼 수 있는 대형 종합박물관입니다.
+    모바일에서 매우 긴 설명과 한국어 문장이 화면 밖으로 나가지 않는지 확인하기 위한 테스트입니다.
+  </p>
+
+  <dl class="detail-modal-info">
+    <div><dt>주소</dt><dd>广东省广州市天河区珠江东路2号与非常长的地址内容测试</dd></div>
+    <div><dt>운영시간</dt><dd>월요일 휴관 가능 · 예약 및 운영시간 방문 전 확인</dd></div>
+  </dl>
+
+  <section class="detail-extra-section">
+    <div class="detail-section-heading"><h3>함께 가기 좋은 관광지</h3></div>
+    <div class="nearby-card-list">
+      <button class="nearby-card">
+        <img src="../images/thumb/guangzhouOperaHouse-1.webp">
+        <span>
+          <strong>광저우 오페라하우스와 매우 긴 주변 관광지 이름 테스트</strong>
+          <small>주장신청 · 건축·공연</small>
+        </span>
+        <em>→</em>
+      </button>
+    </div>
+  </section>
+
+  <section class="detail-add-section">
+    <div>
+      <h3>이 장소를 일정에 추가</h3>
+      <p>추천 일정 또는 직접 선택 일정을 만든 뒤 원하는 날짜에 추가할 수 있습니다.</p>
+    </div>
+    <div class="detail-add-controls">
+      <select><option>DAY 1 · 11월 12일</option></select>
+    </div>
+  </section>
+
+  <div class="detail-mobile-actionbar">
+    <button class="detail-mobile-map">지도</button>
+    <button class="detail-mobile-add">일정에 추가</button>
+  </div>
+</section>
+</div>
+
+<pre id="layoutResult"></pre>
+<script>
+function runLayoutCheck() {
+  const root = document.documentElement;
+  const overflow = root.scrollWidth > root.clientWidth + 1;
+
+  const offenders = [...document.querySelectorAll('body *')]
+    .filter((element) => {
+      const style = getComputedStyle(element);
+      return element.scrollWidth > element.clientWidth + 1 &&
+        style.overflowX === 'visible';
+    })
+    .map((element) => element.className || element.tagName)
+    .slice(0, 30);
+
+  const result = {
+    viewport: innerWidth,
+    overflow,
+    documentWidth: root.scrollWidth,
+    clientWidth: root.clientWidth,
+    offenders
+  };
+
+  document.getElementById('layoutResult').textContent =
+    JSON.stringify(result, null, 2);
+
+  return result;
+}
+
+window.addEventListener('load', runLayoutCheck);
+</script>
+</body>
+</html>

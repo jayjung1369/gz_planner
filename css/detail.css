@@ -419,3 +419,64 @@
 }
 
 
+
+
+/* Sprint 2-2 detail layout safeguards */
+.detail-modal-panel,
+.detail-modal-panel *,
+.detail-modal-info,
+.detail-modal-info > div,
+.detail-extra-section,
+.detail-add-section,
+.nearby-card,
+.nearby-card > span {
+  min-width: 0;
+}
+
+.detail-modal-title,
+.detail-modal-chinese,
+.detail-description,
+.detail-modal-info dd,
+.detail-add-section p,
+.nearby-card strong,
+.nearby-card small {
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+.detail-mobile-summary,
+.detail-mobile-actionbar {
+  display: none;
+}
+
+.detail-modal-back,
+.detail-modal-share {
+  min-height: 40px;
+  border: 1px solid rgba(29, 29, 31, 0.1);
+  border-radius: 999px;
+  background: white;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.detail-modal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 13px;
+}
+
+.detail-modal-back span {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.detail-modal-back b {
+  font-size: 12px;
+}
+
+.detail-modal-share {
+  padding: 0 14px;
+  font-size: 12px;
+  font-weight: 750;
+}

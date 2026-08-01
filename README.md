@@ -43,3 +43,22 @@ Mobile itinerary cards now use strict width constraints and safe long-text
 clamping. Mobile card actions are available through a bottom sheet. The
 `tests/mobile-card-fixture.html` page contains deliberately long labels and an
 automatic horizontal-overflow report.
+
+
+## Sprint 2-2
+
+The mobile detail view now uses a compact top toolbar and sticky bottom actions.
+Long titles, Chinese names, addresses, descriptions and nearby-place labels are
+constrained for 320–430 px screens. Use `tests/mobile-detail-fixture.html` for
+manual overflow verification.
+
+
+## Sprint 2-3
+
+Travel now supports sorting, visible filter state, reset controls and a clear
+end-of-list message.
+
+Root `style.css`, `script.js` and the legacy `scripts.js` alias are included for
+compatibility. The current `index.html` intentionally continues to load the
+modular `css/` and `js/` files directly. Do not add the compatibility files to
+`index.html` unless the modular tags are removed.

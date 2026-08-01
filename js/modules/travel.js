@@ -51,6 +51,76 @@ function renderTravelLibrary() {
   renderTravelLibraryCards();
 }
 
+function compareTravelItems(first, second) {
+  if (activeTravelSort === "name") {
+    return first.name.localeCompare(second.name, "ko");
+  }
+
+  if (activeTravelSort === "district") {
+    const districtCompare = getDistrictLabel(first.district)
+      .localeCompare(getDistrictLabel(second.district), "ko");
+
+    return districtCompare ||
+      first.name.localeCompare(second.name, "ko");
+  }
+
+  if (activeTravelSort === "duration") {
+    return (
+      (first.duration || 90) -
+      (second.duration || 90) ||
+      first.name.localeCompare(second.name, "ko")
+    );
+  }
+
+  const priorityDifference =
+    (second.priority || 0) - (first.priority || 0);
+
+  return priorityDifference ||
+    first.name.localeCompare(second.name, "ko");
+}
+
+function updateTravelActiveFilterText() {
+  const labels = [];
+
+  if (activeTravelType === "place") {
+    labels.push("관광지");
+  } else if (activeTravelType === "restaurant") {
+    labels.push("맛집");
+  } else {
+    labels.push("전체");
+  }
+
+  if (activeTravelDistrict !== "all") {
+    labels.push(getDistrictLabel(activeTravelDistrict));
+  }
+
+  const keyword = travelLibrarySearch.value.trim();
+
+  if (keyword) {
+    labels.push(`“${keyword}” 검색`);
+  }
+
+  const sortLabels = {
+    recommended: "추천순",
+    name: "이름순",
+    district: "지역순",
+    duration: "짧은 시간순"
+  };
+
+  labels.push(sortLabels[activeTravelSort] || "추천순");
+  travelActiveFilterText.textContent = labels.join(" · ");
+}
+
+function resetTravelLibraryFilters() {
+  activeTravelType = "all";
+  activeTravelDistrict = "all";
+  activeTravelSort = "recommended";
+  travelVisibleCount = TRAVEL_BATCH_SIZE;
+  travelLibrarySearch.value = "";
+  travelSortSelect.value = "recommended";
+  renderTravelLibrary();
+}
+
 function renderTravelLibraryCards() {
   const keyword = travelLibrarySearch.value
     .trim()
@@ -85,16 +155,7 @@ function renderTravelLibraryCards() {
         searchable.includes(keyword)
       );
     })
-    .sort((a, b) => {
-      const priorityDifference =
-        (b.priority || 0) - (a.priority || 0);
-
-      if (priorityDifference !== 0) {
-        return priorityDifference;
-      }
-
-      return a.name.localeCompare(b.name, "ko");
-    });
+    .sort(compareTravelItems);
 
   travelFilteredItems = items;
   travelVisibleCount = Math.min(
@@ -104,12 +165,16 @@ function renderTravelLibraryCards() {
 
   travelLibraryCount.textContent =
     `${items.length}개 장소`;
+  updateTravelActiveFilterText();
 
   if (items.length === 0) {
     travelLibraryGrid.innerHTML = `
       <div class="travel-library-empty">
         <strong>검색 결과가 없습니다.</strong>
-        <p>다른 검색어나 지역을 선택해주세요.</p>
+        <p>다른 검색어 또는 지역을 선택해주세요.</p>
+        <button type="button" data-reset-travel-library>
+          필터 초기화
+        </button>
       </div>
     `;
     updateTravelLoadMoreState();
@@ -154,15 +219,20 @@ function loadMoreTravelItems() {
 }
 
 function updateTravelLoadMoreState() {
+  const hasItems = travelFilteredItems.length > 0;
   const hasMore =
     travelVisibleCount < travelFilteredItems.length;
 
   travelLoadMoreButton.hidden = !hasMore;
   travelLoadSentinel.hidden = !hasMore;
+  travelLoadComplete.hidden = !hasItems || hasMore;
 
   if (hasMore) {
+    const remaining =
+      travelFilteredItems.length - travelVisibleCount;
+
     travelLoadMoreButton.textContent =
-      `더 보기 (${travelVisibleCount}/${travelFilteredItems.length})`;
+      `더 보기 · ${remaining}개 남음`;
   }
 }
 

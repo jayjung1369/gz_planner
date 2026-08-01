@@ -14,6 +14,19 @@ function openDetailModal(itemId, itemType) {
     itemType === "restaurant" ? "FOOD DETAIL" : "PLACE DETAIL");
   setText(detailModalTitle, item.name);
   setText(detailModalChinese, item.chineseName || "중국어 명칭 준비 중");
+
+  setText(
+    detailMobileDistrict,
+    getDistrictLabel(item.district)
+  );
+  setText(
+    detailMobileCategory,
+    item.category || (itemType === "restaurant" ? "맛집" : "관광지")
+  );
+  setText(
+    detailMobileDuration,
+    `⏱ ${formatDuration(item.duration || 90)}`
+  );
   setText(detailModalAddress, item.addressZh || "중국어 주소 준비 중");
   setText(detailModalDuration, formatDuration(item.duration));
   setText(detailModalDescription, item.note || "");
@@ -158,6 +171,7 @@ function renderDetailAddControls(item, itemType) {
 
   detailAddButton.disabled = !hasSchedule;
   detailAddDaySelect.disabled = !hasSchedule;
+  detailMobileAddButton.disabled = !hasSchedule;
 
   if (!hasSchedule) {
     detailAddDaySelect.innerHTML =
@@ -185,6 +199,10 @@ function renderDetailAddControls(item, itemType) {
 
   detailAddButton.dataset.itemType = itemType;
   detailAddButton.dataset.itemId = item.id;
+  detailMobileAddButton.dataset.itemType = itemType;
+  detailMobileAddButton.dataset.itemId = item.id;
+  detailMobileMapButton.disabled = !item.addressZh;
+  detailModalShareButton.disabled = false;
 }
 
 function addActiveDetailToSchedule() {
@@ -308,6 +326,67 @@ function formatOpeningHours(item) {
   }
 
   return "정보 준비 중";
+}
+
+async function shareActiveDetail() {
+  if (!activeDetailItem) {
+    return;
+  }
+
+  const shareText = [
+    activeDetailItem.name,
+    activeDetailItem.chineseName || "",
+    activeDetailItem.addressZh || "",
+    activeDetailItem.note || ""
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title: activeDetailItem.name,
+        text: shareText
+      });
+      return;
+    }
+
+    await copyTextToClipboard(shareText);
+    setText(copyFeedback, "장소 정보를 복사했습니다.");
+  } catch (error) {
+    if (error?.name !== "AbortError") {
+      console.error(error);
+      setText(copyFeedback, "장소 정보를 공유하지 못했습니다.");
+    }
+  }
+}
+
+function openActiveDetailMap() {
+  if (!activeDetailItem) {
+    return;
+  }
+
+  const mapUrl = createAmapMarkerUrl(activeDetailItem);
+
+  if (mapUrl) {
+    window.open(mapUrl, "_blank", "noopener");
+  }
+}
+
+function addActiveDetailFromMobile() {
+  if (!activeDetailItem) {
+    return;
+  }
+
+  if (currentSchedule.length === 0) {
+    setText(
+      copyFeedback,
+      "먼저 여행 일정을 만든 뒤 추가할 수 있습니다."
+    );
+    return;
+  }
+
+  addActiveDetailToSchedule();
 }
 
 function closeDetailModal() {

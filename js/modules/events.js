@@ -68,6 +68,12 @@ function bindEvents() {
   });
 
   copyAddressButton.addEventListener("click", copyActiveAddress);
+  detailModalShareButton.addEventListener("click", shareActiveDetail);
+  detailMobileMapButton.addEventListener("click", openActiveDetailMap);
+  detailMobileAddButton.addEventListener(
+    "click",
+    addActiveDetailFromMobile
+  );
 
   galleryPrevButton.addEventListener("click", () => {
     showGalleryImage(activeGalleryIndex - 1);
@@ -148,6 +154,17 @@ function bindEvents() {
     renderTravelLibraryCards();
   });
 
+  travelSortSelect.addEventListener("change", () => {
+    activeTravelSort = travelSortSelect.value;
+    travelVisibleCount = TRAVEL_BATCH_SIZE;
+    renderTravelLibraryCards();
+  });
+
+  travelResetButton.addEventListener(
+    "click",
+    resetTravelLibraryFilters
+  );
+
   travelLoadMoreButton.addEventListener(
     "click",
     loadMoreTravelItems
@@ -176,6 +193,14 @@ function bindEvents() {
   });
 
   travelLibraryGrid.addEventListener("click", (event) => {
+    const resetButton =
+      event.target.closest("[data-reset-travel-library]");
+
+    if (resetButton) {
+      resetTravelLibraryFilters();
+      return;
+    }
+
     const detailButton = event.target.closest("[data-travel-detail]");
     const addButton = event.target.closest("[data-travel-add]");
     const card = event.target.closest("[data-travel-card]");
