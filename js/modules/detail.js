@@ -203,6 +203,47 @@ function renderDetailAddControls(item, itemType) {
   detailMobileAddButton.dataset.itemId = item.id;
   detailMobileMapButton.disabled = !item.addressZh;
   detailModalShareButton.disabled = false;
+
+  updateDetailAddActionState();
+}
+
+function findExistingScheduleItemIndex(dayIndex, itemId, itemType) {
+  const day = currentSchedule[dayIndex];
+
+  if (!day || !itemId) {
+    return -1;
+  }
+
+  return day.items.findIndex((item) =>
+    item.id === itemId && item.sourceType === itemType
+  );
+}
+
+function updateDetailAddActionState() {
+  const dayIndex = Number(detailAddDaySelect.value);
+  const itemId = detailAddButton.dataset.itemId;
+  const itemType = detailAddButton.dataset.itemType || "place";
+
+  if (!Number.isInteger(dayIndex) || !itemId) {
+    detailAddButton.textContent = "+ 일정에 추가";
+    detailMobileAddButton.textContent = "+ 일정에 추가";
+    return;
+  }
+
+  const existingIndex = findExistingScheduleItemIndex(
+    dayIndex,
+    itemId,
+    itemType
+  );
+
+  if (existingIndex >= 0) {
+    detailAddButton.textContent = "일정 수정";
+    detailMobileAddButton.textContent = "수정";
+    return;
+  }
+
+  detailAddButton.textContent = "+ 일정에 추가";
+  detailMobileAddButton.textContent = "+ 일정에 추가";
 }
 
 function addActiveDetailToSchedule() {
@@ -222,6 +263,11 @@ function addActiveDetailToSchedule() {
     detailAddButton.dataset.itemType || "place";
   const itemId = activeDetailItem.id;
   const duration = activeDetailItem.duration || 90;
+  const existingIndex = findExistingScheduleItemIndex(
+    dayIndex,
+    itemId,
+    itemType
+  );
 
   if (
     !Number.isInteger(dayIndex) ||
@@ -239,11 +285,12 @@ function addActiveDetailToSchedule() {
 
   window.requestAnimationFrame(() => {
     openScheduleEditModal({
-      mode: "add",
+      mode: existingIndex >= 0 ? "edit" : "add",
       dayIndex,
       itemType,
       itemId,
-      duration
+      duration,
+      itemIndex: existingIndex >= 0 ? existingIndex : undefined
     });
   });
 }

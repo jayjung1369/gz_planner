@@ -240,6 +240,7 @@ function bindEvents() {
   });
 
   detailAddButton.addEventListener("click", addActiveDetailToSchedule);
+  detailAddDaySelect.addEventListener("change", updateDetailAddActionState);
 
   document.querySelectorAll("[data-close-edit-modal]").forEach((element) => {
     element.addEventListener("click", closeScheduleEditModal);

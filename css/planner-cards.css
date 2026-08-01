@@ -618,7 +618,7 @@
   .schedule-day-shell .timeline-item {
     grid-template-columns: 45px minmax(0, 1fr);
     gap: 8px;
-    padding: 7px 0;
+    padding: 7px 0 40px;
   }
 
   .schedule-day-shell .timeline-card-layout {
@@ -686,10 +686,12 @@
 
   .timeline-inline-add {
     right: 0;
+    top: auto;
+    bottom: 8px;
   }
 
   .timeline-mobile-move-buttons {
-    right: 34px;
+    right: 0;
     z-index: 4;
   }
 

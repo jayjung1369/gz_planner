@@ -705,7 +705,6 @@ function renderSchedule(schedule, context, options = {}) {
 
     <section class="schedule-day-shell" aria-label="일정 일자별 보기">
       <div class="schedule-day-shell-header">
-        ${createOverallRouteNotice(schedule)}
         ${createScheduleDayTabs(schedule)}
         <p class="schedule-quick-guide">
           DAY 탭 또는 좌우 스와이프로 날짜를 이동하고, 순서는 위/아래 버튼으로 바꿀 수 있습니다.
@@ -744,83 +743,12 @@ function renderSchedule(schedule, context, options = {}) {
   }
 }
 
-function createOverallRouteNotice(schedule) {
-  const warningDays = schedule.filter(
-    (day) => getDayRouteWarnings(day).length > 0
-  );
-
-  if (warningDays.length === 0) {
-    return "";
-  }
-
-  return `
-    <div class="route-overall-notice">
-      <strong>동선 확인이 필요한 일정이 있습니다.</strong>
-      <p>
-        지역을 반복해서 이동하는 날짜가 표시되었습니다.
-        저장은 가능하지만 실제 이동시간을 확인해주세요.
-      </p>
-    </div>
-  `;
-}
-
 function createDayRouteWarning(day) {
-  const warnings = getDayRouteWarnings(day);
-
-  if (warnings.length === 0) {
-    return "";
-  }
-
-  return `
-    <div class="day-route-warning">
-      <strong>동선 확인</strong>
-      <span>${warnings.join(" ")}</span>
-    </div>
-  `;
+  return "";
 }
 
 function getDayRouteWarnings(day) {
-  const districtItems = day.items.filter(
-    (item) =>
-      item.district &&
-      item.sourceType !== "transport" &&
-      item.type !== "transport"
-  );
-
-  if (districtItems.length < 3) {
-    return [];
-  }
-
-  const sequence = districtItems.map((item) => item.district);
-  const compact = sequence.filter(
-    (district, index) =>
-      index === 0 || district !== sequence[index - 1]
-  );
-
-  const warnings = [];
-  const visited = new Set();
-  let repeatedDistrict = false;
-
-  compact.forEach((district) => {
-    if (visited.has(district)) {
-      repeatedDistrict = true;
-    }
-    visited.add(district);
-  });
-
-  if (repeatedDistrict) {
-    warnings.push(
-      "이미 방문한 지역으로 다시 돌아가는 일정입니다."
-    );
-  }
-
-  if (compact.length >= 4) {
-    warnings.push(
-      `지역 이동이 ${compact.length - 1}회 포함되어 있습니다.`
-    );
-  }
-
-  return warnings;
+  return [];
 }
 
 function createExcludedItemsSection(items) {
@@ -1240,10 +1168,7 @@ function moveScheduleItemByStep(dayIndex, itemIndex, step) {
     skipScroll: true,
     preserveMoveIndicator: true
   });
-  showStorageStatus(
-    findTransportOrderWarning(day.items) ||
-    "일정 순서와 시간이 자동으로 변경되었습니다."
-  );
+  showStorageStatus("일정 순서와 시간이 자동으로 변경되었습니다.");
 }
 
 function reflowOrderedDayItems(items) {
@@ -1442,7 +1367,7 @@ function updateEditItemOptions() {
   const usesSelect = type === "place" || type === "restaurant";
 
   editItemSelectField.hidden = !usesSelect;
-  editPickerControls.hidden = !usesSelect;
+  editPickerControls.hidden = true;
   editCustomTitleField.hidden = !isCustom;
   editTransportFields.hidden = !isTransport;
   editItemPreview.hidden = !usesSelect;
@@ -1463,55 +1388,7 @@ function updateEditItemOptions() {
 }
 
 function renderEditItemSelectOptions(items, type) {
-  const keyword = editPickerSearch.value.trim().toLowerCase();
-
-  editPickerControls
-    .querySelectorAll("[data-edit-picker]")
-    .forEach((button) => {
-      button.classList.toggle(
-        "active",
-        button.dataset.editPicker === activeEditPicker
-      );
-    });
-
-  const filteredItems = items.filter((item) => {
-    const searchable = [
-      item.name,
-      item.chineseName,
-      item.category,
-      item.district,
-      getDistrictLabel(item.district),
-      ...(item.tags || []),
-      ...(item.mealTypes || [])
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
-
-    const keywordMatch = !keyword || searchable.includes(keyword);
-
-    if (!keywordMatch) {
-      return false;
-    }
-
-    if (activeEditPicker === "tour") {
-      return type === "place";
-    }
-
-    if (activeEditPicker === "food") {
-      return type === "restaurant";
-    }
-
-    if (activeEditPicker === "shopping") {
-      return searchable.includes("쇼핑") || searchable.includes("shopping");
-    }
-
-    if (activeEditPicker === "recommended") {
-      return (item.priority || 0) >= 7;
-    }
-
-    return true;
-  });
+  const filteredItems = [...items];
 
   editItemSelect.innerHTML = filteredItems
     .map(
@@ -1729,14 +1606,7 @@ function saveScheduleEdit(event) {
   day.items = result.items;
   renderSchedule(currentSchedule, currentContext, { skipScroll: true });
   closeScheduleEditModal();
-
-  const routeWarnings = getDayRouteWarnings(day);
-
-  showStorageStatus(
-    routeWarnings.length > 0
-      ? "일정은 저장됐지만 동선 확인이 필요합니다."
-      : "수정한 일정이 자동 저장되었습니다."
-  );
+  showStorageStatus("수정한 일정이 자동 저장되었습니다.");
 }
 
 function deleteScheduleItem(dayIndex, itemIndex) {
