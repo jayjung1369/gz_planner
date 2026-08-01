@@ -97,7 +97,7 @@ let activeTravelDistrict = "all";
 
 let pendingSharedPlan = null;
 
-const STORAGE_KEY = "guangzhouWeddingPlannerStateV14";
+const STORAGE_KEY = "guangzhouWeddingPlannerStateV15";
 let storageStatusTimer = null;
 
 const scheduleEditModal = document.querySelector("#scheduleEditModal");
@@ -525,7 +525,8 @@ function createChoiceCard(item, inputClass) {
           class="choice-image"
           src="${thumbnail}"
           alt="${item.name} 사진"
-          loading="lazy"
+          loading="eager"
+          decoding="async"
           onerror="handleChoiceImageError(this)"
         >
         ${isPlaceholder
@@ -1325,7 +1326,8 @@ function createTimelineItem(item, dayIndex, itemIndex) {
           <img
             src="${resolveAssetUrl(rawImage)}"
             alt="${escapeHtml(item.title)} 대표 사진"
-            loading="lazy"
+            loading="eager"
+            decoding="async"
             onerror="handleTimelineImageError(this)"
           >
         </button>
@@ -2559,7 +2561,8 @@ function createTravelLibraryCard(item) {
         <img
           src="${resolveAssetUrl(rawImage)}"
           alt="${escapeHtml(item.name)} 대표 사진"
-          loading="lazy"
+          loading="eager"
+          decoding="async"
           onerror="handleChoiceImageError(this)"
         >
         <span>${typeLabel}</span>
@@ -3748,6 +3751,9 @@ function showGalleryImage(index) {
     }
   };
 
+  detailModalImage.style.display = "block";
+  detailModalImage.style.visibility = "visible";
+  detailModalImage.style.opacity = "1";
   detailModalImage.src = resolveAssetUrl(selectedImage);
   detailModalImage.alt =
     `${activeDetailItem?.name || "장소"} 사진 ${activeGalleryIndex + 1}`;
