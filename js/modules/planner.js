@@ -700,21 +700,24 @@ function renderSchedule(schedule, context, options = {}) {
       </p>
     </div>
 
-    ${createOverallRouteNotice(schedule)}
+    <section class="schedule-day-shell" aria-label="일정 일자별 보기">
+      <div class="schedule-day-shell-header">
+        ${createOverallRouteNotice(schedule)}
+        ${createScheduleDayTabs(schedule)}
+      </div>
 
-    ${createScheduleDayTabs(schedule)}
-
-    <div class="schedule-list" id="scheduleDayPanels">
-      ${schedule
-        .map((day, dayIndex) =>
-          createScheduleCard(
-            day,
-            dayIndex,
-            dayIndex === activeScheduleDayIndex
+      <div class="schedule-list schedule-day-scroll" id="scheduleDayPanels">
+        ${schedule
+          .map((day, dayIndex) =>
+            createScheduleCard(
+              day,
+              dayIndex,
+              dayIndex === activeScheduleDayIndex
+            )
           )
-        )
-        .join("")}
-    </div>
+          .join("")}
+      </div>
+    </section>
 
     ${createExcludedItemsSection(context.excludedItems || [])}
   `;

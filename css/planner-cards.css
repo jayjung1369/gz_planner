@@ -344,17 +344,44 @@
 
 
 /* Sprint 3-1 mobile-first planner UX refresh */
-.schedule-day-tabs {
+.schedule-day-shell {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  max-height: min(74vh, 820px);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(29, 29, 31, 0.08);
+}
+
+.schedule-day-shell-header {
   position: sticky;
-  top: 58px;
-  z-index: 35;
+  top: 0;
+  z-index: 30;
+  padding: 10px 12px 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.94));
+  border-bottom: 1px solid rgba(29, 29, 31, 0.08);
+}
+
+.schedule-day-scroll {
+  margin-top: 0;
+  padding: 10px 12px 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.schedule-day-tabs {
+  position: relative;
+  top: auto;
+  z-index: 1;
   display: flex;
   gap: 8px;
-  padding: 8px 0 10px;
-  margin-top: 18px;
+  padding: 0 0 2px;
+  margin-top: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  background: linear-gradient(180deg, rgba(246, 244, 240, 0.98), rgba(246, 244, 240, 0.88));
+  background: transparent;
 }
 
 .schedule-day-tabs::-webkit-scrollbar {
@@ -489,9 +516,17 @@
 }
 
 @media (max-width: 820px) {
-  .schedule-day-tabs {
-    top: calc(64px + env(safe-area-inset-top));
-    margin-top: 10px;
+  .schedule-day-shell {
+    max-height: min(72vh, 760px);
+    border-radius: 14px;
+  }
+
+  .schedule-day-shell-header {
+    padding: 9px 9px 7px;
+  }
+
+  .schedule-day-scroll {
+    padding: 8px 9px 10px;
   }
 
   .schedule-card {
