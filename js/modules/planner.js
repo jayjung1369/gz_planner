@@ -154,6 +154,11 @@ function buildCustomSchedule(context) {
   return context.dates.map((date, index) => {
     const isArrivalDay = index === 0;
     const isDepartureDay = index === context.dates.length - 1;
+    const isWeddingDay = isSameDate(date, WEDDING_DATE);
+
+    if (isWeddingDay) {
+      return buildWeddingDay(date, index);
+    }
 
     const dayWindow = getAvailableDayWindow({
       isArrivalDay,
