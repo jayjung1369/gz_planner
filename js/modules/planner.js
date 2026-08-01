@@ -81,9 +81,8 @@ function createSchedule() {
 
   const dates = enumerateDates(arrivalDate, departureDate);
 
-  if (dates.length > 3) {
-    showMessage("관리자 일정은 최대 3일까지만 생성할 수 있습니다.");
-    return;
+  if (dates.length > 4) {
+    dates.length = 4;
   }
 
   const context = {
@@ -184,10 +183,13 @@ function buildManagedSchedule(context) {
     [
       createManagedSourceItem("k11", "place", 10 * 60 + 30),
       createManagedSourceItem("haixinBridge", "place", 13 * 60),
-      createManagedSourceItem("beijingRoadFood", "restaurant", 15 * 60),
+      createManagedSourceItem("beijingRoadFood", "restaurant", 15 * 60)
+    ].filter(Boolean),
+    [
+      createManagedSourceItem("partyPier", "place", 17 * 60),
       createManagedTransportItem({
-        start: 17 * 60 + 30,
-        end: 18 * 60 + 30,
+        start: 21 * 60 + 30,
+        end: 22 * 60 + 30,
         title: "광저우 출발",
         detail: "호텔 체크아웃 후 공항으로 이동합니다.",
         tag: "출발",
