@@ -82,12 +82,29 @@ function timeToMinutes(value) {
 }
 
 function formatTime(minutes) {
-  if (minutes >= 24 * 60) {
-    return "24:00";
+  const safeMinutes = Math.max(0, Math.floor(minutes));
+  const dayOffset = Math.floor(safeMinutes / (24 * 60));
+  const clockMinutes = safeMinutes % (24 * 60);
+  const hours = Math.floor(clockMinutes / 60);
+  const remainingMinutes = clockMinutes % 60;
+  const clockText = `${String(hours).padStart(2, "0")}:${String(remainingMinutes).padStart(2, "0")}`;
+
+  if (dayOffset === 0) {
+    return clockText;
   }
 
-  const hours = Math.floor(minutes / 60);
-  const remainingMinutes = minutes % 60;
+  if (dayOffset === 1) {
+    return `다음날 ${clockText}`;
+  }
+
+  return `${dayOffset}일 후 ${clockText}`;
+}
+
+function formatTimeForInput(minutes) {
+  const safeMinutes = Math.max(0, Math.floor(minutes));
+  const clockMinutes = safeMinutes % (24 * 60);
+  const hours = Math.floor(clockMinutes / 60);
+  const remainingMinutes = clockMinutes % 60;
 
   return `${String(hours).padStart(2, "0")}:${String(remainingMinutes).padStart(2, "0")}`;
 }

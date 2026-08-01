@@ -1226,13 +1226,6 @@ function reflowOrderedDayItems(items) {
       item.start = cursor;
       item.end = cursor + duration;
       cursor = item.end;
-
-      if (item.end > 24 * 60) {
-        return {
-          ok: false,
-          message: "순서를 변경하면 일정이 24시를 넘습니다."
-        };
-      }
     }
 
     return { ok: true, items: ordered };
@@ -1264,13 +1257,6 @@ function reflowOrderedDayItems(items) {
     item.start = cursor;
     item.end = cursor + duration;
     cursor = item.end;
-
-    if (item.end > 24 * 60) {
-      return {
-        ok: false,
-        message: "변경한 순서로는 결혼식 이후 일정이 24시를 넘습니다."
-      };
-    }
   }
 
   return { ok: true, items: ordered };
@@ -1351,7 +1337,7 @@ function openScheduleEditModal(target) {
     editTransportTo.value = item.transportTo || "";
     editTransportMode.value = item.transportMode || "도보";
 
-    editStartTime.value = formatTime(item.start);
+    setEditStartTimeFromMinutes(item.start);
     setDurationValue(item.end - item.start);
   } else {
     scheduleEditTitle.textContent = "일정 추가";
@@ -1378,9 +1364,11 @@ function openScheduleEditModal(target) {
     editTransportFrom.value = "";
     editTransportTo.value = "";
     editTransportMode.value = "도보";
-    editStartTime.value = findSuggestedStartTime(
-      target.dayIndex,
-      target.insertAfterIndex
+    setEditStartTimeFromMinutes(
+      findSuggestedStartTime(
+        target.dayIndex,
+        target.insertAfterIndex
+      )
     );
     editDuration.value = String(target.duration || 90);
   }
@@ -1538,7 +1526,7 @@ function saveScheduleEdit(event) {
   }
 
   const type = editItemType.value;
-  const start = timeToMinutes(editStartTime.value);
+  const start = getEditStartMinutes();
   const duration = Number(editDuration.value);
   let newItem;
 
@@ -1697,13 +1685,6 @@ function reflowDayItems(items) {
         current.end = current.start + duration;
       }
     }
-
-    if (current.end > 24 * 60) {
-      return {
-        ok: false,
-        message: "뒤 일정을 이동하면 24시를 넘습니다. 시작시간이나 소요시간을 줄여주세요."
-      };
-    }
   }
 
   return { ok: true, items: sorted };
@@ -1721,14 +1702,35 @@ function findSuggestedStartTime(dayIndex, insertAfterIndex) {
     insertAfterIndex >= 0 &&
     insertAfterIndex < items.length
   ) {
-    return formatTime(Math.min(items[insertAfterIndex].end, 22 * 60));
+    return items[insertAfterIndex].end;
   }
 
-  const lastEnd = items.reduce(
+  return items.reduce(
     (latest, item) => Math.max(latest, item.end),
     8 * 60
   );
-  return formatTime(Math.min(lastEnd, 22 * 60));
+}
+
+function setEditStartTimeFromMinutes(minutes) {
+  const safeMinutes = Number.isFinite(minutes)
+    ? Math.max(0, Math.round(minutes))
+    : 8 * 60;
+
+  editStartTime.value = formatTimeForInput(safeMinutes);
+  editStartTime.dataset.dayOffset = String(
+    Math.floor(safeMinutes / (24 * 60))
+  );
+}
+
+function getEditStartMinutes() {
+  const base = timeToMinutes(editStartTime.value);
+  const dayOffset = Number(editStartTime.dataset.dayOffset || "0");
+
+  if (!Number.isFinite(base)) {
+    return NaN;
+  }
+
+  return base + (Math.max(0, dayOffset) * 24 * 60);
 }
 
 function setDurationValue(duration) {
