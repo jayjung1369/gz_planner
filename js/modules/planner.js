@@ -95,8 +95,26 @@ function createSchedule() {
     return;
   }
 
-  if (dates.length > 4) {
-    dates.length = 4;
+  // 결혼식이 DAY 2가 되도록 스마트하게 절사
+  // DAY 1(도착) + DAY 2(결혼식) + DAY 3~N(귀국) 구조 유지
+  const weddingIndex = dates.findIndex(date => 
+    date.getFullYear() === weddingDate.getFullYear() &&
+    date.getMonth() === weddingDate.getMonth() &&
+    date.getDate() === weddingDate.getDate()
+  );
+  
+  const maxDays = 4; // 최대 4일 (3박 4일)
+  
+  if (dates.length > maxDays) {
+    // 결혼식을 DAY 2 위치(index 1)에 오도록 조정
+    // 도착 1일 + 결혼식 + 이후 최대 2일
+    const daysBeforeWedding = Math.min(weddingIndex, 1);
+    const startIndex = weddingIndex - daysBeforeWedding;
+    
+    dates.splice(0, startIndex);
+    if (dates.length > maxDays) {
+      dates.length = maxDays;
+    }
   }
 
   const context = {
