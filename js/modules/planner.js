@@ -681,6 +681,9 @@ function moveScheduleDayByStep(step) {
 
 function renderSchedule(schedule, context, options = {}) {
   ensureActiveScheduleDayIndex(schedule);
+  if (!options.preserveMoveIndicator) {
+    recentScheduleMove = null;
+  }
   currentSchedule = schedule;
   currentContext = context;
 
@@ -705,7 +708,7 @@ function renderSchedule(schedule, context, options = {}) {
         ${createOverallRouteNotice(schedule)}
         ${createScheduleDayTabs(schedule)}
         <p class="schedule-quick-guide">
-          DAY 탭 또는 좌우 스와이프로 날짜를 이동하고, 순서는 ↑↓ 또는 모바일 드래그 버튼으로 바꿀 수 있습니다.
+          DAY 탭 또는 좌우 스와이프로 날짜를 이동하고, 순서는 위/아래 버튼으로 바꿀 수 있습니다.
         </p>
       </div>
 
@@ -902,6 +905,9 @@ function createScheduleCard(day, dayIndex, isActive) {
 function createTimelineItem(item, dayIndex, itemIndex) {
   const weddingEventClass = item.isWeddingEvent ? "wedding-event" : "";
   const locked = item.isWeddingEvent;
+  const isRecentlyMoved =
+    recentScheduleMove?.dayIndex === dayIndex &&
+    recentScheduleMove?.itemIndex === itemIndex;
   const sourceItem = getScheduleSourceItem(item);
   const isTransport =
     item.sourceType === "transport" ||
@@ -1014,19 +1020,29 @@ function createTimelineItem(item, dayIndex, itemIndex) {
       </button>
     `;
 
-  const mobileDragButton = locked
+  const mobileMoveButtons = locked
     ? ""
     : `
-      <button
-        class="timeline-mobile-drag"
-        type="button"
-        aria-label="${escapeHtml(item.title)} 순서 변경"
-        data-mobile-reorder
-        data-day-index="${dayIndex}"
-        data-item-index="${itemIndex}"
-      >
-        ⇅
-      </button>
+      <div class="timeline-mobile-move-buttons" aria-label="모바일 순서 변경 버튼">
+        <button
+          class="timeline-mobile-move"
+          type="button"
+          aria-label="위로 이동"
+          data-move-item="-1"
+          data-day-index="${dayIndex}"
+          data-item-index="${itemIndex}"
+          ${itemIndex === 0 ? "disabled" : ""}
+        >↑</button>
+        <button
+          class="timeline-mobile-move"
+          type="button"
+          aria-label="아래로 이동"
+          data-move-item="1"
+          data-day-index="${dayIndex}"
+          data-item-index="${itemIndex}"
+          ${itemIndex === dayItemCount - 1 ? "disabled" : ""}
+        >↓</button>
+      </div>
     `;
 
   const reorderControls = locked
@@ -1053,6 +1069,9 @@ function createTimelineItem(item, dayIndex, itemIndex) {
     `;
 
   const compactMeta = [
+    isRecentlyMoved
+      ? `<span class="timeline-move-badge">변경됨</span>`
+      : "",
     sourceItem?.district
       ? `<span class="district-tag">${escapeHtml(getDistrictLabel(sourceItem.district))}</span>`
       : "",
@@ -1090,13 +1109,13 @@ function createTimelineItem(item, dayIndex, itemIndex) {
 
   return `
     <article
-      class="timeline-item ${weddingEventClass} ${isTransport ? "transport-event" : "place-event"}"
+      class="timeline-item ${weddingEventClass} ${isTransport ? "transport-event" : "place-event"} ${isRecentlyMoved ? "recently-moved" : ""}"
       data-day-index="${dayIndex}"
       data-item-index="${itemIndex}"
     >
       ${reorderControls}
       ${mobileMenuButton}
-      ${mobileDragButton}
+      ${mobileMoveButtons}
 
       <div class="timeline-time">
         <span>${formatTime(item.start)}</span>
@@ -1254,7 +1273,15 @@ function moveScheduleItemByStep(dayIndex, itemIndex, step) {
   }
 
   day.items = result.items;
-  renderSchedule(currentSchedule, currentContext, { skipScroll: true });
+  recentScheduleMove = {
+    dayIndex,
+    itemIndex: targetIndex,
+    changedAt: Date.now()
+  };
+  renderSchedule(currentSchedule, currentContext, {
+    skipScroll: true,
+    preserveMoveIndicator: true
+  });
   showStorageStatus(
     findTransportOrderWarning(day.items) ||
     "일정 순서와 시간이 자동으로 변경되었습니다."

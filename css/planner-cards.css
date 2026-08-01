@@ -536,8 +536,25 @@
 }
 
 .timeline-inline-add,
-.timeline-mobile-drag {
+.timeline-mobile-move-buttons {
   display: none;
+}
+
+.schedule-day-shell .timeline-move-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: #ffe8bd;
+  color: #7b4200;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.schedule-day-shell .timeline-item.recently-moved .timeline-content {
+  border-radius: 12px;
+  box-shadow: 0 0 0 2px rgba(248, 188, 86, 0.45);
 }
 
 .schedule-day-shell .timeline-transport-mode {
@@ -631,10 +648,16 @@
   }
 
   .timeline-inline-add,
-  .timeline-mobile-drag {
+  .timeline-mobile-move-buttons {
     position: absolute;
     top: 9px;
     z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .timeline-mobile-move {
     width: 28px;
     height: 28px;
     display: grid;
@@ -644,19 +667,22 @@
     border-radius: 8px;
     background: #fff;
     color: var(--text);
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 700;
     line-height: 1;
+  }
+
+  .timeline-mobile-move:disabled {
+    opacity: 0.4;
   }
 
   .timeline-inline-add {
     right: 0;
   }
 
-  .timeline-mobile-drag {
+  .timeline-mobile-move-buttons {
     right: 34px;
     z-index: 4;
-    font-size: 13px;
   }
 
   .schedule-day-shell .timeline-reorder-controls {

@@ -132,25 +132,6 @@ function bindEvents() {
   }, { passive: true });
 
   scheduleResult.addEventListener("touchstart", (event) => {
-    const reorderHandle = event.target.closest("[data-mobile-reorder]");
-
-    if (reorderHandle) {
-      const touch = event.changedTouches?.[0];
-
-      if (!touch) {
-        return;
-      }
-
-      scheduleSwipeState = {
-        mode: "item-reorder",
-        dayIndex: Number(reorderHandle.dataset.dayIndex),
-        itemIndex: Number(reorderHandle.dataset.itemIndex),
-        startX: touch.clientX,
-        startY: touch.clientY
-      };
-      return;
-    }
-
     const activeCard = event.target.closest("[data-day-card].active");
 
     if (!activeCard) {
@@ -165,7 +146,6 @@ function bindEvents() {
     }
 
     scheduleSwipeState = {
-      mode: "day-swipe",
       startX: touch.clientX,
       startY: touch.clientY
     };
@@ -185,26 +165,6 @@ function bindEvents() {
 
     const deltaX = touch.clientX - scheduleSwipeState.startX;
     const deltaY = touch.clientY - scheduleSwipeState.startY;
-
-    if (scheduleSwipeState.mode === "item-reorder") {
-      const dayIndex = scheduleSwipeState.dayIndex;
-      const itemIndex = scheduleSwipeState.itemIndex;
-      scheduleSwipeState = null;
-
-      if (
-        Number.isInteger(dayIndex) &&
-        Number.isInteger(itemIndex) &&
-        Math.abs(deltaY) >= 28 &&
-        Math.abs(deltaX) <= 30
-      ) {
-        moveScheduleItemByStep(
-          dayIndex,
-          itemIndex,
-          deltaY < 0 ? -1 : 1
-        );
-      }
-      return;
-    }
 
     scheduleSwipeState = null;
 
