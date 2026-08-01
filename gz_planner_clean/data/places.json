@@ -1,0 +1,654 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-01",
+  "items": {
+    "airport": {
+      "id": "airport",
+      "name": "광저우 바이윈 국제공항",
+      "chineseName": "广州白云国际机场",
+      "addressZh": "广东省广州市白云区机场大道东888号",
+      "category": "교통",
+      "district": "airport",
+      "duration": 0,
+      "latitude": 23.3924,
+      "longitude": 113.2988,
+      "hours": "24시간",
+      "price": "무료",
+      "bestTime": "항공편 도착시간 기준",
+      "tips": "입국 심사와 수하물 수령 시간을 포함해 시내 이동까지 여유를 두세요.",
+      "note": "입국 수속과 수하물 수령 후 광저우 시내로 이동합니다."
+    },
+    "weddingHotel": {
+      "id": "weddingHotel",
+      "name": "W Guangzhou",
+      "chineseName": "广州W酒店",
+      "addressZh": "广东省广州市天河区珠江新城冼村路26号",
+      "category": "Wedding",
+      "district": "zhujiang",
+      "duration": 180,
+      "latitude": 23.1202,
+      "longitude": 113.3236,
+      "openTime": "00:00",
+      "closeTime": "24:00",
+      "recommendedTime": [
+        "afternoon",
+        "evening"
+      ],
+      "priority": 100,
+      "hours": "24시간",
+      "price": "예식 참석",
+      "bestTime": "예식 안내 시간에 맞춰 방문",
+      "tips": "정확한 홀과 예식 시간은 추후 안내됩니다.",
+      "note": "광저우 W 호텔에서 결혼식이 진행됩니다."
+    },
+    "shamian": {
+      "id": "shamian",
+      "name": "샤미엔",
+      "chineseName": "沙面岛",
+      "addressZh": "广东省广州市荔湾区沙面南街",
+      "category": "산책",
+      "district": "liwan",
+      "duration": 120,
+      "latitude": 23.1083,
+      "longitude": 113.2392,
+      "openTime": "08:00",
+      "closeTime": "22:00",
+      "recommendedTime": [
+        "morning",
+        "afternoon"
+      ],
+      "priority": 9,
+      "tags": [
+        "역사",
+        "산책",
+        "사진"
+      ],
+      "hours": "상시 개방",
+      "price": "무료",
+      "bestTime": "오전 또는 늦은 오후",
+      "tips": "편한 신발을 준비하고 강변 산책까지 함께 즐기세요.",
+      "note": "유럽풍 건축과 가로수가 이어지는 광저우 대표 산책 지역입니다.",
+      "nearbyRestaurants": [
+        "guangzhouRestaurantLiwan",
+        "taoTaoJuLiwan",
+        "lianXiangLou"
+      ]
+    },
+    "yongqingfang": {
+      "id": "yongqingfang",
+      "name": "영경방",
+      "chineseName": "永庆坊",
+      "addressZh": "广东省广州市荔湾区恩宁路99号",
+      "category": "문화거리",
+      "district": "liwan",
+      "duration": 120,
+      "latitude": 23.1169,
+      "longitude": 113.2446,
+      "openTime": "09:00",
+      "closeTime": "22:00",
+      "recommendedTime": [
+        "afternoon",
+        "evening"
+      ],
+      "priority": 9,
+      "tags": [
+        "전통",
+        "쇼핑",
+        "카페"
+      ],
+      "hours": "구역별 영업시간 상이",
+      "price": "거리 입장 무료",
+      "bestTime": "오후~저녁",
+      "tips": "주말에는 혼잡할 수 있어 평일 오후가 편합니다.",
+      "note": "전통 골목과 현대적인 상점이 함께 있는 리완의 문화거리입니다.",
+      "nearbyRestaurants": [
+        "panxiRestaurant",
+        "guangzhouRestaurantLiwan",
+        "taoTaoJuLiwan"
+      ]
+    },
+    "chenClan": {
+      "id": "chenClan",
+      "name": "천가사",
+      "chineseName": "陈家祠",
+      "addressZh": "广东省广州市荔湾区中山七路恩龙里34号",
+      "category": "문화유산",
+      "district": "liwan",
+      "duration": 90,
+      "latitude": 23.1295,
+      "longitude": 113.2465,
+      "openTime": "09:00",
+      "closeTime": "17:30",
+      "recommendedTime": [
+        "morning",
+        "afternoon"
+      ],
+      "priority": 8,
+      "tags": [
+        "건축",
+        "역사"
+      ],
+      "hours": "운영시간 방문 전 재확인",
+      "price": "입장권 정보 방문 전 재확인",
+      "bestTime": "오전",
+      "tips": "마감 1시간 전에는 입장하는 것을 권장합니다.",
+      "note": "정교한 전통 장식과 건축을 볼 수 있는 광저우 대표 문화유산입니다.",
+      "nearbyRestaurants": [
+        "panxiRestaurant",
+        "guangzhouRestaurantLiwan"
+      ]
+    },
+    "beijingRoad": {
+      "id": "beijingRoad",
+      "name": "베이징루",
+      "chineseName": "北京路步行街",
+      "addressZh": "广东省广州市越秀区北京路",
+      "category": "쇼핑",
+      "district": "yuexiu",
+      "duration": 150,
+      "latitude": 23.1257,
+      "longitude": 113.2708,
+      "openTime": "10:00",
+      "closeTime": "23:00",
+      "recommendedTime": [
+        "afternoon",
+        "evening"
+      ],
+      "priority": 9,
+      "tags": [
+        "쇼핑",
+        "도심",
+        "야식"
+      ],
+      "hours": "상점별 영업시간 상이",
+      "price": "거리 입장 무료",
+      "bestTime": "오후~저녁",
+      "tips": "저녁 식사와 쇼핑을 한 번에 묶기 좋습니다.",
+      "note": "쇼핑과 길거리 음식, 도심 산책을 함께 즐길 수 있습니다."
+    },
+    "sacredHeart": {
+      "id": "sacredHeart",
+      "name": "성심대성당",
+      "chineseName": "石室圣心大教堂",
+      "addressZh": "广东省广州市越秀区一德路旧部前56号",
+      "category": "건축",
+      "district": "yuexiu",
+      "duration": 60,
+      "latitude": 23.1141,
+      "longitude": 113.2607,
+      "openTime": "08:30",
+      "closeTime": "17:30",
+      "recommendedTime": [
+        "morning",
+        "afternoon"
+      ],
+      "priority": 7,
+      "tags": [
+        "건축",
+        "사진"
+      ],
+      "hours": "미사·행사에 따라 관람시간 변동",
+      "price": "무료",
+      "bestTime": "오전",
+      "tips": "예배 시간에는 내부 관람이 제한될 수 있습니다.",
+      "note": "광저우를 대표하는 고딕 양식 성당입니다."
+    },
+    "zhanxiMarket": {
+      "id": "zhanxiMarket",
+      "name": "잔시루 도매시장",
+      "chineseName": "站西路批发市场商圈",
+      "addressZh": "广东省广州市越秀区站西路57号一带",
+      "category": "도매시장",
+      "district": "yuexiu",
+      "duration": 180,
+      "openTime": "09:00",
+      "closeTime": "17:00",
+      "recommendedTime": [
+        "morning",
+        "afternoon"
+      ],
+      "priority": 7,
+      "tags": [
+        "도매시장",
+        "의류",
+        "시계",
+        "쇼핑"
+      ],
+      "hours": "시장별 상이 · 대체로 09:00~17:00",
+      "price": "입장 무료 · 상품 가격 별도",
+      "bestTime": "오전 09:00~11:00",
+      "tips": "한 건물이 아니라 여러 도매시장과 상가가 모인 지역입니다. 위조상품의 구매·반입·판매에는 법적 문제가 생길 수 있으니 정품 여부와 반입 규정을 확인하세요.",
+      "note": "광저우역 서쪽의 의류·신발·시계·액세서리 도매시장 밀집 지역입니다."
+    },
+    "cantonTower": {
+      "id": "cantonTower",
+      "name": "광저우타워",
+      "chineseName": "广州塔",
+      "addressZh": "广东省广州市海珠区阅江西路222号",
+      "category": "랜드마크",
+      "district": "zhujiang",
+      "duration": 120,
+      "latitude": 23.1065,
+      "longitude": 113.3249,
+      "openTime": "09:30",
+      "closeTime": "22:30",
+      "recommendedTime": [
+        "evening",
+        "night"
+      ],
+      "priority": 10,
+      "tags": [
+        "야경",
+        "랜드마크",
+        "사진"
+      ],
+      "hours": "상품·시설별 운영시간 상이",
+      "price": "전망대 상품별 상이",
+      "bestTime": "일몰 1시간 전",
+      "tips": "야경 관람은 사전 예매를 권장합니다.",
+      "note": "광저우의 야경을 대표하는 랜드마크입니다."
+    },
+    "haixinBridge": {
+      "id": "haixinBridge",
+      "name": "하이신차오",
+      "chineseName": "海心桥",
+      "addressZh": "广东省广州市海珠区广州塔西侧至越秀区二沙岛东侧",
+      "category": "보행교",
+      "district": "zhujiang",
+      "duration": 60,
+      "latitude": 23.11086,
+      "longitude": 113.3136,
+      "openTime": "07:00",
+      "closeTime": "23:00",
+      "recommendedTime": [
+        "evening",
+        "night"
+      ],
+      "priority": 9,
+      "tags": [
+        "야경",
+        "산책",
+        "사진"
+      ],
+      "hours": "07:00~23:00 · 최종 입장 22:45",
+      "price": "무료",
+      "bestTime": "일몰 이후",
+      "tips": "현재 일반 예약은 폐지됐지만, 혼잡 시 현장 인원 통제가 적용될 수 있습니다. 보안검색을 거쳐야 합니다.",
+      "note": "광저우타워 서쪽과 얼사다오 동쪽을 연결하는 주강 위의 보행교입니다."
+    },
+    "huachengSquare": {
+      "id": "huachengSquare",
+      "name": "화청광장",
+      "chineseName": "花城广场",
+      "addressZh": "广东省广州市天河区珠江新城",
+      "category": "도심산책",
+      "district": "zhujiang",
+      "duration": 90,
+      "latitude": 23.1195,
+      "longitude": 113.3247,
+      "openTime": "08:00",
+      "closeTime": "24:00",
+      "recommendedTime": [
+        "afternoon",
+        "evening"
+      ],
+      "priority": 9,
+      "tags": [
+        "야경",
+        "산책",
+        "도심"
+      ],
+      "hours": "상시 개방",
+      "price": "무료",
+      "bestTime": "일몰 이후",
+      "tips": "광저우타워와 함께 묶으면 동선이 좋습니다.",
+      "note": "주장신청의 고층 빌딩과 야경을 함께 볼 수 있는 광장입니다."
+    },
+    "k11": {
+      "id": "k11",
+      "name": "광저우 K11",
+      "chineseName": "广州K11购物艺术中心",
+      "addressZh": "广东省广州市天河区珠江东路6号",
+      "category": "쇼핑",
+      "district": "zhujiang",
+      "duration": 120,
+      "latitude": 23.1185,
+      "longitude": 113.3268,
+      "openTime": "10:00",
+      "closeTime": "22:00",
+      "recommendedTime": [
+        "afternoon",
+        "evening"
+      ],
+      "priority": 7,
+      "tags": [
+        "쇼핑",
+        "전시",
+        "카페"
+      ],
+      "hours": "10:00~22:00",
+      "price": "입장 무료",
+      "bestTime": "오후",
+      "tips": "카페 휴식과 쇼핑을 함께 넣기 좋습니다.",
+      "note": "쇼핑과 전시, 카페를 함께 즐길 수 있는 복합 공간입니다."
+    },
+    "partyPier": {
+      "id": "partyPier",
+      "name": "파티피어",
+      "chineseName": "珠江琶醍啤酒文化创意艺术区",
+      "addressZh": "广东省广州市海珠区阅江西路磨碟沙大街118号",
+      "category": "야경·식음",
+      "district": "zhujiang",
+      "duration": 150,
+      "latitude": 23.10661,
+      "longitude": 113.340957,
+      "openTime": "17:00",
+      "closeTime": "24:00",
+      "recommendedTime": [
+        "evening",
+        "night"
+      ],
+      "priority": 8,
+      "tags": [
+        "야경",
+        "레스토랑",
+        "바",
+        "산책"
+      ],
+      "hours": "구역 상시 접근 · 매장별 영업시간 상이",
+      "price": "입장 무료 · 식음료 별도",
+      "bestTime": "저녁 18:00 이후",
+      "tips": "레스토랑과 바의 영업시간은 매장마다 다릅니다. 광저우타워·하이신차오와 같은 날 저녁 동선으로 묶기 좋습니다.",
+      "note": "주강변 옛 맥주공장 일대를 활용한 문화·식음·야경 명소입니다."
+    },
+    "changlong": {
+      "id": "changlong",
+      "name": "창롱 관광리조트",
+      "chineseName": "广州长隆旅游度假区",
+      "addressZh": "广东省广州市番禺区汉溪大道东299号",
+      "category": "근교여행",
+      "district": "panyu",
+      "duration": 480,
+      "latitude": 22.9984,
+      "longitude": 113.327,
+      "openTime": "09:30",
+      "closeTime": "18:00",
+      "recommendedTime": [
+        "morning"
+      ],
+      "priority": 8,
+      "tags": [
+        "가족",
+        "테마파크",
+        "종일"
+      ],
+      "hours": "시설별 운영시간 상이",
+      "price": "시설별 상이",
+      "bestTime": "개장 시간",
+      "tips": "하루 전체가 필요하므로 짧은 일정에는 추천하지 않습니다.",
+      "note": "하루 전체를 사용하는 광저우 대표 근교 관광지입니다."
+    },
+    "shangxiajiu": {
+      "id": "shangxiajiu",
+      "name": "상하구 보행거리",
+      "chineseName": "上下九步行街",
+      "addressZh": "广东省广州市荔湾区上下九路",
+      "category": "쇼핑거리",
+      "district": "liwan",
+      "duration": 150,
+      "latitude": 23.1161,
+      "longitude": 113.2462,
+      "openTime": "10:00",
+      "closeTime": "22:30",
+      "hours": "거리 상시 접근 · 매장별 영업시간 상이",
+      "price": "거리 입장 무료",
+      "bestTime": "오후~저녁",
+      "priority": 7,
+      "tags": [
+        "쇼핑",
+        "로컬",
+        "먹거리",
+        "산책"
+      ],
+      "tips": "영경방·샤미엔과 같은 날 묶기 좋습니다. 일부 매장은 늦은 시간에 일찍 문을 닫을 수 있습니다.",
+      "note": "서관 분위기와 오래된 상점, 로컬 먹거리를 함께 볼 수 있는 리완의 대표 보행거리입니다.",
+      "nearbyPlaces": [
+        "yongqingfang",
+        "shamian",
+        "lycheeBay"
+      ],
+      "nearbyRestaurants": [
+        "lianXiangLou",
+        "taoTaoJuLiwan",
+        "guangzhouRestaurantLiwan"
+      ]
+    },
+    "lycheeBay": {
+      "id": "lycheeBay",
+      "name": "리치완",
+      "chineseName": "荔枝湾",
+      "addressZh": "广东省广州市荔湾区龙津西路一带",
+      "category": "수변산책",
+      "district": "liwan",
+      "duration": 120,
+      "latitude": 23.1247,
+      "longitude": 113.2375,
+      "openTime": "08:00",
+      "closeTime": "22:00",
+      "hours": "야외 구역 상시 접근",
+      "price": "무료",
+      "bestTime": "오전 또는 늦은 오후",
+      "priority": 8,
+      "tags": [
+        "산책",
+        "수변",
+        "전통",
+        "사진"
+      ],
+      "tips": "영경방과 도보권으로 연결해 천천히 산책하기 좋습니다.",
+      "note": "서관의 수로와 전통 경관을 볼 수 있는 리완의 수변 산책 지역입니다.",
+      "nearbyPlaces": [
+        "yongqingfang",
+        "chenClan",
+        "shangxiajiu"
+      ],
+      "nearbyRestaurants": [
+        "panxiRestaurant",
+        "guangzhouRestaurantLiwan"
+      ]
+    },
+    "yuexiuPark": {
+      "id": "yuexiuPark",
+      "name": "월수공원",
+      "chineseName": "越秀公园",
+      "addressZh": "广东省广州市越秀区解放北路988号",
+      "category": "공원",
+      "district": "yuexiu",
+      "duration": 150,
+      "latitude": 23.1394,
+      "longitude": 113.2597,
+      "openTime": "06:00",
+      "closeTime": "22:00",
+      "hours": "공원 운영시간은 입구별로 다를 수 있음",
+      "price": "공원 입장 무료 · 일부 시설 별도",
+      "bestTime": "오전",
+      "priority": 8,
+      "tags": [
+        "공원",
+        "역사",
+        "산책",
+        "가족"
+      ],
+      "tips": "공원이 넓어 편한 신발을 권장합니다. 중산기념당과 함께 배치하기 좋습니다.",
+      "note": "오양석상과 진해루 등 광저우의 상징적인 역사 명소를 함께 볼 수 있는 도심 공원입니다.",
+      "nearbyPlaces": [
+        "sunYatSenMemorial",
+        "beijingRoad"
+      ],
+      "nearbyRestaurants": [
+        "beijingRoadFood"
+      ]
+    },
+    "sunYatSenMemorial": {
+      "id": "sunYatSenMemorial",
+      "name": "중산기념당",
+      "chineseName": "广州中山纪念堂",
+      "addressZh": "广东省广州市越秀区东风中路299号",
+      "category": "역사건축",
+      "district": "yuexiu",
+      "duration": 90,
+      "latitude": 23.1367,
+      "longitude": 113.259,
+      "openTime": "09:00",
+      "closeTime": "17:30",
+      "hours": "행사 일정에 따라 관람구역 변동 가능",
+      "price": "정원 무료 · 내부 관람권 별도 가능",
+      "bestTime": "오전",
+      "priority": 8,
+      "tags": [
+        "역사",
+        "건축",
+        "사진"
+      ],
+      "tips": "공연이나 공식 행사가 있는 날은 내부 관람이 제한될 수 있습니다.",
+      "note": "쑨원(손중산)을 기념해 세운 팔각형 전통 양식의 광저우 대표 건축물입니다.",
+      "nearbyPlaces": [
+        "yuexiuPark",
+        "beijingRoad"
+      ],
+      "nearbyRestaurants": [
+        "beijingRoadFood"
+      ]
+    },
+    "guangdongMuseum": {
+      "id": "guangdongMuseum",
+      "name": "광둥성박물관",
+      "chineseName": "广东省博物馆",
+      "addressZh": "广东省广州市天河区珠江东路2号",
+      "category": "박물관",
+      "district": "zhujiang",
+      "duration": 150,
+      "latitude": 23.1182,
+      "longitude": 113.3189,
+      "openTime": "09:00",
+      "closeTime": "17:00",
+      "hours": "월요일 휴관 가능 · 예약 및 운영시간 방문 전 확인",
+      "price": "상설전 무료인 경우가 많음 · 특별전 별도",
+      "bestTime": "오전 또는 오후 초반",
+      "priority": 9,
+      "tags": [
+        "실내",
+        "박물관",
+        "문화",
+        "비오는날"
+      ],
+      "tips": "신분 확인이나 사전 예약이 요구될 수 있으므로 공식 안내를 방문 전에 확인하세요.",
+      "note": "광둥 지역의 역사·자연·도자기·공예품을 폭넓게 볼 수 있는 대형 종합박물관입니다.",
+      "nearbyPlaces": [
+        "guangzhouOperaHouse",
+        "guangzhouLibrary",
+        "huachengSquare",
+        "k11"
+      ],
+      "nearbyRestaurants": [
+        "cantoneseZhujiang",
+        "cafeZhujiang"
+      ]
+    },
+    "guangzhouOperaHouse": {
+      "id": "guangzhouOperaHouse",
+      "name": "광저우 오페라하우스",
+      "chineseName": "广州大剧院",
+      "addressZh": "广东省广州市天河区珠江西路1号",
+      "category": "건축·공연",
+      "district": "zhujiang",
+      "duration": 75,
+      "latitude": 23.116,
+      "longitude": 113.3158,
+      "openTime": "10:00",
+      "closeTime": "22:00",
+      "hours": "외부 상시 관람 · 내부는 공연·투어 일정 기준",
+      "price": "외부 무료 · 공연 및 투어 별도",
+      "bestTime": "늦은 오후~야간",
+      "priority": 8,
+      "tags": [
+        "건축",
+        "사진",
+        "공연",
+        "야경"
+      ],
+      "tips": "공연 관람이 목적이면 공식 공연 일정을 미리 확인하세요.",
+      "note": "자하 하디드가 설계한 독특한 외관으로 유명한 주장신청의 현대 건축 명소입니다.",
+      "nearbyPlaces": [
+        "guangdongMuseum",
+        "guangzhouLibrary",
+        "huachengSquare"
+      ],
+      "nearbyRestaurants": [
+        "cantoneseZhujiang",
+        "cafeZhujiang"
+      ]
+    },
+    "guangzhouLibrary": {
+      "id": "guangzhouLibrary",
+      "name": "광저우도서관",
+      "chineseName": "广州图书馆",
+      "addressZh": "广东省广州市天河区珠江东路4号",
+      "category": "도서관",
+      "district": "zhujiang",
+      "duration": 90,
+      "latitude": 23.1176,
+      "longitude": 113.3197,
+      "openTime": "09:00",
+      "closeTime": "21:00",
+      "hours": "요일·구역별 운영시간 상이 · 방문 전 확인",
+      "price": "무료",
+      "bestTime": "오후",
+      "priority": 6,
+      "tags": [
+        "실내",
+        "건축",
+        "휴식",
+        "비오는날"
+      ],
+      "tips": "관광객 출입 가능 구역과 휴관일을 방문 전에 확인하세요.",
+      "note": "독특한 외관과 넓은 내부 공간으로 유명한 주장신청의 현대 도서관입니다.",
+      "nearbyPlaces": [
+        "guangdongMuseum",
+        "guangzhouOperaHouse",
+        "huachengSquare"
+      ],
+      "nearbyRestaurants": [
+        "cafeZhujiang",
+        "cantoneseZhujiang"
+      ]
+    },
+    "baiyunMountain": {
+      "id": "baiyunMountain",
+      "name": "백운산",
+      "chineseName": "白云山风景名胜区",
+      "addressZh": "广东省广州市白云区广园中路801号一带",
+      "category": "자연·등산",
+      "district": "baiyun",
+      "duration": 300,
+      "latitude": 23.1835,
+      "longitude": 113.2985,
+      "openTime": "07:00",
+      "closeTime": "18:00",
+      "hours": "입구·시설별 운영시간 상이",
+      "price": "입장권 및 케이블카 별도 가능",
+      "bestTime": "오전",
+      "priority": 7,
+      "tags": [
+        "자연",
+        "등산",
+        "전망",
+        "가족"
+      ],
+      "tips": "도심 관광지와 거리가 있어 반나절 이상 확보하는 것이 좋습니다.",
+      "note": "광저우 시내 전망과 숲길을 즐길 수 있는 대표 자연 명소입니다.",
+      "nearbyPlaces": [],
+      "nearbyRestaurants": []
+    }
+  }
+}

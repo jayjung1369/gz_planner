@@ -1,0 +1,1120 @@
+/* Planner form, selection cards, schedule and editing UI.
+   Extracted from legacy style.css during Sprint 1-1. */
+
+.wedding-date strong {
+  font-size: clamp(120px, 15vw, 220px);
+  line-height: 0.8;
+  letter-spacing: -0.08em;
+}
+
+.wedding-date span {
+  color: var(--subtext);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+}
+
+.wedding-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.08)
+    ),
+    radial-gradient(
+      circle at top right,
+      rgba(169, 135, 93, 0.34),
+      transparent 45%
+    );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.wedding-info h3 {
+  margin: 0 0 12px;
+  font-size: clamp(44px, 5vw, 72px);
+  letter-spacing: -0.055em;
+}
+
+.wedding-info p {
+  max-width: 520px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.story-card {
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px;
+  border-radius: var(--radius-xl);
+  background: var(--soft);
+}
+
+.story-card.large {
+  grid-row: 1 / span 2;
+  min-height: 580px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.08)
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(169, 135, 93, 0.28),
+      transparent 40%
+    ),
+    var(--soft);
+}
+
+.story-index {
+  color: var(--subtext);
+  font-size: 13px;
+}
+
+.story-card h3 {
+  margin: 0 0 8px;
+  font-size: 38px;
+  letter-spacing: -0.05em;
+}
+
+.story-card p {
+  margin: 0;
+  color: var(--subtext);
+}
+
+.soft-section {
+  max-width: none;
+  padding-left: max(40px, calc((100vw - var(--content)) / 2));
+  padding-right: max(40px, calc((100vw - var(--content)) / 2));
+  background: var(--soft);
+}
+
+.guide-list {
+  border-top: 1px solid var(--line);
+}
+
+.guide-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 28px 4px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.footer {
+  padding: 72px 24px;
+  background: var(--dark);
+  color: rgba(255, 255, 255, 0.58);
+  text-align: center;
+}
+
+.footer p {
+  margin: 4px 0;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 980px) {
+  .planner-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .choice-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .site-header {
+    padding: 0 20px;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: clamp(62px, 20vw, 98px);
+  }
+
+  .section,
+  .dark-section,
+  .soft-section {
+    padding: 110px 20px;
+  }
+
+  .planner-form,
+  .planner-mode,
+  .wedding-feature,
+  .story-grid,
+  .choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-shell {
+    padding: 18px;
+  }
+
+  .custom-selector,
+  .schedule-result {
+    padding: 22px;
+  }
+
+  .story-grid {
+    grid-template-rows: auto;
+  }
+
+  .story-card.large {
+    grid-row: auto;
+    min-height: 360px;
+  }
+
+  .wedding-date,
+  .wedding-info {
+    min-height: 320px;
+  }
+
+  .schedule-card-top {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .timeline-item {
+    grid-template-columns: 64px 1fr;
+    gap: 12px;
+  }
+
+  .timeline-item.wedding-event {
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+
+  .wedding-event .timeline-time {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+
+.timeline-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.detail-button {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(29, 29, 31, 0.07);
+  color: var(--subtext);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.detail-button:hover {
+  background: rgba(29, 29, 31, 0.12);
+  color: var(--text);
+}
+
+.wedding-event .detail-button {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.detail-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px;
+}
+
+.detail-modal.open {
+  display: flex;
+}
+
+.detail-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(12px);
+}
+
+.detail-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(620px, 100%);
+  max-height: min(760px, calc(100vh - 48px));
+  overflow-y: auto;
+  padding: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.66);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.24);
+}
+
+.detail-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--soft);
+  color: var(--subtext);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.detail-modal-panel h2 {
+  margin: 0;
+  padding-right: 44px;
+  font-size: clamp(34px, 7vw, 52px);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+}
+
+.detail-modal-chinese {
+  margin: 10px 0 0;
+  color: var(--accent);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.detail-modal-info {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.detail-modal-info > div {
+  padding: 18px;
+  border-radius: 18px;
+  background: var(--soft);
+}
+
+.detail-modal-info span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--subtext);
+  font-size: 12px;
+}
+
+.detail-modal-info strong {
+  display: block;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.detail-modal-description {
+  margin: 24px 0 0;
+  color: var(--subtext);
+}
+
+.detail-modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.modal-action {
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-action.secondary {
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--text);
+}
+
+.modal-action.primary {
+  border: 0;
+  background: var(--text);
+  color: white;
+}
+
+.copy-feedback {
+  min-height: 22px;
+  margin: 12px 0 0;
+  color: var(--accent);
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (min-width: 821px) {
+  .detail-modal {
+    align-items: center;
+  }
+}
+
+@media (max-width: 820px) {
+  .detail-modal {
+    padding: 12px;
+  }
+
+  .detail-modal-panel {
+    max-height: calc(100vh - 24px);
+    padding: 30px 22px 22px;
+    border-radius: 26px;
+  }
+
+  .detail-modal-info,
+  .detail-modal-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-title-row {
+    gap: 10px;
+  }
+}
+
+
+.storage-guide {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 18px 20px;
+  border: 1px solid rgba(169, 135, 93, 0.2);
+  border-radius: 18px;
+  background: rgba(169, 135, 93, 0.07);
+}
+
+.storage-guide-icon {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.storage-guide strong {
+  display: block;
+  font-size: 14px;
+}
+
+.storage-guide p {
+  margin: 4px 0 0;
+  color: var(--subtext);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.planner-actions {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.planner-sub-button {
+  min-height: 48px;
+  padding: 0 20px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--subtext);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.planner-sub-button:hover {
+  background: white;
+  color: var(--text);
+}
+
+.storage-status {
+  min-height: 22px;
+  margin: 10px 0 0;
+  color: var(--accent);
+  font-size: 12px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.storage-status.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.storage-status.error {
+  color: #b54747;
+}
+
+@media (max-width: 820px) {
+  .storage-guide {
+    padding: 16px;
+  }
+
+  .planner-actions {
+    flex-direction: column;
+  }
+
+  .planner-actions .pill-button,
+  .planner-sub-button {
+    width: 100%;
+  }
+}
+
+
+.timeline-edit-actions {
+  display: flex;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.timeline-edit-button,
+.timeline-delete-button {
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.timeline-edit-button {
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--text);
+}
+
+.timeline-delete-button {
+  border: 0;
+  background: rgba(181, 71, 71, 0.08);
+  color: #a54141;
+}
+
+.locked-schedule-label {
+  display: inline-flex;
+  margin-top: 12px;
+  color: #d8bd94;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.add-schedule-button {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 18px;
+  border: 1px dashed rgba(169, 135, 93, 0.44);
+  border-radius: 16px;
+  background: rgba(169, 135, 93, 0.06);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.add-schedule-button:hover {
+  background: rgba(169, 135, 93, 0.11);
+}
+
+.schedule-edit-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 320;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px;
+}
+
+.schedule-edit-modal.open {
+  display: flex;
+}
+
+.schedule-edit-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.44);
+  backdrop-filter: blur(12px);
+}
+
+.schedule-edit-panel {
+  position: relative;
+  z-index: 1;
+  width: min(620px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding: 38px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.25);
+}
+
+.schedule-edit-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--soft);
+  color: var(--subtext);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.schedule-edit-panel h2 {
+  margin: 0;
+  padding-right: 44px;
+  font-size: clamp(34px, 7vw, 50px);
+  letter-spacing: -0.055em;
+}
+
+.schedule-edit-guide {
+  margin: 12px 0 26px;
+  color: var(--subtext);
+  font-size: 14px;
+}
+
+.edit-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--soft);
+}
+
+.edit-field span {
+  color: var(--subtext);
+  font-size: 12px;
+}
+
+.edit-field input,
+.edit-field select {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+}
+
+.edit-form-message {
+  min-height: 22px;
+  margin: 14px 0 0;
+  color: #ad4545;
+  font-size: 12px;
+}
+
+.schedule-edit-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+@media (min-width: 821px) {
+  .schedule-edit-modal {
+    align-items: center;
+  }
+}
+
+@media (max-width: 820px) {
+  .schedule-edit-modal {
+    padding: 12px;
+  }
+
+  .schedule-edit-panel {
+    max-height: calc(100vh - 24px);
+    padding: 30px 22px 22px;
+    border-radius: 26px;
+  }
+
+  .edit-form-grid,
+  .schedule-edit-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.detail-gallery {
+  position: relative;
+  margin: -38px -38px 30px;
+  overflow: hidden;
+  border-radius: 30px 30px 22px 22px;
+  background: var(--soft);
+  aspect-ratio: 16 / 9;
+}
+
+.detail-gallery img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.gallery-button {
+  position: absolute;
+  top: 50%;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  background: rgba(20, 20, 22, 0.52);
+  color: white;
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+}
+
+.gallery-prev {
+  left: 16px;
+}
+
+.gallery-next {
+  right: 16px;
+}
+
+.gallery-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  display: flex;
+  gap: 7px;
+  transform: translateX(-50%);
+}
+
+.gallery-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+.gallery-dot.active {
+  width: 20px;
+  border-radius: 999px;
+  background: white;
+}
+
+.detail-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.detail-quick-grid > div {
+  min-height: 92px;
+  padding: 16px;
+  border-radius: 18px;
+  background: var(--soft);
+}
+
+.detail-quick-grid span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--subtext);
+  font-size: 11px;
+}
+
+.detail-quick-grid strong {
+  display: block;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.detail-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 16px 18px;
+  border: 1px solid rgba(169, 135, 93, 0.2);
+  border-radius: 18px;
+  background: rgba(169, 135, 93, 0.07);
+}
+
+.detail-tip span {
+  flex: 0 0 auto;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.detail-tip p {
+  margin: 0;
+  color: var(--subtext);
+  font-size: 13px;
+}
+
+@media (max-width: 820px) {
+  .detail-gallery {
+    margin: -30px -22px 24px;
+    border-radius: 26px 26px 18px 18px;
+  }
+
+  .detail-quick-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* 관광지·식당 선택 카드 이미지 */
+.choice-card {
+  overflow: hidden;
+  padding: 0;
+}
+
+.choice-image-wrap {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--soft);
+}
+
+.choice-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.choice-card:hover .choice-image {
+  transform: scale(1.035);
+}
+
+.choice-card .choice-check {
+  top: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+}
+
+.choice-content {
+  padding: 16px 18px 18px;
+}
+
+
+.edit-transport-fields {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+@media (max-width: 820px) {
+  .edit-transport-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* 분 단위 소요시간 직접 입력 */
+.duration-input-wrap {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: white;
+}
+
+.duration-input-wrap input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 16px;
+}
+
+.duration-input-wrap span {
+  flex: 0 0 auto;
+  margin-left: 8px;
+  color: var(--subtext);
+  font-size: 13px;
+}
+
+.edit-field-help {
+  display: block;
+  margin-top: 6px;
+  color: var(--subtext);
+  font-size: 11px;
+}
+
+/* 임시 사진 표시 */
+.choice-image-wrap {
+  position: relative;
+}
+
+.choice-photo-status,
+.detail-photo-status {
+  position: absolute;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(20, 20, 22, 0.72);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+}
+
+.choice-photo-status {
+  left: 12px;
+  bottom: 12px;
+}
+
+.detail-photo-status {
+  left: 16px;
+  top: 16px;
+}
+
+/* 동선 경고 */
+.route-overall-notice,
+.day-route-warning {
+  border: 1px solid rgba(181, 117, 45, 0.25);
+  background: rgba(181, 117, 45, 0.08);
+}
+
+.route-overall-notice {
+  margin-top: 24px;
+  padding: 18px 20px;
+  border-radius: 18px;
+}
+
+.route-overall-notice strong,
+.day-route-warning strong {
+  color: #8a5a22;
+}
+
+.route-overall-notice p {
+  margin: 5px 0 0;
+  color: var(--subtext);
+  font-size: 13px;
+}
+
+.day-route-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 12px;
+}
+
+.day-route-warning strong {
+  flex: 0 0 auto;
+}
+
+.day-route-warning span {
+  color: var(--subtext);
+}
+
+/* 제외된 선택 항목 */
+.excluded-section {
+  margin-top: 28px;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--soft);
+}
+
+.excluded-heading h4 {
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: -0.04em;
+}
+
+.excluded-heading > p:last-child {
+  margin: 8px 0 0;
+  color: var(--subtext);
+  font-size: 13px;
+}
+
+.excluded-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.excluded-item {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.7fr) 1.3fr;
+  gap: 18px;
+  padding: 15px 16px;
+  border-radius: 15px;
+  background: white;
+}
+
+.excluded-item > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.excluded-item strong {
+  font-size: 14px;
+}
+
+.excluded-item span {
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.excluded-item p {
+  margin: 0;
+  color: var(--subtext);
+  font-size: 12px;
+}
+
+/* 모바일 및 WeChat 브라우저 호환성 */
+button,
+select,
+input {
+  touch-action: manipulation;
+}
+
+.timeline-edit-button,
+.timeline-delete-button,
+.detail-button,
+.add-schedule-button,
+.gallery-button,
+.detail-modal-close,
+.schedule-edit-close {
+  min-height: 44px;
+}
+
+.date-field,
+.edit-field,
+.duration-input-wrap {
+  min-width: 0;
+}
+
+.date-field input[type="date"],
+.date-field input[type="time"],
+.edit-field input[type="date"],
+.edit-field input[type="time"] {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  font-size: 16px;
+}
+
+.schedule-edit-panel,
+.detail-modal-panel {
+  padding-bottom: max(22px, env(safe-area-inset-bottom));
+}
+
+@media (max-width: 820px) {
+  .excluded-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .day-route-warning {
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .timeline-edit-actions {
+    width: 100%;
+  }
+
+  .timeline-edit-button,
+  .timeline-delete-button {
+    flex: 1;
+  }
+
+  .schedule-edit-actions {
+    position: sticky;
+    bottom: 0;
+    padding-top: 12px;
+    padding-bottom: max(4px, env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.96);
+  }
+}
+
+
