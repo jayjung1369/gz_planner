@@ -464,6 +464,10 @@
   border-radius: 12px;
 }
 
+.schedule-day-shell .timeline-card-copy {
+  width: 100%;
+}
+
 .schedule-day-shell .timeline-title {
   margin: 0;
   font-size: 15px;
@@ -534,6 +538,26 @@
   margin: 6px 0 0;
   color: var(--subtext);
   font-size: 12px;
+}
+
+.schedule-day-shell .transport-route-visual {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.schedule-day-shell .transport-route-visual span,
+.schedule-day-shell .transport-route-visual strong,
+.schedule-day-shell .transport-route-visual i {
+  white-space: nowrap;
+  word-break: keep-all;
+}
+
+.schedule-day-shell .transport-route-visual span,
+.schedule-day-shell .transport-route-visual strong {
+  min-width: 0;
 }
 
 @media (max-width: 820px) {
@@ -633,5 +657,10 @@
 
   .schedule-day-shell .timeline-transport-mode {
     font-size: 10px;
+  }
+
+  .schedule-day-shell .transport-route-visual {
+    flex-wrap: wrap;
+    row-gap: 4px;
   }
 }
