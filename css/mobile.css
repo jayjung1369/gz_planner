@@ -1786,7 +1786,14 @@ canvas {
 
 /* Final mobile overrides for detail action bar and timeline spacing */
 @media (max-width: 820px) {
+  .detail-modal {
+    padding: 0 !important;
+    align-items: flex-start !important;
+  }
+
   .detail-modal .detail-modal-panel {
+    max-height: 100svh !important;
+    border-radius: 0 !important;
     padding-bottom: max(18px, env(safe-area-inset-bottom)) !important;
   }
 
