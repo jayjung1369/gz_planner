@@ -50,8 +50,8 @@
         <p class="eyebrow">TRAVEL PLANNER</p>
         <h2>당신에게 맞는<br>광저우 일정.</h2>
         <p>
-          도착·출국 시간과 여행 방식을 선택하면
-          결혼식 일정은 고정하고 나머지 시간을 자동으로 구성합니다.
+          도착일과 출국일을 입력하면
+          관리자가 구성한 일자별 일정을 자동으로 보여줍니다.
         </p>
       </div>
 
@@ -63,73 +63,28 @@
           </div>
 
           <div class="date-field">
-            <label for="arrivalTime">도착시간</label>
-            <input id="arrivalTime" type="time" value="14:30">
-          </div>
-
-          <div class="date-field">
             <label for="departureDate">출국일</label>
-            <input id="departureDate" type="date" value="2026-11-16">
+            <input id="departureDate" type="date" value="2026-11-15">
           </div>
 
-          <div class="date-field">
-            <label for="departureTime">출발시간</label>
-            <input id="departureTime" type="time" value="18:30">
-          </div>
-        </div>
-
-        <div class="planner-mode">
-          <button class="mode-card active" type="button" data-mode="recommended">
-            <span class="mode-card-index">01</span>
-            <strong>추천 일정</strong>
-            <small>같은 지역을 우선 연결해 이동을 줄입니다.</small>
-          </button>
-
-          <button class="mode-card" type="button" data-mode="custom">
-            <span class="mode-card-index">02</span>
-            <strong>직접 선택</strong>
-            <small>도착·출발·결혼식만 고정 생성하고 나머지는 직접 추가합니다.</small>
-          </button>
-        </div>
-
-        <div class="custom-selector" id="customSelector" hidden>
-          <div class="selector-section">
-            <div class="selector-heading">
-              <div>
-                <p class="eyebrow">PLACES</p>
-                <h3>가고 싶은 여행지</h3>
-              </div>
-              <button class="text-button" id="selectAllPlaces" type="button">전체 선택</button>
-            </div>
-            <div class="choice-grid" id="placeChoices"></div>
-          </div>
-
-          <div class="selector-section">
-            <div class="selector-heading">
-              <div>
-                <p class="eyebrow">FOOD</p>
-                <h3>먹고 싶은 식사</h3>
-              </div>
-              <button class="text-button" id="selectAllRestaurants" type="button">전체 선택</button>
-            </div>
-            <div class="choice-grid" id="restaurantChoices"></div>
-          </div>
+          <input id="arrivalTime" type="hidden" value="14:30">
+          <input id="departureTime" type="hidden" value="18:30">
         </div>
 
         <div class="storage-guide">
           <div class="storage-guide-icon">✓</div>
           <div>
-            <strong>이 브라우저에 자동 저장됩니다.</strong>
+            <strong>관리자 기본 일정으로 자동 생성됩니다.</strong>
             <p>
-              입력한 날짜와 시간, 선택한 장소, 생성된 일정은 현재 기기의
-              브라우저에만 저장됩니다. 다른 기기나 브라우저에는 공유되지 않습니다.
+              입력한 날짜와 생성된 일정은 현재 기기의 브라우저에만 저장됩니다.
+              최대 3일 일정까지 생성할 수 있습니다.
             </p>
           </div>
         </div>
 
         <div class="planner-actions">
           <button class="pill-button dark" id="createScheduleButton" type="button">
-            추천 일정 만들기
+            일정 만들기
           </button>
 
           <button class="planner-sub-button" id="resetScheduleButton" type="button">
@@ -158,8 +113,8 @@
         <div class="schedule-result" id="scheduleResult">
           <div class="empty-state">
             <p class="eyebrow">READY WHEN YOU ARE</p>
-            <h3>여행 방식을 선택하고 일정을 만들어보세요.</h3>
-            <p>일반 일정은 08:00부터 24:00까지 구성됩니다.</p>
+            <h3>도착일과 출국일을 입력하고 일정을 만들어보세요.</h3>
+            <p>일정은 관리자 기본 템플릿으로 자동 구성됩니다.</p>
           </div>
         </div>
       </div>
@@ -707,17 +662,17 @@
     </section>
   </div>
 
-  <script src="js/state.js?v=32"></script>
+  <script src="js/state.js?v=33"></script>
   <script src="js/modules/utils.js?v=32"></script>
   <script src="js/modules/image-loader.js?v=31"></script>
   <script src="js/modules/data.js?v=31"></script>
-  <script src="js/modules/planner.js?v=42"></script>
+  <script src="js/modules/planner.js?v=43"></script>
   <script src="js/modules/travel.js?v=31"></script>
   <script src="js/modules/guide.js?v=31"></script>
   <script src="js/modules/detail.js?v=34"></script>
-  <script src="js/modules/storage.js?v=32"></script>
+  <script src="js/modules/storage.js?v=33"></script>
   <script src="js/modules/share.js?v=31"></script>
-  <script src="js/modules/events.js?v=40"></script>
-  <script src="js/app.js?v=32"></script>
+  <script src="js/modules/events.js?v=41"></script>
+  <script src="js/app.js?v=33"></script>
 </body>
 </html>

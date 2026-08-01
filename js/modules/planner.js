@@ -1,6 +1,10 @@
 /* Sprint 1-2 planner module. Classic scripts preserve existing global behavior. */
 
 function renderChoices() {
+  if (!placeChoices || !restaurantChoices) {
+    return;
+  }
+
   placeChoices.innerHTML = PLACE_OPTIONS.map((place) =>
     createChoiceCard(place, "place-choice")
   ).join("");
@@ -44,6 +48,10 @@ function createChoiceCard(item, inputClass) {
 }
 
 function toggleAllChoices(className, button) {
+  if (!button) {
+    return;
+  }
+
   const checkboxes = [...document.querySelectorAll(`.${className}`)];
   const shouldSelectAll = checkboxes.some((checkbox) => !checkbox.checked);
 
@@ -58,11 +66,11 @@ function toggleAllChoices(className, button) {
 function createSchedule() {
   const arrivalDate = parseDate(arrivalInput.value);
   const departureDate = parseDate(departureInput.value);
-  const arrivalTime = arrivalTimeInput.value;
-  const departureTime = departureTimeInput.value;
+  const arrivalTime = arrivalTimeInput?.value || "14:30";
+  const departureTime = departureTimeInput?.value || "18:30";
 
-  if (!arrivalDate || !departureDate || !arrivalTime || !departureTime) {
-    showMessage("도착·출국 날짜와 시간을 모두 선택해주세요.");
+  if (!arrivalDate || !departureDate) {
+    showMessage("도착일과 출국일을 모두 선택해주세요.");
     return;
   }
 
@@ -71,28 +79,24 @@ function createSchedule() {
     return;
   }
 
-  if (!isDateWithinRange(WEDDING_DATE, arrivalDate, departureDate)) {
-    showMessage("선택한 일정에는 2026년 11월 14일 결혼식이 포함되어야 합니다.");
+  const dates = enumerateDates(arrivalDate, departureDate);
+
+  if (dates.length > 3) {
+    showMessage("관리자 일정은 최대 3일까지만 생성할 수 있습니다.");
     return;
   }
 
-  const selectedPlaces = [];
-  const selectedRestaurants = [];
-
-  const dates = enumerateDates(arrivalDate, departureDate);
   const context = {
     arrivalDate,
     departureDate,
     arrivalTime,
     departureTime,
     dates,
-    selectedPlaces,
-    selectedRestaurants
+    selectedPlaces: [],
+    selectedRestaurants: []
   };
 
-  const schedule = plannerMode === "recommended"
-    ? buildRecommendedSchedule(context)
-    : buildCustomSchedule(context);
+  const schedule = buildManagedSchedule(context);
 
   context.excludedItems = [];
 
@@ -148,6 +152,137 @@ function getExclusionReason(item) {
 function buildRecommendedSchedule(context) {
   const pool = createRecommendedPool();
   return buildScheduleFromPool(context, pool);
+}
+
+function buildManagedSchedule(context) {
+  const templates = [
+    [
+      createManagedTransportItem({
+        start: 14 * 60,
+        end: 15 * 60,
+        title: "광저우 도착",
+        detail: "공항 도착 후 호텔로 이동합니다.",
+        tag: "도착",
+        from: "공항",
+        to: "호텔"
+      }),
+      createManagedSourceItem("chenClan", "place", 15 * 60 + 30),
+      createManagedSourceItem("dimsumLiwan", "restaurant", 17 * 60 + 30),
+      createManagedSourceItem("shamian", "place", 19 * 60 + 30)
+    ].filter(Boolean),
+    [
+      {
+        start: 14 * 60,
+        end: 17 * 60,
+        title: PLACES.weddingHotel.name,
+        detail: PLACES.weddingHotel.note,
+        tag: "Wedding",
+        isWeddingEvent: true
+      },
+      createManagedSourceItem("cantoneseZhujiang", "restaurant", 18 * 60)
+    ].filter(Boolean),
+    [
+      createManagedSourceItem("k11", "place", 10 * 60 + 30),
+      createManagedSourceItem("haixinBridge", "place", 13 * 60),
+      createManagedSourceItem("beijingRoadFood", "restaurant", 15 * 60),
+      createManagedTransportItem({
+        start: 17 * 60 + 30,
+        end: 18 * 60 + 30,
+        title: "광저우 출발",
+        detail: "호텔 체크아웃 후 공항으로 이동합니다.",
+        tag: "출발",
+        from: "호텔",
+        to: "공항"
+      })
+    ].filter(Boolean)
+  ];
+
+  return context.dates.map((date, index) => {
+    const isArrivalDay = index === 0;
+    const isDepartureDay = index === context.dates.length - 1;
+    const template = (templates[index] || []).map((item) => ({ ...item }));
+
+    if (isArrivalDay && !template.some((item) => item.tag === "도착")) {
+      template.unshift(
+        createManagedTransportItem({
+          start: 14 * 60,
+          end: 15 * 60,
+          title: "광저우 도착",
+          detail: "공항 도착 후 호텔로 이동합니다.",
+          tag: "도착",
+          from: "공항",
+          to: "호텔"
+        })
+      );
+    }
+
+    if (isDepartureDay && !template.some((item) => item.tag === "출발")) {
+      template.push(
+        createManagedTransportItem({
+          start: 17 * 60 + 30,
+          end: 18 * 60 + 30,
+          title: "광저우 출발",
+          detail: "호텔 체크아웃 후 공항으로 이동합니다.",
+          tag: "출발",
+          from: "호텔",
+          to: "공항"
+        })
+      );
+    }
+
+    return {
+      date,
+      index,
+      title: getDayTitle({ isArrivalDay, isDepartureDay }),
+      items: template
+    };
+  });
+}
+
+function createManagedSourceItem(itemId, type, start) {
+  const source = type === "restaurant"
+    ? RESTAURANTS[itemId]
+    : PLACES[itemId];
+
+  if (!source) {
+    return null;
+  }
+
+  const duration = source.duration || 90;
+
+  return {
+    id: source.id,
+    sourceType: type,
+    start,
+    end: start + duration,
+    title: source.name,
+    detail: source.note,
+    tag: source.category,
+    district: source.district
+  };
+}
+
+function createManagedTransportItem({
+  start,
+  end,
+  title,
+  detail,
+  tag,
+  from,
+  to
+}) {
+  return {
+    start,
+    end,
+    title,
+    detail,
+    tag,
+    type: "transport",
+    sourceType: "transport",
+    transportFrom: from,
+    transportTo: to,
+    transportMode: "차량 이동"
+  };
 }
 
 function buildCustomSchedule(context) {
@@ -771,9 +906,7 @@ function renderSchedule(schedule, context, options = {}) {
   currentContext = context;
 
   const nights = Math.max(context.dates.length - 1, 0);
-  const selectedLabel = plannerMode === "recommended"
-    ? "동선을 고려한 추천 일정"
-    : "선택한 장소 중심 일정";
+  const selectedLabel = "관리자 기본 일정";
 
   scheduleResult.innerHTML = `
     <div class="schedule-header">

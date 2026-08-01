@@ -56,13 +56,13 @@ function savePlannerState(options = {}) {
     }
 
     const state = {
-      plannerMode,
+      plannerMode: "managed",
       arrivalDate: arrivalInput.value,
       arrivalTime: arrivalTimeInput.value,
       departureDate: departureInput.value,
       departureTime: departureTimeInput.value,
-      selectedPlaceIds: getCheckedValues("place-choice"),
-      selectedRestaurantIds: getCheckedValues("restaurant-choice"),
+      selectedPlaceIds: [],
+      selectedRestaurantIds: [],
       renderedScheduleHtml,
       scheduleData: serializeSchedule(currentSchedule),
       contextData: serializeContext(currentContext),
@@ -92,13 +92,10 @@ function restorePlannerState() {
   departureInput.value = state.departureDate || departureInput.value;
   departureTimeInput.value = state.departureTime || departureTimeInput.value;
 
-  setPlannerModeWithoutSaving(state.plannerMode || "recommended");
+  setPlannerModeWithoutSaving("managed");
 
-  restoreCheckedValues("place-choice", state.selectedPlaceIds || []);
-  restoreCheckedValues(
-    "restaurant-choice",
-    state.selectedRestaurantIds || []
-  );
+  restoreCheckedValues("place-choice", []);
+  restoreCheckedValues("restaurant-choice", []);
 
   updateSelectAllButton(
     "place-choice",
@@ -138,7 +135,7 @@ function getSavedPlannerState() {
 
 function resetSavedPlanner() {
   const confirmed = window.confirm(
-    "저장된 날짜, 선택 항목, 생성된 일정을 모두 초기화할까요?"
+    "저장된 날짜와 생성된 일정을 모두 초기화할까요?"
   );
 
   if (!confirmed) {
@@ -151,10 +148,10 @@ function resetSavedPlanner() {
 
   arrivalInput.value = "2026-11-13";
   arrivalTimeInput.value = "14:30";
-  departureInput.value = "2026-11-16";
+  departureInput.value = "2026-11-15";
   departureTimeInput.value = "18:30";
 
-  setPlannerModeWithoutSaving("recommended");
+  setPlannerModeWithoutSaving("managed");
 
   document
     .querySelectorAll(".place-choice, .restaurant-choice")
@@ -174,8 +171,8 @@ function resetSavedPlanner() {
   scheduleResult.innerHTML = `
     <div class="empty-state">
       <p class="eyebrow">READY WHEN YOU ARE</p>
-      <h3>여행 방식을 선택하고 일정을 만들어보세요.</h3>
-      <p>일반 일정은 08:00부터 24:00까지 구성됩니다.</p>
+      <h3>도착일과 출국일을 입력하고 일정을 만들어보세요.</h3>
+      <p>일정은 관리자 기본 템플릿으로 자동 구성됩니다.</p>
     </div>
   `;
 
@@ -183,7 +180,7 @@ function resetSavedPlanner() {
 }
 
 function setPlannerModeWithoutSaving(mode) {
-  plannerMode = mode;
+  plannerMode = "managed";
 
   modeButtons.forEach((button) => {
     button.classList.toggle(
@@ -192,12 +189,11 @@ function setPlannerModeWithoutSaving(mode) {
     );
   });
 
-  const isCustom = mode === "custom";
-  customSelector.hidden = true;
+  if (customSelector) {
+    customSelector.hidden = true;
+  }
 
-  createButton.textContent = isCustom
-    ? "직접 작성 일정 만들기"
-    : "추천 일정 만들기";
+  createButton.textContent = "일정 만들기";
 }
 
 function getCheckedValues(className) {
@@ -217,6 +213,10 @@ function restoreCheckedValues(className, selectedIds) {
 }
 
 function updateSelectAllButton(className, button) {
+  if (!button) {
+    return;
+  }
+
   const checkboxes = [
     ...document.querySelectorAll(`.${className}`)
   ];

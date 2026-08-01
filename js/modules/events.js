@@ -498,11 +498,13 @@ function bindEvents() {
     }
   );
 
-  customSelector.addEventListener("change", (event) => {
-    if (event.target.matches("input[type='checkbox']")) {
-      savePlannerState({ clearRenderedSchedule: true });
-    }
-  });
+  if (customSelector) {
+    customSelector.addEventListener("change", (event) => {
+      if (event.target.matches("input[type='checkbox']")) {
+        savePlannerState({ clearRenderedSchedule: true });
+      }
+    });
+  }
 
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") {
@@ -525,13 +527,17 @@ function bindEvents() {
     });
   });
 
-  selectAllPlacesButton.addEventListener("click", () => {
-    toggleAllChoices("place-choice", selectAllPlacesButton);
-  });
+  if (selectAllPlacesButton) {
+    selectAllPlacesButton.addEventListener("click", () => {
+      toggleAllChoices("place-choice", selectAllPlacesButton);
+    });
+  }
 
-  selectAllRestaurantsButton.addEventListener("click", () => {
-    toggleAllChoices("restaurant-choice", selectAllRestaurantsButton);
-  });
+  if (selectAllRestaurantsButton) {
+    selectAllRestaurantsButton.addEventListener("click", () => {
+      toggleAllChoices("restaurant-choice", selectAllRestaurantsButton);
+    });
+  }
 }
 
 function initializeRevealAnimation() {
@@ -558,11 +564,11 @@ function setPlannerMode(mode) {
     button.classList.toggle("active", button.dataset.mode === mode);
   });
 
-  const isCustom = mode === "custom";
-  customSelector.hidden = true;
-  createButton.textContent = isCustom
-    ? "직접 작성 일정 만들기"
-    : "추천 일정 만들기";
+  if (customSelector) {
+    customSelector.hidden = true;
+  }
+
+  createButton.textContent = "일정 만들기";
 
   savePlannerState({ clearRenderedSchedule: true });
 }

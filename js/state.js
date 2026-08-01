@@ -165,5 +165,5 @@ let activeDetailItem = null;
 let activeEditPicker = "recommended";
 
 
-let plannerMode = "recommended";
+let plannerMode = "managed";
 let activeTravelFacet = "recommended";
