@@ -25,7 +25,7 @@ const RECOMMENDED_SCHEDULE_CONFIG = {
   // 추천일정 #1: 도착일 (11월 13일, 금)
   day1: {
     label: "추천일정 #1",
-    date: "2026-11-13",
+    date: "",
     title: "광저우 도착",
     description: "공항 도착 후 리완 지역 탐방",
     items: [
@@ -60,7 +60,7 @@ const RECOMMENDED_SCHEDULE_CONFIG = {
   // 추천일정 #2: 결혼식 당일 (11월 14일, 토)
   day2: {
     label: "추천일정 #2",
-    date: "2026-11-14",
+    date: "",
     title: "Wedding Day",
     description: "결혼식 당일 (15:30 ~ 18:30)",
     items: [
@@ -83,7 +83,7 @@ const RECOMMENDED_SCHEDULE_CONFIG = {
   // 추천일정 #3: 일정 3 (11월 15일, 일)
   day3: {
     label: "추천일정 #3",
-    date: "2026-11-15",
+    date: "",
     title: "광저우 여행",
     description: "웨슈(越秀) 지역 중심 관광",
     items: [
@@ -108,7 +108,7 @@ const RECOMMENDED_SCHEDULE_CONFIG = {
   // 추천일정 #4: 출국일 (11월 16일, 월)
   day4: {
     label: "추천일정 #4",
-    date: "2026-11-16",
+    date: "",
     title: "귀국하는 날",
     description: "주장신청 야경 감상 후 출국",
     items: [

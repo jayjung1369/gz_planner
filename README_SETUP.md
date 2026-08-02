@@ -478,7 +478,85 @@ day3: {
 
 ---
 
-## 📞 지원
+## �️ 이미지 최적화 (중요!)
+
+### 문제
+
+- 원본 이미지가 1.6~1.7MB로 매우 크면 로딩이 지연됩니다
+- 새 이미지를 추가할 때마다 같은 문제가 발생합니다
+- 수동 압축은 비효율적입니다
+
+### 해결책
+
+**`optimize_images.py` 스크립트를 사용하여 자동 압축합니다.**
+
+#### 설정 (최초 1회)
+
+```bash
+# 1. Pillow 라이브러리 설치
+pip install Pillow
+
+# 2. 기존 이미지 모두 압축 (선택사항)
+python optimize_images.py
+```
+
+#### 새 이미지 추가 워크플로우
+
+```bash
+# 1. 새 JPG 이미지를 images/places/ 폴더에 복사
+#    예: partyVenue-1.jpg, dimSumRestaurant-1.jpg
+
+# 2. 스크립트 실행하여 압축
+python optimize_images.py
+
+# 3. 변경사항 커밋
+git add .
+git commit -m "Add: 새 이미지 추가 및 최적화"
+git push
+```
+
+#### 압축 옵션
+
+```bash
+# 특정 폴더의 이미지만 압축
+python optimize_images.py images/subfolder
+
+# Git staging area의 이미지만 압축 (커밋 전에 자동 실행 권장)
+python optimize_images.py --staged
+```
+
+#### 압축 설정 변경
+
+`optimize_images.py` 파일의 상수를 수정하세요:
+
+```python
+QUALITY = 65  # 압축 품질 (1-95, 낮을수록 파일 작음)
+MAX_DIMENSION = 1200  # 최대 이미지 너비/높이
+```
+
+### 압축 결과 예상
+
+| 원본 크기 | 압축 후 | 예상 로딩 시간 |
+|---------|--------|-------------|
+| 1.7MB | 200-300KB | 0.5-1초 |
+| 1.6MB | 180-280KB | 0.3-1초 |
+| 400KB | 50-80KB | 0.1초 |
+
+### 자동화 (선택사항)
+
+Git pre-commit hook으로 자동 압축을 설정할 수 있습니다:
+
+```bash
+# Linux/Mac: 이미 설정됨 (.git/hooks/pre-commit)
+# Windows: 아래 명령어로 수동 설정
+git config core.hooksPath .git/hooks
+```
+
+이제 `git commit` 실행 시 자동으로 이미지가 압축됩니다.
+
+---
+
+## �📞 지원
 
 문제가 발생하거나 추가 기능이 필요한 경우, 관련 파일과 에러 메시지를 함께 보고해주세요.
 

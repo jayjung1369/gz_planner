@@ -319,11 +319,21 @@ function showGalleryImage(index) {
     activeGalleryImages[activeGalleryIndex] ||
     "images/places/default-place.svg";
 
+  const galleryWrapper = detailModalImage.closest(".detail-gallery");
+  const loader = galleryWrapper?.querySelector(".image-loader");
+
   if (detailPhotoStatus) {
     detailPhotoStatus.hidden = !isPlaceholderImage(selectedImage);
   }
 
+  if (loader) {
+    loader.style.display = "flex";
+  }
+
   detailModalImage.onerror = () => {
+    if (loader) {
+      loader.style.display = "none";
+    }
     detailModalImage.onerror = null;
     detailModalImage.src = resolveAssetUrl(
       "images/places/default-place.svg"
@@ -331,6 +341,12 @@ function showGalleryImage(index) {
 
     if (detailPhotoStatus) {
       detailPhotoStatus.hidden = false;
+    }
+  };
+
+  detailModalImage.onload = () => {
+    if (loader) {
+      loader.style.display = "none";
     }
   };
 

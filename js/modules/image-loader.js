@@ -48,15 +48,18 @@ function createLazyImageMarkup({
   );
 
   return `
-    <img
-      class="${className} lazy-image is-loading"
-      src="${resolveAssetUrl("images/places/default-place.svg")}"
-      data-src="${safeSource}"
-      alt="${escapeHtml(alt || "")}"
-      loading="lazy"
-      decoding="async"
-      data-fallback-type="${fallbackType}"
-    >
+    <div style="position: relative; display: inline-block; width: 100%;">
+      <img
+        class="${className} lazy-image is-loading"
+        src="${resolveAssetUrl("images/places/default-place.svg")}"
+        data-src="${safeSource}"
+        alt="${escapeHtml(alt || "")}"
+        loading="lazy"
+        decoding="async"
+        data-fallback-type="${fallbackType}"
+      >
+      <div class="image-loader" style="display: none;"></div>
+    </div>
   `;
 }
 
@@ -87,7 +90,7 @@ function initializeLazyImages(root = document) {
         });
       },
       {
-        rootMargin: "20px 0px",
+        rootMargin: "100px 0px",
         threshold: 0.01
       }
     );
@@ -105,13 +108,32 @@ function loadLazyImage(image) {
     return;
   }
 
+  // Check for loader in new wrapper structure (from createLazyImageMarkup)
+  let loader = image.parentElement?.querySelector(".image-loader");
+  
+  // Fallback to old structure for travel-library-image or gallery-wrapper
+  if (!loader) {
+    const wrapper = image.closest(".travel-library-image") || image.closest(".gallery-wrapper");
+    loader = wrapper?.querySelector(".image-loader");
+  }
+
+  if (loader) {
+    loader.style.display = "flex";
+  }
+
   image.onload = () => {
+    if (loader) {
+      loader.style.display = "none";
+    }
     image.classList.remove("is-loading");
     image.classList.add("is-loaded");
     image.removeAttribute("data-src");
   };
 
   image.onerror = () => {
+    if (loader) {
+      loader.style.display = "none";
+    }
     handleLazyImageError(image);
   };
 

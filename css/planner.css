@@ -717,6 +717,29 @@ body.modal-open {
   object-fit: cover;
 }
 
+.detail-gallery .image-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.detail-gallery .image-loader::after {
+  content: "";
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(169, 135, 93, 0.2);
+  border-top-color: rgba(169, 135, 93, 0.8);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
 .gallery-button {
   position: absolute;
   top: 50%;

@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Guangzhou Wedding Journey</title>  <link rel="stylesheet" href="css/base.css?v=32">
   <link rel="stylesheet" href="css/layout.css?v=31">
-  <link rel="stylesheet" href="css/planner.css?v=31">
+  <link rel="stylesheet" href="css/planner.css?v=32">
   <link rel="stylesheet" href="css/detail.css?v=31">
   <link rel="stylesheet" href="css/guide.css?v=31">
   <link rel="stylesheet" href="css/planner-cards.css?v=39">
-  <link rel="stylesheet" href="css/travel.css?v=31">
+  <link rel="stylesheet" href="css/travel.css?v=32">
   <link rel="stylesheet" href="css/mobile.css?v=34">
 </head>
 <body>
@@ -34,7 +34,7 @@
         <h1>Our Wedding<br>Journey</h1>
         <p class="hero-copy">
           광저우에서의 결혼식과 여행을<br>
-          당신의 일정에 맞게 준비해보세요.
+          즐겨 보세요.
         </p>
         <a class="pill-button" href="#planner">추천 일정 보기</a>
       </div>
@@ -48,10 +48,9 @@
     <section class="section planner-section" id="planner">
       <div class="section-intro reveal">
         <p class="eyebrow">TRAVEL PLANNER</p>
-        <h2>당신에게 맞는<br>광저우 일정.</h2>
+        <h2>여러분께 추천하는<br>광저우 일정.</h2>
         <p>
-          아래에서 광저우 여행의 추천 일정을 확인하세요.<br>
-          결혼식 당일은 항상 11월 14일(토)로 고정됩니다.
+          아래에서 광저우 여행의 추천 일정을 확인하세요.<br>          
         </p>
       </div>
 
@@ -59,18 +58,7 @@
         <input id="arrivalDate" type="hidden" value="2026-11-13">
         <input id="departureDate" type="hidden" value="2026-11-16">
         <input id="arrivalTime" type="hidden" value="14:30">
-        <input id="departureTime" type="hidden" value="18:30">
-
-        <div class="storage-guide">
-          <div class="storage-guide-icon">✓</div>
-          <div>
-            <strong>11월 13일(금) ~ 16일(월) 추천 일정</strong>
-            <p>
-              생성된 일정은 현재 기기의 브라우저에만 저장됩니다.
-              3박 4일 일정으로 구성되어 있습니다.
-            </p>
-          </div>
-        </div>
+        <input id="departureTime" type="hidden" value="18:30">        
 
         <p class="storage-status" id="storageStatus" aria-live="polite"></p>
 
@@ -78,7 +66,7 @@
           <div class="empty-state">
             <p class="eyebrow">LOADING</p>
             <h3>추천 일정을 준비 중입니다...</h3>
-            <p>곧 당신에게 맞는 광저우 여행 일정을 보여드립니다.</p>
+            <p>곧 광저우 여행 일정을 보여드립니다.</p>
           </div>
         </div>
       </div>
@@ -116,8 +104,8 @@
         <p class="eyebrow">GUANGZHOU PLACES</p>
         <h2>등록된 모든 장소를<br>한눈에 살펴보세요.</h2>
         <p>
-          관광지와 맛집을 지역·종류별로 찾고,
-          상세정보를 확인하거나 내 일정에 바로 추가할 수 있습니다.
+          관광지와 맛집을 지역·종류별로 찾을 수 있으며,
+          상세정보를 확인할 수 있습니다.
         </p>
       </div>
 
@@ -288,6 +276,7 @@
 
       <div class="detail-gallery">
         <img id="detailModalImage" src="" alt="">
+        <div class="image-loader" style="display: none;"></div>
         <span class="detail-photo-status" id="detailPhotoStatus" hidden>사진 준비 중</span>
         <button class="gallery-button gallery-prev" id="galleryPrevButton" type="button" aria-label="이전 사진">‹</button>
         <button class="gallery-button gallery-next" id="galleryNextButton" type="button" aria-label="다음 사진">›</button>
@@ -613,12 +602,12 @@
 <script src="data/recommendedScheduleConfig.js?v=2"></script>
 <script src="js/state.js?v=34"></script>
 <script src="js/modules/utils.js?v=33"></script>
-<script src="js/modules/image-loader.js?v=32"></script>
+<script src="js/modules/image-loader.js?v=33"></script>
 <script src="js/modules/data.js?v=32"></script>
 <script src="js/modules/planner.js?v=48"></script>
 <script src="js/modules/travel.js?v=32"></script>
   <script src="js/modules/guide.js?v=31"></script>
-  <script src="js/modules/detail.js?v=35"></script>
+  <script src="js/modules/detail.js?v=36"></script>
   <script src="js/modules/storage.js?v=34"></script>
   <script src="js/modules/share.js?v=31"></script>
   <script src="js/modules/events.js?v=42"></script>
