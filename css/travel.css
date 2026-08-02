@@ -1,6 +1,14 @@
 /* Travel library, filters and place cards.
    Extracted from legacy style.css during Sprint 1-1. */
 
+#travel {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
 /* 모든 관광지·맛집 Travel 라이브러리 */
 .travel-library-section {
   background: #fff;
