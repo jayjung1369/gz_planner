@@ -157,11 +157,6 @@ function bindEvents() {
 
   copyAddressButton.addEventListener("click", copyActiveAddress);
   detailModalShareButton.addEventListener("click", shareActiveDetail);
-  detailMobileMapButton.addEventListener("click", openActiveDetailMap);
-  detailMobileAddButton.addEventListener(
-    "click",
-    addActiveDetailFromMobile
-  );
 
   galleryPrevButton.addEventListener("click", () => {
     showGalleryImage(activeGalleryIndex - 1);

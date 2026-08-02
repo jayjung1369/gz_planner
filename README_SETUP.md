@@ -265,7 +265,7 @@
 | 결혼식 시간 변경 | `data/recommendedScheduleConfig.js` |
 | 새 장소 추가 | `data/places.json` |
 | 새 식당 추가 | `data/restaurants.json` |
-| 일정에 추가 | `data/recommendedScheduleConfig.js` |
+
 
 ---
 
@@ -452,7 +452,7 @@ day1: {
 
 #### Step 2: recommendedScheduleConfig.js에서 참조
 
-새로 추가한 여행지/맛집의 ID를 사용하여 추천일정에 추가합니다.
+
 
 ```javascript
 day1: {

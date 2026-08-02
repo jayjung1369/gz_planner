@@ -11,11 +11,11 @@
   <link rel="stylesheet" href="css/base.css?v=32">
   <link rel="stylesheet" href="css/layout.css?v=31">
   <link rel="stylesheet" href="css/planner.css?v=33">
-  <link rel="stylesheet" href="css/detail.css?v=32">
+  <link rel="stylesheet" href="css/detail.css?v=33">
   <link rel="stylesheet" href="css/guide.css?v=31">
   <link rel="stylesheet" href="css/planner-cards.css?v=39">
   <link rel="stylesheet" href="css/travel.css?v=32">
-  <link rel="stylesheet" href="css/mobile.css?v=34">
+  <link rel="stylesheet" href="css/mobile.css?v=33">
 </head>
 <body>
   <header class="site-header">
@@ -48,33 +48,6 @@
         <span>SCROLL</span>
         <span class="scroll-line"></span>
       </a>
-    </section>
-
-    <section class="section planner-section" id="planner">
-      <div class="section-intro reveal">
-        <p class="eyebrow">TRAVEL PLANNER</p>
-        <h2>여러분께 추천하는<br>광저우 일정.</h2>
-        <p>
-          아래에서 광저우 여행의 추천 일정을 확인하세요.<br>          
-        </p>
-      </div>
-
-      <div class="planner-shell reveal">
-        <input id="arrivalDate" type="hidden" value="2026-11-13">
-        <input id="departureDate" type="hidden" value="2026-11-16">
-        <input id="arrivalTime" type="hidden" value="14:30">
-        <input id="departureTime" type="hidden" value="18:30">        
-
-        <p class="storage-status" id="storageStatus" aria-live="polite"></p>
-
-        <div class="schedule-result" id="scheduleResult">
-          <div class="empty-state">
-            <p class="eyebrow">LOADING</p>
-            <h3>추천 일정을 준비 중입니다...</h3>
-            <p>곧 광저우 여행 일정을 보여드립니다.</p>
-          </div>
-        </div>
-      </div>
     </section>
 
     <section class="section dark-section" id="wedding">
@@ -148,7 +121,53 @@
       </div>
     </section>
 
-    <section class="section travel-library-section" id="travel">
+    <section class="section soft-section" id="guide">
+      <div class="section-intro reveal">
+        <p class="eyebrow">CHINA TRAVEL GUIDE</p>
+        <h2>중국 여행 전에<br>이것만은 준비하세요.</h2>
+        <p class="guide-intro-copy">
+          결제부터 택시, 지도, 통신과 긴급상황까지 단계별로 확인할 수 있습니다.
+        </p>
+      </div>
+
+      <div class="guide-toolbar reveal">
+        <div class="guide-filter-list" id="guideFilterList"></div>
+        <label class="guide-search">
+          <span class="sr-only">여행 가이드 검색</span>
+          <input id="guideSearchInput" type="search" placeholder="알리페이, 택시, 지하철 검색">
+        </label>
+      </div>
+
+      <div class="guide-notice reveal" id="guideNotice"></div>
+      <div class="guide-card-grid reveal" id="guideCardGrid"></div>
+    </section>
+
+    <section class="section planner-section" id="planner">
+      <div class="section-intro reveal">
+        <p class="eyebrow">TRAVEL PLANNER</p>
+        <h2>여러분께 추천하는<br>광저우 일정.</h2>
+        <p>
+          아래에서 광저우 여행의 추천 일정을 확인하세요.<br>          
+        </p>
+      </div>
+
+      <div class="planner-shell reveal">
+        <input id="arrivalDate" type="hidden" value="2026-11-13">
+        <input id="departureDate" type="hidden" value="2026-11-16">
+        <input id="arrivalTime" type="hidden" value="14:30">
+        <input id="departureTime" type="hidden" value="18:30">        
+
+        <p class="storage-status" id="storageStatus" aria-live="polite"></p>
+
+        <div class="schedule-result" id="scheduleResult">
+          <div class="empty-state">
+            <p class="eyebrow">LOADING</p>
+            <h3>추천 일정을 준비 중입니다...</h3>
+            <p>곧 광저우 여행 일정을 보여드립니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
       <div class="section-intro reveal">
         <p class="eyebrow">GUANGZHOU PLACES</p>
         <h2>등록된 모든 장소를<br>한눈에 살펴보세요.</h2>
@@ -218,26 +237,6 @@
       </div>
     </section>
 
-    <section class="section soft-section" id="guide">
-      <div class="section-intro reveal">
-        <p class="eyebrow">CHINA TRAVEL GUIDE</p>
-        <h2>중국 여행 전에<br>이것만은 준비하세요.</h2>
-        <p class="guide-intro-copy">
-          결제부터 택시, 지도, 통신과 긴급상황까지 단계별로 확인할 수 있습니다.
-        </p>
-      </div>
-
-      <div class="guide-toolbar reveal">
-        <div class="guide-filter-list" id="guideFilterList"></div>
-        <label class="guide-search">
-          <span class="sr-only">여행 가이드 검색</span>
-          <input id="guideSearchInput" type="search" placeholder="알리페이, 택시, 지하철 검색">
-        </label>
-      </div>
-
-      <div class="guide-notice reveal" id="guideNotice"></div>
-      <div class="guide-card-grid reveal" id="guideCardGrid"></div>
-    </section>
   </main>
 
   <footer class="footer">
@@ -426,23 +425,6 @@
       </div>
 
       <p class="copy-feedback" id="copyFeedback" aria-live="polite"></p>
-
-      <div class="detail-mobile-actionbar">
-        <button
-          class="detail-mobile-map"
-          id="detailMobileMapButton"
-          type="button"
-        >
-          지도
-        </button>
-        <button
-          class="detail-mobile-add"
-          id="detailMobileAddButton"
-          type="button"
-        >
-          일정에 추가
-        </button>
-      </div>
     </section>
   </div>
 

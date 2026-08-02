@@ -2,15 +2,13 @@
    Extracted from legacy style.css during Sprint 1-1. */
 
 /* V18 상세페이지 강화 */
-.detail-extra-section,
-.detail-add-section {
+.detail-extra-section {
   margin-top: 30px;
   padding-top: 26px;
   border-top: 1px solid var(--line);
 }
 
-.detail-section-heading h3,
-.detail-add-section h3 {
+.detail-section-heading h3 {
   margin: 0;
   font-size: 24px;
   letter-spacing: -0.04em;
@@ -126,70 +124,7 @@
   font-style: normal;
 }
 
-.detail-add-section {
-  display: grid;
-  grid-template-columns: 1fr minmax(220px, 0.8fr);
-  align-items: end;
-  gap: 20px;
-  padding: 24px;
-  border: 1px solid rgba(169, 135, 93, 0.2);
-  border-radius: 20px;
-  background: rgba(169, 135, 93, 0.07);
-}
-
-.detail-add-section > div > p:last-child {
-  margin: 7px 0 0;
-  color: var(--subtext);
-  font-size: 12px;
-}
-
-.detail-add-controls {
-  display: grid;
-  gap: 10px;
-}
-
-.detail-add-controls label {
-  display: grid;
-  gap: 6px;
-}
-
-.detail-add-controls label span {
-  color: var(--subtext);
-  font-size: 11px;
-}
-
-.detail-add-controls select {
-  width: 100%;
-  min-height: 46px;
-  padding: 0 13px;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  background: white;
-}
-
-.detail-add-controls button:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-@media (max-width: 820px) {
-  .detail-food-grid,
-  .detail-add-section {
-    grid-template-columns: 1fr;
-  }
-
-  .nearby-card {
-    grid-template-columns: 68px 1fr auto;
-  }
-
-  .nearby-card img {
-    width: 68px;
-    height: 54px;
-  }
-}
-
-
-.schedule-share-tools {
+.detail-food-grid {
   display: flex;
   align-items: center;
   justify-content: space-between;

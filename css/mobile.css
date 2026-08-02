@@ -1654,53 +1654,14 @@ canvas {
     display: none;
   }
 
-  .detail-mobile-actionbar {
-    position: static;
-    width: calc(100% + 28px);
-    display: grid;
-    grid-template-columns: 90px minmax(0, 1fr);
-    gap: 8px;
-    margin:
-      28px
-      -14px
-      0;
-    padding:
-      10px
-      14px
-      max(12px, env(safe-area-inset-bottom));
-    border-top: 1px solid rgba(29, 29, 31, 0.08);
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(18px);
-  }
 
-  .detail-mobile-actionbar button {
-    min-width: 0;
-    min-height: 48px;
-    border-radius: 14px;
-    font-size: 13px;
-    font-weight: 800;
-  }
 
   .schedule-day-shell .timeline-item:not(.wedding-event) .timeline-content,
   .schedule-day-shell .transport-event .timeline-content {
     padding-right: 70px !important;
   }
 
-  .detail-mobile-map {
-    border: 1px solid var(--line);
-    background: white;
-    color: var(--text);
-  }
 
-  .detail-mobile-add {
-    border: 1px solid var(--text);
-    background: var(--text);
-    color: white;
-  }
-
-  .detail-mobile-add:disabled {
-    opacity: 0.42;
-  }
 
   .copy-feedback {
     min-height: 18px;
@@ -1727,9 +1688,7 @@ canvas {
     font-size: 27px;
   }
 
-  .detail-mobile-actionbar {
-    grid-template-columns: 78px minmax(0, 1fr);
-  }
+
 
   .nearby-card {
     grid-template-columns: 56px minmax(0, 1fr) 16px;
@@ -1803,11 +1762,7 @@ canvas {
     display: none !important;
   }
 
-  .detail-modal .detail-mobile-actionbar {
-    display: grid !important;
-    position: static !important;
-    margin: 28px -14px 0 !important;
-  }
+
 
   .schedule-day-shell .timeline-item:not(.wedding-event) .timeline-content,
   .schedule-day-shell .transport-event .timeline-content {
