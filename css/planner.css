@@ -414,7 +414,7 @@ body.modal-open {
 .detail-modal-panel h2 {
   margin: 0;
   padding-right: 44px;
-  font-size: clamp(34px, 7vw, 52px);
+  font-size: clamp(42px, 9vw, 60px);
   line-height: 1.04;
   letter-spacing: -0.055em;
 }
@@ -443,24 +443,28 @@ body.modal-open {
   display: block;
   margin-bottom: 7px;
   color: var(--subtext);
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .detail-modal-info strong {
   display: block;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.55;
+  font-weight: 600;
 }
 
 .detail-modal-description {
   margin: 24px 0 0;
   color: var(--subtext);
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 .detail-modal-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
   margin-top: 28px;
 }
 
@@ -469,12 +473,15 @@ body.modal-open {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 18px;
-  border-radius: 999px;
-  font-size: 14px;
+  padding: 0 14px;
+  border-radius: 12px;
+  font-size: 16px;
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modal-action.secondary {
@@ -936,7 +943,7 @@ body.modal-open {
 .detail-tip span {
   flex: 0 0 auto;
   color: var(--accent);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.12em;
 }
@@ -944,7 +951,8 @@ body.modal-open {
 .detail-tip p {
   margin: 0;
   color: var(--subtext);
-  font-size: 13px;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 @media (max-width: 820px) {

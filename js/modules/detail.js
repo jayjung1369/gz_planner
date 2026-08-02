@@ -519,6 +519,11 @@ function initMapSelectionMenuListeners() {
     detailModalMapButton.addEventListener("click", openMapSelectionMenu);
   }
 
+  const detailModalCloseButton = document.getElementById("detailModalCloseButton");
+  if (detailModalCloseButton) {
+    detailModalCloseButton.addEventListener("click", closeDetailModal);
+  }
+
   const detailMobileMapButton = document.getElementById("detailMobileMapButton");
   if (detailMobileMapButton) {
     detailMobileMapButton.addEventListener("click", openMapSelectionMenu);

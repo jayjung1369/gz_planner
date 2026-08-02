@@ -10,7 +10,7 @@
 
 .detail-section-heading h3 {
   margin: 0;
-  font-size: 24px;
+  font-size: 32px;
   letter-spacing: -0.04em;
 }
 
@@ -30,13 +30,15 @@
 .detail-food-grid span,
 .detail-menu-block > span {
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: var(--subtext);
-  font-size: 11px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .detail-food-grid strong {
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 700;
   line-height: 1.45;
 }
 
@@ -107,14 +109,16 @@
 
 .nearby-card strong {
   overflow: hidden;
-  font-size: 14px;
+  font-size: 16px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-weight: 600;
 }
 
 .nearby-card small {
   color: var(--subtext);
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .nearby-card em {
