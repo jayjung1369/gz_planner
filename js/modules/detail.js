@@ -75,6 +75,9 @@ function openDetailModal(itemId, itemType, options = {}) {
       });
     });
   }
+
+  // Re-initialize map selection menu listeners when modal opens
+  initMapSelectionMenuListeners();
 }
 
 function renderRestaurantDetail(item, itemType) {
