@@ -401,16 +401,18 @@
 }
 
 .countdown-number {
-  font-size: 32px;
+  font-size: 44px;
   font-weight: 800;
   color: #d8bd94;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .countdown-unit {
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.65);
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .countdown-sep {
@@ -467,7 +469,7 @@
 .ceremony-schedule-table table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .ceremony-schedule-table tr {
@@ -482,6 +484,7 @@
   padding: 12px 0;
   color: rgba(255, 255, 255, 0.82);
   text-align: left;
+  white-space: nowrap;
 }
 
 .ceremony-schedule-table .time-col {
@@ -489,6 +492,7 @@
   color: #d8bd94;
   font-weight: 600;
   padding-right: 16px;
+  white-space: nowrap;
 }
 
 /* Mobile adjustments for wedding section */
