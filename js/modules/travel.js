@@ -1,6 +1,19 @@
 /* Sprint 1-2 travel module. Classic scripts preserve existing global behavior. */
 
 function getTravelLibraryItems() {
+  // 각 항목에 대해 이미지 최적화 재적용 (안전장치)
+  PLACE_OPTIONS.forEach(item => {
+    if (!item.thumbnail) {
+      applyOptimizedImages(item, item.id);
+    }
+  });
+  
+  RESTAURANT_OPTIONS.forEach(item => {
+    if (!item.thumbnail) {
+      applyOptimizedImages(item, item.id);
+    }
+  });
+
   const items = [
     ...PLACE_OPTIONS.map((item) => ({
       ...item,
