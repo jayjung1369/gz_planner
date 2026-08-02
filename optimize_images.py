@@ -21,12 +21,12 @@ except ImportError:
     print("   실행: pip install Pillow")
     sys.exit(1)
 
-QUALITY = 65  # 품질 (낮을수록 파일 작음, 품질 낮음)
+QUALITY = 50  # 품질 (낮을수록 파일 작음, 50-65권장)
 MAX_DIMENSION = 1200  # 최대 이미지 크기
 
 
 def compress_image(filepath, quality=QUALITY, max_dim=MAX_DIMENSION):
-    """단일 이미지 압축"""
+    """단일 이미지 압축 (Progressive JPEG 지원)"""
     try:
         # 파일 크기 확인
         original_size = os.path.getsize(filepath) / 1024 / 1024
@@ -49,8 +49,8 @@ def compress_image(filepath, quality=QUALITY, max_dim=MAX_DIMENSION):
                     rgb_img.paste(img)
                 img = rgb_img
             
-            # 압축 저장
-            img.save(filepath, "JPEG", quality=quality, optimize=True)
+            # Progressive JPEG으로 저장 (더 빠른 렌더링)
+            img.save(filepath, "JPEG", quality=quality, optimize=True, progressive=True)
         
         new_size = os.path.getsize(filepath) / 1024 / 1024
         reduction = ((original_size - new_size) / original_size * 100)

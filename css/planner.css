@@ -283,11 +283,115 @@ body.modal-open {
   width: min(90vw, 900px);
   max-height: min(760px, calc(100vh - 48px));
   overflow-y: auto;
-  padding: 38px;
+  padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.66);
   border-radius: 30px;
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.24);
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(90vw, 900px);
+  max-height: min(760px, calc(100vh - 48px));
+  overflow-y: auto;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.66);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.24);
+}
+
+.detail-modal-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  width: 100%;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(29, 29, 31, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px);
+  border-radius: 30px 30px 0 0;
+}
+
+.detail-modal-toolbar-title {
+  color: var(--subtext);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.detail-modal-back,
+.detail-modal-share {
+  padding: 8px 14px;
+  border: 1px solid rgba(29, 29, 31, 0.12);
+  border-radius: 999px;
+  background: white;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.detail-modal-back span {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.detail-modal-back:hover,
+.detail-modal-share:hover {
+  background: rgba(29, 29, 31, 0.04);
+}
+
+.detail-gallery {
+  position: relative;
+  margin: 0;
+  padding: 0 38px;
+  overflow: hidden;
+  border-radius: 0;
+  background: var(--soft);
+  aspect-ratio: 16 / 9;
+  margin-top: 30px;
+  border-radius: 20px;
+}
+
+.detail-modal-panel > p:first-of-type,
+.detail-modal-panel > h2,
+.detail-modal-panel > .detail-modal-chinese,
+.detail-modal-panel > .detail-mobile-summary,
+.detail-modal-panel > .detail-quick-grid,
+.detail-modal-panel > .detail-modal-info,
+.detail-modal-panel > .detail-modal-description,
+.detail-modal-panel > .detail-tip,
+.detail-modal-panel > .detail-extra-section,
+.detail-modal-panel > .detail-add-section,
+.detail-modal-panel > .detail-modal-actions,
+.detail-modal-panel > .copy-feedback,
+.detail-modal-panel > .nearby-section,
+.detail-modal-panel > .travel-guide-app,
+.detail-modal-panel > .travel-info-grid,
+.detail-modal-panel > .travel-guide-footer {
+  padding-left: 38px;
+  padding-right: 38px;
+}
+
+.detail-modal-panel > :first-of-type {
+  padding-top: 0;
+}
+
+.detail-modal-panel > :last-child {
+  padding-bottom: 38px;
 }
 
 .detail-modal-close {
