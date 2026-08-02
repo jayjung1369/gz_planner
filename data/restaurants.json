@@ -43,8 +43,7 @@
       "closeTime": "21:30",
       "priority": 9,
       "images": [
-        "images/places/cantoneseLiwan-1.svg",
-        "images/places/cantoneseLiwan-2.svg"
+        "images/places/default-place.svg"
       ],
       "hours": "실제 식당 확정 후 업데이트",
       "price": "1인 예산 추후 업데이트",
@@ -68,8 +67,7 @@
       "closeTime": "22:00",
       "priority": 8,
       "images": [
-        "images/places/beijingRoadFood-1.svg",
-        "images/places/beijingRoadFood-2.svg"
+        "images/places/default-place.svg"
       ],
       "hours": "실제 식당 확정 후 업데이트",
       "price": "1인 예산 추후 업데이트",
@@ -115,9 +113,9 @@
       ],
       "openTime": "11:00",
       "closeTime": "22:00",
-      "priority": 9,      "images": [
-        "images/places/cantoneseZhujiang-1.svg",
-        "images/places/cantoneseZhujiang-2.svg"
+      "priority": 9,
+      "images": [
+        "images/places/default-place.svg"
       ],      "hours": "실제 식당 확정 후 업데이트",
       "price": "1인 예산 추후 업데이트",
       "bestTime": "점심 또는 저녁",
@@ -139,7 +137,7 @@
       "closeTime": "22:00",
       "priority": 7,
       "images": [
-        "images/places/cafeZhujiang-1.svg"
+        "images/places/default-place.svg"
       ],
       "hours": "실제 매장 확정 후 업데이트",
       "price": "1인 예산 추후 업데이트",
@@ -187,8 +185,7 @@
       "closeTime": "22:00",
       "priority": 10,
       "images": [
-        "images/places/guangzhouRestaurantLiwan-1.svg",
-        "images/places/guangzhouRestaurantLiwan-2.svg"
+        "images/places/guangzhouRestaurantLiwan-real-1.jpg"
       ],
       "hours": "지점 및 층별 영업시간이 다를 수 있어 방문 전 확인",
       "price": "1인 약 80~180위안 예상",
@@ -232,8 +229,7 @@
       "closeTime": "22:00",
       "priority": 10,
       "images": [
-        "images/places/taoTaoJuLiwan-1.svg",
-        "images/places/taoTaoJuLiwan-2.svg"
+        "images/places/taoTaoJuLiwan-real-1.jpg"
       ],
       "hours": "지점별 영업시간 상이 · 방문할 지점 재확인",
       "price": "1인 약 80~160위안 예상",
@@ -277,8 +273,7 @@
       "closeTime": "21:30",
       "priority": 9,
       "images": [
-        "images/places/panxiRestaurant-1.svg",
-        "images/places/panxiRestaurant-2.svg"
+        "images/places/panxiRestaurant-real-1.jpg"
       ],
       "hours": "식사 시간대 및 연회 일정에 따라 변동 가능",
       "price": "1인 약 100~220위안 예상",
@@ -323,7 +318,7 @@
       "closeTime": "21:30",
       "priority": 8,
       "images": [
-        "images/places/lianXiangLou-1.svg"
+        "images/places/lianXiangLou-real-1.jpg"
       ],
       "hours": "식당·베이커리 구역별 운영시간 상이",
       "price": "1인 약 60~140위안 예상",
