@@ -443,12 +443,14 @@
 }
 
 .schedule-day-shell .timeline-time span {
-  font-size: 14px;
+  font-size: 20px;
   white-space: nowrap;
+  font-weight: 700;
 }
 
 .schedule-day-shell .timeline-time small {
-  font-size: 10px;
+  font-size: 14px;
+  white-space: nowrap;
 }
 
 .schedule-day-shell .timeline-card-layout {
@@ -485,7 +487,8 @@
 
 .schedule-day-shell .timeline-title {
   margin: 0;
-  font-size: 18px;
+  font-size: 22px;
+  font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -493,7 +496,8 @@
 
 .schedule-day-shell .timeline-chinese-name {
   margin-top: 1px;
-  font-size: 13px;
+  font-size: 16px;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -506,7 +510,8 @@
 .schedule-day-shell .timeline-meta span {
   min-height: 22px;
   padding: 2px 8px;
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .schedule-day-shell .timeline-reorder-controls {
