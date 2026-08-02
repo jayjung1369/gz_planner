@@ -372,6 +372,35 @@ function bindEvents() {
       toggleAllChoices("restaurant-choice", selectAllRestaurantsButton);
     });
   }
+
+  // Map selection menu event listeners
+  const detailModalMapButton = document.getElementById("detailModalMapButton");
+  if (detailModalMapButton) {
+    detailModalMapButton.addEventListener("click", openMapSelectionMenu);
+  }
+
+  const detailMobileMapButton = document.getElementById("detailMobileMapButton");
+  if (detailMobileMapButton) {
+    detailMobileMapButton.addEventListener("click", openMapSelectionMenu);
+  }
+
+  // Map selection close buttons and backdrop
+  document.querySelectorAll("[data-close-map-menu]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeMapSelectionMenu();
+    });
+  });
+
+  // Map selection options
+  document.querySelectorAll(".map-option").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const mapType = btn.dataset.map;
+      if (mapType) {
+        handleMapSelection(mapType);
+      }
+    });
+  });
 }
 
 function initializeRevealAnimation() {

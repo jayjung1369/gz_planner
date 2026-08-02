@@ -512,26 +512,30 @@ function handleMapSelection(mapType) {
 }
 
 // Initialize event listeners for map selection menu
-document.addEventListener("DOMContentLoaded", () => {
-  // Detail modal map button
+function initMapSelectionMenuListeners() {
+  // Detail modal map buttons
   const detailModalMapButton = document.getElementById("detailModalMapButton");
   if (detailModalMapButton) {
     detailModalMapButton.addEventListener("click", openMapSelectionMenu);
   }
 
-  // Mobile detail map button
   const detailMobileMapButton = document.getElementById("detailMobileMapButton");
   if (detailMobileMapButton) {
     detailMobileMapButton.addEventListener("click", openMapSelectionMenu);
   }
 
-  // Map selection menu close buttons
-  document.querySelectorAll("[data-close-map-menu]").forEach((btn) => {
-    btn.addEventListener("click", closeMapSelectionMenu);
+  // Map selection close buttons and backdrop
+  const closeButtons = document.querySelectorAll("[data-close-map-menu]");
+  closeButtons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeMapSelectionMenu();
+    });
   });
 
   // Map selection options
-  document.querySelectorAll(".map-option").forEach((btn) => {
+  const mapOptions = document.querySelectorAll(".map-option");
+  mapOptions.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const mapType = btn.dataset.map;
       if (mapType) {
@@ -545,4 +549,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (mapSelectionBackdrop) {
     mapSelectionBackdrop.addEventListener("click", closeMapSelectionMenu);
   }
-});
+}
+
+// Initialize when DOM is ready or already loaded
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initMapSelectionMenuListeners);
+} else {
+  // DOM already loaded - initialize immediately
+  setTimeout(initMapSelectionMenuListeners, 0);
+}
