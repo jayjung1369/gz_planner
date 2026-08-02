@@ -1,22 +1,12 @@
 /* Sprint 1-3 optimized image loading. */
 
 function applyOptimizedImages(item, itemId) {
-  const optimized = IMAGE_MANIFEST[itemId];
+  // item.images를 기본 소스로 사용
+  item.thumbnail = item.images?.[0] || "images/places/default-place.svg";
 
-  item.thumbnail =
-    optimized?.thumbnail ||
-    item.images?.[0] ||
-    "images/places/default-place.svg";
+  item.thumbnailImages = item.images || ["images/places/default-place.svg"];
 
-  item.thumbnailImages =
-    optimized?.thumbnails ||
-    item.images ||
-    ["images/places/default-place.svg"];
-
-  item.fullImages =
-    optimized?.full ||
-    item.images ||
-    ["images/places/default-place.svg"];
+  item.fullImages = item.images || ["images/places/default-place.svg"];
 }
 
 function getThumbnailImage(item) {

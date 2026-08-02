@@ -6,10 +6,8 @@ async function loadPlannerData() {
     const [
       placesData,
       restaurantsData,
-      photosData,
       rulesData,
-      travelGuideData,
-      imageManifestData
+      travelGuideData
     ] = await Promise.all([
       loadJson("data/places.json").catch(err => {
         console.error("places.json 로드 실패:", err);
@@ -19,10 +17,6 @@ async function loadPlannerData() {
         console.error("restaurants.json 로드 실패:", err);
         return { items: {} };
       }),
-      loadJson("data/photos.json").catch(err => {
-        console.error("photos.json 로드 실패:", err);
-        return { items: {} };
-      }),
       loadJson("data/scheduleRules.json").catch(err => {
         console.error("scheduleRules.json 로드 실패:", err);
         return { rules: {}, recommendedDistrictOrder: [], recommendedPlaceIds: {}, recommendedRestaurantIds: {} };
@@ -30,10 +24,6 @@ async function loadPlannerData() {
       loadJson("data/travelGuide.json").catch(err => {
         console.error("travelGuide.json 로드 실패:", err);
         return { items: [], notice: "" };
-      }),
-      loadJson("data/imageManifest.json").catch(err => {
-        console.error("imageManifest.json 로드 실패:", err);
-        return { items: {} };
       })
     ]).catch(err => {
       console.error("전체 데이터 로드 실패:", err);
@@ -42,35 +32,24 @@ async function loadPlannerData() {
 
     PLACES = placesData.items || {};
     RESTAURANTS = restaurantsData.items || {};
-    PHOTO_LIBRARY = photosData.items || {};
-    IMAGE_MANIFEST = imageManifestData.items || {};
     TRAVEL_GUIDE = travelGuideData.items || [];
     TRAVEL_GUIDE_NOTICE = travelGuideData.notice || "";
-
-    console.log("📸 PHOTO_LIBRARY 로드됨:", Object.keys(PHOTO_LIBRARY).length, "개 항목");
+    
     console.log("🏷️ PLACES 로드됨:", Object.keys(PLACES).length, "개 항목");
     console.log("🍴 RESTAURANTS 로드됨:", Object.keys(RESTAURANTS).length, "개 항목");
 
-    // 이미지 설정
+    // 이미지 설정 (places.json과 restaurants.json에서 images 사용)
     Object.entries(PLACES).forEach(([id, item]) => {
-      const photoImages = PHOTO_LIBRARY[id] || [];
-      item.images = photoImages.length > 0 ? photoImages : ["images/places/default-place.svg"];
-      
-      if (photoImages.length === 0) {
-        console.warn(`⚠️ ${id} (${item.name}): photos.json에 이미지 없음`);
+      if (!item.images || item.images.length === 0) {
+        item.images = ["images/places/default-place.svg"];
       }
-      
       applyOptimizedImages(item, id);
     });
 
     Object.entries(RESTAURANTS).forEach(([id, item]) => {
-      const photoImages = PHOTO_LIBRARY[id] || [];
-      item.images = photoImages.length > 0 ? photoImages : ["images/places/default-place.svg"];
-      
-      if (photoImages.length === 0) {
-        console.warn(`⚠️ ${id} (${item.name}): photos.json에 이미지 없음`);
+      if (!item.images || item.images.length === 0) {
+        item.images = ["images/places/default-place.svg"];
       }
-      
       applyOptimizedImages(item, id);
     });
 
