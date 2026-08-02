@@ -936,7 +936,6 @@ function renderSchedule(schedule, context, options = {}) {
   scheduleResult.innerHTML = `
     <div class="schedule-header">
       <p class="eyebrow">${selectedLabel.toUpperCase()}</p>
-      <h3>${nights}박 ${context.dates.length}일 일정</h3>
     </div>
 
     <section class="schedule-day-shell" aria-label="일정 일자별 보기">
