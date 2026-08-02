@@ -1029,8 +1029,7 @@ function createScheduleCard(day, dayIndex, isActive) {
       <div class="schedule-card-top">
         <div>
           <div class="date-label">
-            ${planLabel}<br>
-            ${formatShortDate(new Date(day.date))}
+            ${planLabel}
           </div>
           <div class="day-duration">전체 일정 ${totalDuration}</div>
         </div>
