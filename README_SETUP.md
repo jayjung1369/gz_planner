@@ -1,43 +1,275 @@
 # 광저우 웨딩 여행 일정 - 설정 가이드
 
-이 문서는 광저우 웨딩 여행 플래너의 추천 일정과 여행지 정보를 설정하는 방법을 안내합니다.
+## 🎯 이 가이드는 어떤 건가요?
 
-## 📋 목차
-
-1. [시스템 구조](#시스템-구조)
-2. [추천 일정 설정](#추천-일정-설정)
-3. [여행지/맛집 추가 및 수정](#여행지맛집-추가-및-수정)
-4. [주요 파일 설명](#주요-파일-설명)
-5. [예제](#예제)
+이 문서는 **프로그래밍을 모르는 사람도** 광저우 여행 일정을 수정하고, 새로운 장소와 식당을 추가할 수 있도록 돕습니다.
 
 ---
 
-## 🏗️ 시스템 구조
+## 🚀 당신이 하고 싶은 것은?
 
-### 데이터 계층 (Data Layer)
+다음 중에서 고르세요:
 
-```
-data/
-├── places.json              # 모든 여행지 정보 (JSON)
-├── restaurants.json         # 모든 맛집 정보 (JSON)
-├── recommendedScheduleConfig.js  # 4개 추천일정 설정 (JavaScript)
-├── scheduleRules.json       # 일정 규칙 (JSON)
-└── imageManifest.json       # 이미지 메타데이터 (JSON)
-```
-
-### 로직 계층 (Logic Layer)
-
-```
-js/modules/
-├── planner.js       # 일정 생성 로직 (buildManagedSchedule)
-├── data.js          # 데이터 로드
-├── travel.js        # 여행지 라이브러리 표시
-└── storage.js       # 일정 저장/복원
-```
+1. **⏰ 일정 시간 변경** (예: 오후 3시 → 오후 4시)
+2. **💍 결혼식 시간 변경** (예: 오후 3시 30분 → 오후 4시)
+3. **➕ 새로운 장소 추가** (예: 새로운 관광지)
+4. **➕ 새로운 식당 추가** (예: 새로운 맛집)
+5. **🗓️ 일정에 장소/식당 추가** (예: 이미 있는 장소를 특정 날짜에 넣기)
 
 ---
 
-## 📅 추천 일정 설정
+## 1️⃣ 일정 시간 변경하기
+
+**✏️ 파일:** `data/recommendedScheduleConfig.js`
+
+**예시:** 샤미엔 방문 시간을 오후 3시 30분 → 오후 4시로 변경
+
+### 단계별 가이드
+
+#### 1단계: 파일 열기
+- VS Code에서 `data` 폴더 → `recommendedScheduleConfig.js` 파일을 따로 클릭해서 열기
+
+#### 2단계: 변경할 항목 찾기
+다음과 같은 코드를 찾으세요:
+```javascript
+{
+  type: "place",
+  id: "shamian",
+  time: "15:30"     // ← 여기를 "16:00"으로 바꿈
+}
+```
+
+#### 3단계: 시간만 수정하기
+- `"15:30"` 을 `"16:00"` 으로 **숫자만 변경**
+- 따옴표(`"`)는 절대 지우지 말 것
+- 다른 것은 건드리지 말 것
+
+#### 4단계: 저장하기
+- Ctrl+S 누르기 (또는 File → Save)
+
+#### 5단계: 확인하기
+- 웹사이트를 새로고침하면 시간이 바뀌어 있을 것
+
+---
+
+## 2️⃣ 결혼식 시간 변경하기
+
+**✏️ 파일:** `data/recommendedScheduleConfig.js`
+
+**예시:** 결혼식 시간을 오후 3시 30분 → 오후 4시로 변경
+
+### 단계별 가이드
+
+#### 1단계: day2 찾기
+파일에서 `day2:` 를 찾으세요 (추천일정 #2 = 결혼식 당일)
+
+#### 2단계: wedding 항목 찾기
+이런 코드가 있을 것입니다:
+```javascript
+{
+  type: "wedding",
+  time: "15:30",      // ← 여기를 변경
+  duration: 180,
+  ...
+}
+```
+
+#### 3단계: 시간만 수정하기
+- `time: "15:30"` 을 `time: "16:00"` 으로 변경
+
+#### 4단계: 저장하기
+- Ctrl+S 누르기
+
+> 💡 **팁:** `duration: 180` 은 결혼식 길이입니다 (180분 = 3시간). 이건 건드리지 마세요.
+
+---
+
+## 3️⃣ 새로운 장소 추가하기
+
+**✏️ 파일:** `data/places.json`
+
+**예시:** "새로운 관광지"라는 장소 추가
+
+### 단계별 가이드
+
+#### 1단계: 파일 열기
+- `data` 폴더 → `places.json` 파일 열기
+
+#### 2단계: 기존 항목 찾기
+파일 안에서 다음 같은 형태를 찾으세요:
+```json
+"shamian": {
+  "id": "shamian",
+  "name": "샤미엔",
+  "chineseName": "沙面",
+  ...
+},
+```
+
+#### 3단계: 새 장소 추가하기
+마지막 항목 뒤에 쉼표 확인 후, 다음을 복사해서 붙여넣으세요:
+
+```json
+"newPlaceName": {
+  "id": "newPlaceName",
+  "name": "새 장소 이름",
+  "chineseName": "新地点中文名",
+  "addressZh": "广州市...",
+  "category": "카테고리 (예: 공원, 박물관)",
+  "district": "liwan",
+  "duration": 120,
+  "latitude": 23.1234,
+  "longitude": 113.5678,
+  "openTime": "09:00",
+  "closeTime": "18:00",
+  "hours": "09:00 - 18:00",
+  "price": "입장료 또는 무료",
+  "bestTime": "방문하기 좋은 시간",
+  "tips": "유용한 팁",
+  "note": "간단한 설명",
+  "images": ["images/places/newPlaceName-1.svg"]
+}
+```
+
+#### 4단계: 내용 수정하기
+위 템플릿에서:
+- `"newPlaceName"` → 간단한 영어 이름 (예: `"myNewPlace"`)
+- `"name"` → 한글 이름 (예: `"새 공원"`)
+- `"chineseName"` → 중국어 이름 (구글 지도에서 찾으면 됨)
+- `"category"` → 타입 (관광지, 공원, 박물관 등)
+- `"district"` → 지역 선택:
+  - `"liwan"` = 리완
+  - `"yuexiu"` = 웨슈  
+  - `"zhujiang"` = 주장신청
+  - `"panyu"` = 판위
+- `"duration"` → 관광 시간 (분 단위, 예: 120분 = 2시간)
+- `"openTime"` → 개장 시간 (예: `"09:00"`)
+- `"closeTime"` → 폐장 시간 (예: `"18:00"`)
+
+#### 5단계: 이미지 준비
+- 새 이미지 파일을 `images/places/` 폴더에 저장
+- 파일 이름을 `newPlaceName-1.jpg` 같이 지음
+- `"images"` 배열에 경로 입력 (위 템플릿 참고)
+
+#### 6단계: 저장하고 확인
+- Ctrl+S 누르기
+- 웹페이지 새로고침
+
+---
+
+## 4️⃣ 새로운 식당 추가하기
+
+**✏️ 파일:** `data/restaurants.json`
+
+**예시:** "맛있는 식당"이라는 음식점 추가
+
+### 단계별 가이드
+
+#### 1단계: 파일 열기
+- `data` 폴더 → `restaurants.json` 파일 열기
+
+#### 2단계: 새 식당 추가하기
+파일의 마지막 항목 뒤에 다음을 복사해서 붙여넣으세요:
+
+```json
+"newRestaurantName": {
+  "id": "newRestaurantName",
+  "name": "새 식당 이름",
+  "chineseName": "新餐厅中文名",
+  "addressZh": "广州市...",
+  "category": "음식 종류 (예: 광둥요리, 중식)",
+  "district": "liwan",
+  "duration": 90,
+  "mealTypes": ["lunch", "dinner"],
+  "openTime": "11:00",
+  "closeTime": "21:30",
+  "hours": "11:00 - 21:30",
+  "price": "1인 예산",
+  "bestTime": "방문하기 좋은 시간",
+  "tips": "유용한 팁",
+  "note": "간단한 설명",
+  "images": ["images/places/newRestaurantName-1.svg"]
+}
+```
+
+#### 3단계: 내용 수정하기
+- `"newRestaurantName"` → 간단한 영어 이름
+- `"name"` → 한글 이름
+- `"category"` → 음식 종류 (광둥요리, 중식, 해산물 등)
+- `"district"` → 지역 선택
+- `"duration"` → 식사 시간 (보통 60~90분)
+- `"mealTypes"` → 제공 시간:
+  - `"breakfast"` = 아침
+  - `"lunch"` = 점심
+  - `"dinner"` = 저녁
+- `"openTime"`, `"closeTime"` → 영업 시간
+
+#### 4단계: 저장 및 확인
+- Ctrl+S 누르기
+- 웹페이지 새로고침
+
+---
+
+## 5️⃣ 일정에 장소/식당 추가하기
+
+**✏️ 파일:** `data/recommendedScheduleConfig.js`
+
+**예시:** 추천일정 #1(첫째 날)에 새로운 장소를 오후 4시에 추가
+
+### 단계별 가이드
+
+#### 1단계: 파일 열기
+- `data` 폴더 → `recommendedScheduleConfig.js` 파일 열기
+
+#### 2단계: 해당 추천일정 찾기
+추천일정 #1 = `day1:`
+추천일정 #2 = `day2:`
+추천일정 #3 = `day3:`
+추천일정 #4 = `day4:`
+
+#### 3단계: items 배열 찾기
+해당 `dayX:` 안에서 `items: [` 를 찾으세요.
+
+#### 4단계: 새 항목 추가하기
+`]` 직전에 다음을 추가하세요:
+
+**장소를 추가하는 경우:**
+```javascript
+{
+  type: "place",
+  id: "newPlaceName",     // 3단계에서 추가한 장소 id
+  time: "16:00"           // 방문 시간
+}
+```
+
+**식당을 추가하는 경우:**
+```javascript
+{
+  type: "restaurant",
+  id: "newRestaurantName", // 4단계에서 추가한 식당 id
+  time: "12:30"            // 방문 시간
+}
+```
+
+#### 5단계: 저장
+- Ctrl+S 누르기
+- 웹페이지 새로고침
+
+---
+
+## 📁 파일 위치 요약
+
+| 하고 싶은 것 | 파일 위치 |
+|-------------|---------|
+| 일정 시간 변경 | `data/recommendedScheduleConfig.js` |
+| 결혼식 시간 변경 | `data/recommendedScheduleConfig.js` |
+| 새 장소 추가 | `data/places.json` |
+| 새 식당 추가 | `data/restaurants.json` |
+| 일정에 추가 | `data/recommendedScheduleConfig.js` |
+
+---
+
+## 🎯 지역 코드 (복사-붙여넣기용)
 
 ### 위치: `data/recommendedScheduleConfig.js`
 

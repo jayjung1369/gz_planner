@@ -56,15 +56,6 @@ function openDetailModal(itemId, itemType, options = {}) {
   renderGalleryDots();
   showGalleryImage(0);
 
-  openAmapButton.href = createAmapMarkerUrl(item);
-  
-  // 애플지도 버튼 초기화
-  const openAppleMapsButton = document.getElementById("openAppleMapsButton");
-  if (openAppleMapsButton) {
-    openAppleMapsButton.href = createAppleMapsUrl(item);
-    openAppleMapsButton.hidden = !isAppleDevice();
-  }
-
   if (!detailModal) {
     console.error("상세창 요소를 찾을 수 없습니다.");
     return;
@@ -601,3 +592,101 @@ function createAppleMapsUrl(item) {
   // 좌표 없으면 검색으로 대체
   return `https://maps.apple.com/?q=${chineseName}`;
 }
+
+function createBaiduMapsUrl(item) {
+  const name = encodeURIComponent(item.chineseName || item.name);
+  const longitude = item.longitude;
+  const latitude = item.latitude;
+
+  if (Number.isFinite(longitude) && Number.isFinite(latitude)) {
+    // 바이두 지도는 좌표 형식: ?center=lng,lat&zoom=18&title=name
+    return `https://api.map.baidu.com/?newmap=1&s=&type=&from=webmap&biz_forward=&umd=js&utm_source=webmap&c=${latitude},${longitude}&title=${name}&content=&autoOpen=true&searchType=simplemix&lang=zh_CN`;
+  }
+
+  // 좌표 없으면 검색으로 대체
+  return `https://map.baidu.com/search/${name}/`;
+}
+
+function openMapSelectionMenu() {
+  const mapSelectionModal = document.getElementById("mapSelectionModal");
+  if (mapSelectionModal) {
+    mapSelectionModal.classList.add("open");
+    mapSelectionModal.setAttribute("aria-hidden", "false");
+  }
+}
+
+function closeMapSelectionMenu() {
+  const mapSelectionModal = document.getElementById("mapSelectionModal");
+  if (mapSelectionModal) {
+    mapSelectionModal.classList.remove("open");
+    mapSelectionModal.setAttribute("aria-hidden", "true");
+  }
+}
+
+function handleMapSelection(mapType) {
+  if (!activeDetailItem) {
+    return;
+  }
+
+  let mapUrl = "";
+
+  switch (mapType) {
+    case "amap":
+      mapUrl = createAmapMarkerUrl(activeDetailItem);
+      break;
+    case "baidu":
+      mapUrl = createBaiduMapsUrl(activeDetailItem);
+      break;
+    case "apple":
+      if (!isAppleDevice()) {
+        alert("애플 지도는 iOS 기기에서만 지원합니다.");
+        return;
+      }
+      mapUrl = createAppleMapsUrl(activeDetailItem);
+      break;
+    default:
+      return;
+  }
+
+  closeMapSelectionMenu();
+
+  if (mapUrl) {
+    window.open(mapUrl, "_blank", "noopener");
+  }
+}
+
+// Initialize event listeners for map selection menu
+document.addEventListener("DOMContentLoaded", () => {
+  // Detail modal map button
+  const detailModalMapButton = document.getElementById("detailModalMapButton");
+  if (detailModalMapButton) {
+    detailModalMapButton.addEventListener("click", openMapSelectionMenu);
+  }
+
+  // Mobile detail map button
+  const detailMobileMapButton = document.getElementById("detailMobileMapButton");
+  if (detailMobileMapButton) {
+    detailMobileMapButton.addEventListener("click", openMapSelectionMenu);
+  }
+
+  // Map selection menu close buttons
+  document.querySelectorAll("[data-close-map-menu]").forEach((btn) => {
+    btn.addEventListener("click", closeMapSelectionMenu);
+  });
+
+  // Map selection options
+  document.querySelectorAll(".map-option").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const mapType = btn.dataset.map;
+      if (mapType) {
+        handleMapSelection(mapType);
+      }
+    });
+  });
+
+  // Close menu on backdrop click
+  const mapSelectionBackdrop = document.querySelector(".map-selection-backdrop");
+  if (mapSelectionBackdrop) {
+    mapSelectionBackdrop.addEventListener("click", closeMapSelectionMenu);
+  }
+});

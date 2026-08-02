@@ -480,3 +480,145 @@
   font-size: 12px;
   font-weight: 750;
 }
+
+/* Map Selection Modal */
+.map-selection-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.map-selection-modal.open {
+  display: flex;
+}
+
+.map-selection-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.46);
+  backdrop-filter: blur(12px);
+}
+
+.map-selection-panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 440px);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.16);
+}
+
+.map-selection-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.map-selection-header h3 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.04em;
+}
+
+.map-selection-close {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  font-size: 28px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.map-selection-close:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.map-selection-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.map-option {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: white;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.map-option:hover {
+  transform: translateY(-2px);
+  border-color: rgba(169, 135, 93, 0.45);
+  background: rgba(169, 135, 93, 0.06);
+}
+
+.map-icon {
+  font-size: 24px;
+  text-align: center;
+}
+
+.map-option > span:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.map-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.map-desc {
+  font-size: 12px;
+  color: var(--subtext);
+}
+
+.map-selection-info {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(169, 135, 93, 0.08);
+  color: var(--accent);
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .map-selection-panel {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .map-selection-header h3 {
+    font-size: 20px;
+  }
+
+  .map-option {
+    padding: 12px 14px;
+  }
+}

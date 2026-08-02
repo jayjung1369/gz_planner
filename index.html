@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="css/base.css?v=32">
   <link rel="stylesheet" href="css/layout.css?v=31">
   <link rel="stylesheet" href="css/planner.css?v=33">
-  <link rel="stylesheet" href="css/detail.css?v=31">
+  <link rel="stylesheet" href="css/detail.css?v=32">
   <link rel="stylesheet" href="css/guide.css?v=31">
   <link rel="stylesheet" href="css/planner-cards.css?v=39">
   <link rel="stylesheet" href="css/travel.css?v=32">
@@ -22,10 +22,10 @@
     <a class="brand" href="#home">GUANGZHOU WEDDING</a>
 
     <nav class="desktop-nav">
-      <a href="#planner">Planner</a>
       <a href="#wedding">Wedding</a>
-      <a href="#travel">Travel</a>
       <a href="#guide">Guide</a>
+      <a href="#planner">Planner</a>
+      <a href="#travel">Travel</a>
     </nav>
   </header>
 
@@ -41,10 +41,10 @@
           광저우에서의 결혼식과 여행을<br>
           즐겨 보세요.
         </p>
-        <a class="pill-button" href="#planner">추천 일정 보기</a>
+        <a class="pill-button" href="#wedding">웨딩 일정 보기</a>
       </div>
 
-      <a class="scroll-indicator" href="#planner">
+      <a class="scroll-indicator" href="#wedding">
         <span>SCROLL</span>
         <span class="scroll-line"></span>
       </a>
@@ -87,19 +87,63 @@
       </div>
 
       <div class="wedding-feature reveal">
-        <div class="wedding-date">
-          <span>NOVEMBER</span>
-          <strong>14</strong>
-          <span>2026 · SATURDAY</span>
+        <div class="wedding-countdown-wrapper">
+          <div class="wedding-time-highlight">
+            <p class="time-label">결혼식 일정</p>
+            <h3>2026.11.14 오후 15:30</h3>
+            <div class="countdown" id="weddingCountdown">
+              <div class="countdown-item">
+                <span class="countdown-number" id="daysCount">00</span>
+                <span class="countdown-unit">일</span>
+              </div>
+              <span class="countdown-sep">:</span>
+              <div class="countdown-item">
+                <span class="countdown-number" id="hoursCount">00</span>
+                <span class="countdown-unit">시간</span>
+              </div>
+              <span class="countdown-sep">:</span>
+              <div class="countdown-item">
+                <span class="countdown-number" id="minutesCount">00</span>
+                <span class="countdown-unit">분</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="wedding-info">
-          <p class="eyebrow">W GUANGZHOU</p>
-          <h3>Wedding Day</h3>
-          <p>
-            광저우 W 호텔에서 새로운 출발의 순간을 함께합니다.
-            결혼식 본식 일정은 15:30 ~ 18:30 입니다.
-          </p>
+        <div class="wedding-location-section">
+          <div class="location-box">
+            <p class="eyebrow">예식 장소</p>
+            <h4>W Guangzhou</h4>
+            <p class="address-text">광저우 W 호텔</p>
+          </div>
+
+          <div class="ceremony-schedule-table">
+            <p class="eyebrow">예식 순서</p>
+            <table>
+              <tbody>
+                <tr>
+                  <td class="time">15:30-16:00</td>
+                  <td>식전 준비 및 하객 맞이</td>
+                </tr>
+                <tr>
+                  <td class="time">16:00-17:00</td>
+                  <td>결혼식 본식</td>
+                </tr>
+                <tr>
+                  <td class="time">17:00-17:30</td>
+                  <td>기념 사진 촬영</td>
+                </tr>
+                <tr>
+                  <td class="time">17:30-18:00</td>
+                  <td>식사</td>
+                </tr>
+                <tr>
+                  <td class="time">18:00-19:00</td>
+                  <td>레크리에이션 및 신랑·신부와의 인사 시간</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>
@@ -376,13 +420,9 @@
           중국어 주소 복사
         </button>
 
-        <a class="modal-action primary" id="openAmapButton" href="#" target="_blank" rel="noopener">
-          고덕지도 열기
-        </a>
-
-        <a class="modal-action primary" id="openAppleMapsButton" href="#" target="_blank" rel="noopener" hidden>
-          애플지도<br><span style="font-size: 11px; font-weight: 400;">iOS만 지원</span>
-        </a>
+        <button class="modal-action primary" id="detailModalMapButton" type="button">
+          지도 선택
+        </button>
       </div>
 
       <p class="copy-feedback" id="copyFeedback" aria-live="polite"></p>
@@ -403,6 +443,42 @@
           일정에 추가
         </button>
       </div>
+    </section>
+  </div>
+
+  <!-- Map Selection Menu Modal -->
+  <div class="map-selection-modal" id="mapSelectionModal" aria-hidden="true">
+    <div class="map-selection-backdrop" data-close-map-menu></div>
+    
+    <section class="map-selection-panel" role="dialog" aria-modal="true" aria-labelledby="mapSelectionTitle">
+      <div class="map-selection-header">
+        <h3 id="mapSelectionTitle">지도로 보기</h3>
+        <button class="map-selection-close" type="button" aria-label="닫기" data-close-map-menu">×</button>
+      </div>
+
+      <div class="map-selection-list">
+        <button class="map-option" id="mapOptionAmap" type="button" data-map="amap">
+          <span class="map-icon">🗺</span>
+          <span class="map-name">고덕지도</span>
+          <span class="map-desc">중국 내 실시간 정보</span>
+        </button>
+        
+        <button class="map-option" id="mapOptionBaidu" type="button" data-map="baidu">
+          <span class="map-icon">🗺</span>
+          <span class="map-name">바이두 지도</span>
+          <span class="map-desc">중국 전역 지도</span>
+        </button>
+        
+        <button class="map-option" id="mapOptionApple" type="button" data-map="apple">
+          <span class="map-icon">🗺</span>
+          <span class="map-name">애플 지도</span>
+          <span class="map-desc" id="appleMapDesc">iOS 기기에서</span>
+        </button>
+      </div>
+
+      <p class="map-selection-info">
+        💡 중국에서는 고덕지도나 바이두 지도 이용을 권장합니다.
+      </p>
     </section>
   </div>
 
@@ -612,7 +688,7 @@
 <script src="js/modules/planner.js?v=51"></script>
 <script src="js/modules/travel.js?v=32"></script>
   <script src="js/modules/guide.js?v=31"></script>
-  <script src="js/modules/detail.js?v=37"></script>
+  <script src="js/modules/detail.js?v=38"></script>
   <script src="js/modules/storage.js?v=34"></script>
   <script src="js/modules/share.js?v=31"></script>
   <script src="js/modules/events.js?v=42"></script>
