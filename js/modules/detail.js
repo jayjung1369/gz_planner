@@ -1,5 +1,7 @@
 /* Sprint 1-2 detail module. Classic scripts preserve existing global behavior. */
 
+const detailGalleryPreloadCache = new Set();
+
 function openDetailModal(itemId, itemType, options = {}) {
   if (!options.returnToEdit) {
     detailReturnToEditContext = null;
@@ -48,6 +50,7 @@ function openDetailModal(itemId, itemType, options = {}) {
   // renderDetailAddControls(item, itemType);
 
   activeGalleryImages = getFullImages(item);
+  preloadDetailGalleryImages(activeGalleryImages, 4);
 
   activeGalleryIndex = 0;
   renderGalleryDots();
@@ -319,6 +322,8 @@ function showGalleryImage(index) {
     activeGalleryImages[activeGalleryIndex] ||
     "images/places/default-place.svg";
 
+  preloadGalleryNeighbors(activeGalleryIndex, 2);
+
   const galleryWrapper = detailModalImage.closest(".detail-gallery");
   const loader = galleryWrapper?.querySelector(".image-loader");
 
@@ -367,6 +372,45 @@ function showGalleryImage(index) {
   const showButtons = activeGalleryImages.length > 1;
   galleryPrevButton.hidden = !showButtons;
   galleryNextButton.hidden = !showButtons;
+}
+
+function preloadGalleryNeighbors(index, distance = 1) {
+  if (activeGalleryImages.length <= 1) {
+    return;
+  }
+
+  for (let offset = 1; offset <= distance; offset += 1) {
+    const nextIndex = (index + offset) % activeGalleryImages.length;
+    const prevIndex =
+      (index - offset + activeGalleryImages.length) %
+      activeGalleryImages.length;
+
+    preloadDetailImage(activeGalleryImages[nextIndex]);
+    preloadDetailImage(activeGalleryImages[prevIndex]);
+  }
+}
+
+function preloadDetailGalleryImages(images, limit = 4) {
+  (images || []).slice(0, limit).forEach((image) => {
+    preloadDetailImage(image);
+  });
+}
+
+function preloadDetailImage(source) {
+  if (!source) {
+    return;
+  }
+
+  const resolved = resolveAssetUrl(source);
+  if (detailGalleryPreloadCache.has(resolved)) {
+    return;
+  }
+
+  detailGalleryPreloadCache.add(resolved);
+  const img = new Image();
+  img.decoding = "async";
+  img.loading = "eager";
+  img.src = resolved;
 }
 
 function renderGalleryDots() {

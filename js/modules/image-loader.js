@@ -1,5 +1,9 @@
 /* Sprint 1-3 optimized image loading. */
 
+const EAGER_IMAGE_COUNT = 8;
+const IDLE_PREWARM_COUNT = 20;
+const warmedImageSources = new Set();
+
 function applyOptimizedImages(item, itemId) {
   // item.images를 기본 소스로 사용
   item.thumbnail = item.images?.[0] || "images/places/default-place.svg";
@@ -72,6 +76,14 @@ function initializeLazyImages(root = document) {
     return;
   }
 
+  // Above-the-fold cards should be loaded immediately for faster first paint.
+  images.slice(0, EAGER_IMAGE_COUNT).forEach((image) => {
+    image.setAttribute("fetchpriority", "high");
+    loadLazyImage(image);
+  });
+
+  scheduleIdlePrewarm(images);
+
   if (!("IntersectionObserver" in window)) {
     images.forEach(loadLazyImage);
     return;
@@ -90,23 +102,63 @@ function initializeLazyImages(root = document) {
         });
       },
       {
-        rootMargin: "200px 0px",
+        rootMargin: "1200px 0px",
         threshold: 0.01
       }
     );
   }
 
   images.forEach((image) => {
+    if (!image.dataset.src) {
+      return;
+    }
     lazyImageObserver.observe(image);
   });
+}
+
+function scheduleIdlePrewarm(images) {
+  const targets = images
+    .filter((image) => image.dataset.src)
+    .slice(0, IDLE_PREWARM_COUNT);
+
+  if (targets.length === 0) {
+    return;
+  }
+
+  const prewarm = () => {
+    targets.forEach((image) => {
+      warmImageSource(image.dataset.src);
+    });
+  };
+
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(prewarm, { timeout: 800 });
+    return;
+  }
+
+  window.setTimeout(prewarm, 120);
+}
+
+function warmImageSource(source) {
+  if (!source || warmedImageSources.has(source)) {
+    return;
+  }
+
+  warmedImageSources.add(source);
+  const img = new Image();
+  img.decoding = "async";
+  img.loading = "eager";
+  img.src = source;
 }
 
 function loadLazyImage(image) {
   const source = image.dataset.src;
 
-  if (!source) {
+  if (!source || image.dataset.loadingStarted === "true") {
     return;
   }
+
+  image.dataset.loadingStarted = "true";
 
   // Check for loader in new wrapper structure (from createLazyImageMarkup)
   let loader = image.parentElement?.querySelector(".image-loader");
@@ -125,6 +177,7 @@ function loadLazyImage(image) {
     if (loader) {
       loader.style.display = "none";
     }
+    delete image.dataset.loadingStarted;
     image.classList.remove("is-loading");
     image.classList.add("is-loaded");
     image.removeAttribute("data-src");
@@ -134,6 +187,7 @@ function loadLazyImage(image) {
     if (loader) {
       loader.style.display = "none";
     }
+    delete image.dataset.loadingStarted;
     handleLazyImageError(image);
   };
 
