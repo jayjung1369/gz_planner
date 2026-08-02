@@ -937,11 +937,6 @@ function renderSchedule(schedule, context, options = {}) {
     <div class="schedule-header">
       <p class="eyebrow">${selectedLabel.toUpperCase()}</p>
       <h3>${nights}박 ${context.dates.length}일 일정</h3>
-      <p>
-        ${formatDate(context.arrivalDate)} ${context.arrivalTime}
-        도착 · ${formatDate(context.departureDate)}
-        ${context.departureTime} 출국
-      </p>
     </div>
 
     <section class="schedule-day-shell" aria-label="일정 일자별 보기">
