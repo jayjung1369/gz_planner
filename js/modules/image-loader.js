@@ -97,7 +97,7 @@ function initializeLazyImages(root = document) {
         });
       },
       {
-        rootMargin: "240px 0px",
+        rootMargin: "50px 0px",
         threshold: 0.01
       }
     );
@@ -115,13 +115,17 @@ function loadLazyImage(image) {
     return;
   }
 
+  console.log(`📦 loadLazyImage: ${source}`);
+
   image.onload = () => {
+    console.log(`✅ 이미지 로드 성공: ${source}`);
     image.classList.remove("is-loading");
     image.classList.add("is-loaded");
     image.removeAttribute("data-src");
   };
 
   image.onerror = () => {
+    console.error(`❌ 이미지 로드 실패: ${source}`);
     handleLazyImageError(image);
   };
 
@@ -139,7 +143,8 @@ function handleLazyImageError(image) {
 
   const wrap =
     image.closest(".choice-image-wrap") ||
-    image.closest(".edit-item-preview-image-wrap");
+    image.closest(".edit-item-preview-image-wrap") ||
+    image.closest(".travel-library-image"); // Travel 카드 추가
 
   if (wrap && !wrap.querySelector(".choice-photo-status")) {
     wrap.insertAdjacentHTML(

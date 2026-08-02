@@ -1,7 +1,13 @@
 /* Sprint 1-2 events module. Classic scripts preserve existing global behavior. */
 
 function bindEvents() {
-  createButton.addEventListener("click", createSchedule);
+  if (createButton) {
+    createButton.addEventListener("click", createSchedule);
+  }
+
+  if (!scheduleResult) {
+    return;
+  }
 
   scheduleResult.addEventListener("click", (event) => {
     const dayTabTrigger = event.target.closest("[data-day-tab]");

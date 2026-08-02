@@ -1,7 +1,7 @@
 /* Sprint 1-2 travel module. Classic scripts preserve existing global behavior. */
 
 function getTravelLibraryItems() {
-  return [
+  const items = [
     ...PLACE_OPTIONS.map((item) => ({
       ...item,
       libraryType: "place"
@@ -11,6 +11,10 @@ function getTravelLibraryItems() {
       libraryType: "restaurant"
     }))
   ];
+  
+  console.log(`🎯 getTravelLibraryItems: ${PLACE_OPTIONS.length}개 장소 + ${RESTAURANT_OPTIONS.length}개 맛집 = ${items.length}개 항목`);
+  
+  return items;
 }
 
 const TRAVEL_FACETS = [
@@ -320,6 +324,13 @@ function initializeTravelInfiniteScroll() {
 
 function createTravelLibraryCard(item) {
   const rawImage = getThumbnailImage(item);
+  
+  // 이미지 로드 디버깅
+  if (!item.images || item.images.length === 0) {
+    console.warn(`⚠️ Travel Card: ${item.id} (${item.name})에 이미지 없음 - images:`, item.images);
+  } else {
+    console.log(`✓ Travel Card: ${item.id} (${item.name}) - ${item.images.length}개 이미지 로드:`, item.images[0]);
+  }
 
   const typeLabel =
     item.libraryType === "restaurant"

@@ -1,53 +1,99 @@
 /* Sprint 1-2 data module. Classic scripts preserve existing global behavior. */
 
 async function loadPlannerData() {
-  const [
-    placesData,
-    restaurantsData,
-    photosData,
-    rulesData,
-    travelGuideData,
-    imageManifestData
-  ] = await Promise.all([
-    loadJson("data/places.json"),
-    loadJson("data/restaurants.json"),
-    loadJson("data/photos.json"),
-    loadJson("data/scheduleRules.json"),
-    loadJson("data/travelGuide.json"),
-    loadJson("data/imageManifest.json")
-  ]);
+  try {
+    // 각 JSON 파일을 대기하지 말고, 개별적으로 로드해서 실패해도 계속 진행되도록 함
+    const [
+      placesData,
+      restaurantsData,
+      photosData,
+      rulesData,
+      travelGuideData,
+      imageManifestData
+    ] = await Promise.all([
+      loadJson("data/places.json").catch(err => {
+        console.error("places.json 로드 실패:", err);
+        return { items: {} };
+      }),
+      loadJson("data/restaurants.json").catch(err => {
+        console.error("restaurants.json 로드 실패:", err);
+        return { items: {} };
+      }),
+      loadJson("data/photos.json").catch(err => {
+        console.error("photos.json 로드 실패:", err);
+        return { items: {} };
+      }),
+      loadJson("data/scheduleRules.json").catch(err => {
+        console.error("scheduleRules.json 로드 실패:", err);
+        return { rules: {}, recommendedDistrictOrder: [], recommendedPlaceIds: {}, recommendedRestaurantIds: {} };
+      }),
+      loadJson("data/travelGuide.json").catch(err => {
+        console.error("travelGuide.json 로드 실패:", err);
+        return { items: [], notice: "" };
+      }),
+      loadJson("data/imageManifest.json").catch(err => {
+        console.error("imageManifest.json 로드 실패:", err);
+        return { items: {} };
+      })
+    ]).catch(err => {
+      console.error("전체 데이터 로드 실패:", err);
+      throw new Error("필수 데이터 파일을 하나 이상 불러올 수 없습니다.");
+    });
 
-  PLACES = placesData.items || {};
-  RESTAURANTS = restaurantsData.items || {};
-  PHOTO_LIBRARY = photosData.items || {};
-  IMAGE_MANIFEST = imageManifestData.items || {};
-  TRAVEL_GUIDE = travelGuideData.items || [];
-  TRAVEL_GUIDE_NOTICE = travelGuideData.notice || "";
+    PLACES = placesData.items || {};
+    RESTAURANTS = restaurantsData.items || {};
+    PHOTO_LIBRARY = photosData.items || {};
+    IMAGE_MANIFEST = imageManifestData.items || {};
+    TRAVEL_GUIDE = travelGuideData.items || [];
+    TRAVEL_GUIDE_NOTICE = travelGuideData.notice || "";
 
-  Object.entries(PLACES).forEach(([id, item]) => {
-    item.images = PHOTO_LIBRARY[id] || ["images/places/default-place.svg"];
-    applyOptimizedImages(item, id);
-  });
+    console.log("📸 PHOTO_LIBRARY 로드됨:", Object.keys(PHOTO_LIBRARY).length, "개 항목");
+    console.log("🏷️ PLACES 로드됨:", Object.keys(PLACES).length, "개 항목");
+    console.log("🍴 RESTAURANTS 로드됨:", Object.keys(RESTAURANTS).length, "개 항목");
 
-  Object.entries(RESTAURANTS).forEach(([id, item]) => {
-    item.images = PHOTO_LIBRARY[id] || ["images/places/default-place.svg"];
-    applyOptimizedImages(item, id);
-  });
+    // 이미지 설정
+    Object.entries(PLACES).forEach(([id, item]) => {
+      const photoImages = PHOTO_LIBRARY[id] || [];
+      item.images = photoImages.length > 0 ? photoImages : ["images/places/default-place.svg"];
+      
+      if (photoImages.length === 0) {
+        console.warn(`⚠️ ${id} (${item.name}): photos.json에 이미지 없음`);
+      }
+      
+      applyOptimizedImages(item, id);
+    });
 
-  PLACE_OPTIONS = Object.values(PLACES).filter(
-    (place) => !["airport", "weddingHotel"].includes(place.id)
-  );
-  RESTAURANT_OPTIONS = Object.values(RESTAURANTS);
+    Object.entries(RESTAURANTS).forEach(([id, item]) => {
+      const photoImages = PHOTO_LIBRARY[id] || [];
+      item.images = photoImages.length > 0 ? photoImages : ["images/places/default-place.svg"];
+      
+      if (photoImages.length === 0) {
+        console.warn(`⚠️ ${id} (${item.name}): photos.json에 이미지 없음`);
+      }
+      
+      applyOptimizedImages(item, id);
+    });
 
-  SCHEDULE_RULES = rulesData.rules || {};
-  RECOMMENDED_DISTRICT_ORDER =
-    rulesData.recommendedDistrictOrder || [];
-  RECOMMENDED_PLACE_IDS = rulesData.recommendedPlaceIds || {};
-  RECOMMENDED_RESTAURANT_IDS =
-    rulesData.recommendedRestaurantIds || {};
+    PLACE_OPTIONS = Object.values(PLACES).filter(
+      (place) => !["airport", "weddingHotel"].includes(place.id)
+    );
+    RESTAURANT_OPTIONS = Object.values(RESTAURANTS);
 
-  if (rulesData.weddingDate) {
-    WEDDING_DATE = new Date(`${rulesData.weddingDate}T00:00:00`);
+    SCHEDULE_RULES = rulesData.rules || {};
+    RECOMMENDED_DISTRICT_ORDER =
+      rulesData.recommendedDistrictOrder || [];
+    RECOMMENDED_PLACE_IDS = rulesData.recommendedPlaceIds || {};
+    RECOMMENDED_RESTAURANT_IDS =
+      rulesData.recommendedRestaurantIds || {};
+
+    if (rulesData.weddingDate) {
+      WEDDING_DATE = new Date(`${rulesData.weddingDate}T00:00:00`);
+    }
+
+    console.log("✅ 플래너 데이터 로드 완료");
+  } catch (error) {
+    console.error("❌ 플래너 데이터 로드 실패:", error);
+    throw error;
   }
 }
 
@@ -66,6 +112,12 @@ function showDataLoadError(error) {
     window.location.protocol === "file:"
       ? "JSON 파일은 파일 더블클릭 방식으로 불러올 수 없습니다. VS Code Live Server로 실행해주세요."
       : "관광지 데이터 파일을 불러오지 못했습니다. 배포 파일과 경로를 확인해주세요.";
+
+  if (!scheduleResult) {
+    console.error("scheduleResult element not found. Error:", error?.message || "알 수 없는 오류");
+    alert(`${message}\n\n${error?.message || "알 수 없는 오류"}`);
+    return;
+  }
 
   scheduleResult.innerHTML = `
     <div class="empty-state data-load-error">

@@ -64,8 +64,8 @@ function toggleAllChoices(className, button) {
 }
 
 function createSchedule() {
-  const arrivalDate = parseDate(arrivalInput.value);
-  const departureDate = parseDate(departureInput.value);
+  const arrivalDate = parseDate(arrivalInput?.value || "2026-11-13");
+  const departureDate = parseDate(departureInput?.value || "2026-11-16");
   const arrivalTime = arrivalTimeInput?.value || "14:30";
   const departureTime = departureTimeInput?.value || "18:30";
 
@@ -79,47 +79,12 @@ function createSchedule() {
     return;
   }
 
-  const dates = enumerateDates(arrivalDate, departureDate);
-  
-  // 결혼식 날짜(11월 14일) 확인
   const weddingDate = new Date(WEDDING_DATE);
-  const weddingIncluded = dates.some(date => 
-    date.getFullYear() === weddingDate.getFullYear() &&
-    date.getMonth() === weddingDate.getMonth() &&
-    date.getDate() === weddingDate.getDate()
-  );
-  
-  if (!weddingIncluded) {
-    const weddingDateStr = formatShortDate(weddingDate);
-    showMessage(`결혼식 일정은 ${weddingDateStr}에 포함되어야 합니다. 도착일 또는 출국일을 조정해주세요.`);
-    return;
-  }
-
-  // 결혼식이 DAY 2가 되도록 스마트하게 절사
-  // DAY 1(도착) + DAY 2(결혼식) + DAY 3~N(귀국) 구조 유지
-  const weddingIndex = dates.findIndex(date => 
-    date.getFullYear() === weddingDate.getFullYear() &&
-    date.getMonth() === weddingDate.getMonth() &&
-    date.getDate() === weddingDate.getDate()
-  );
-  
-  const maxDays = 4; // 최대 4일 (3박 4일)
-  
-  if (dates.length > maxDays) {
-    // 결혼식을 DAY 2 위치(index 1)에 오도록 조정
-    // 도착 1일 + 결혼식 + 이후 최대 2일
-    const daysBeforeWedding = Math.min(weddingIndex, 1);
-    const startIndex = weddingIndex - daysBeforeWedding;
-    
-    dates.splice(0, startIndex);
-    if (dates.length > maxDays) {
-      dates.length = maxDays;
-    }
-  }
+  const dates = buildFixedRecommendedDates(weddingDate);
 
   const context = {
-    arrivalDate,
-    departureDate,
+    arrivalDate: dates[0],
+    departureDate: dates[dates.length - 1],
     arrivalTime,
     departureTime,
     dates,
@@ -132,6 +97,18 @@ function createSchedule() {
   context.excludedItems = [];
 
   renderSchedule(schedule, context);
+}
+
+function buildFixedRecommendedDates(weddingDate) {
+  const fixedDates = [];
+
+  for (let offset = -1; offset <= 2; offset += 1) {
+    const date = new Date(weddingDate.getTime());
+    date.setDate(date.getDate() + offset);
+    fixedDates.push(date);
+  }
+
+  return fixedDates;
 }
 
 function findExcludedSelectedItems(
@@ -186,58 +163,27 @@ function buildRecommendedSchedule(context) {
 }
 
 function buildManagedSchedule(context) {
-  const templates = [
-    [
-      createManagedTransportItem({
-        start: 14 * 60,
-        end: 15 * 60,
-        title: "광저우 도착",
-        detail: "공항 도착 후 호텔로 이동합니다.",
-        tag: "도착",
-        from: "공항",
-        to: "호텔"
-      }),
-      createManagedSourceItem("chenClan", "place", 15 * 60 + 30),
-      createManagedSourceItem("dimsumLiwan", "restaurant", 17 * 60 + 30),
-      createManagedSourceItem("shamian", "place", 19 * 60 + 30)
-    ].filter(Boolean),
-    [
-      {
-        start: 15 * 60,
-        end: 19 * 60,
-        title: PLACES.weddingHotel.name,
-        detail: PLACES.weddingHotel.note,
-        tag: "Wedding",
-        isWeddingEvent: true
-      },
-      createManagedSourceItem("cantoneseZhujiang", "restaurant", 19 * 60 + 30)
-    ].filter(Boolean),
-    [
-      createManagedSourceItem("k11", "place", 10 * 60 + 30),
-      createManagedSourceItem("haixinBridge", "place", 13 * 60),
-      createManagedSourceItem("beijingRoadFood", "restaurant", 15 * 60)
-    ].filter(Boolean),
-    [
-      createManagedSourceItem("partyPier", "place", 17 * 60),
-      createManagedTransportItem({
-        start: 21 * 60 + 30,
-        end: 22 * 60 + 30,
-        title: "광저우 출발",
-        detail: "호텔 체크아웃 후 공항으로 이동합니다.",
-        tag: "출발",
-        from: "호텔",
-        to: "공항"
-      })
-    ].filter(Boolean)
-  ];
-
   return context.dates.map((date, index) => {
     const isArrivalDay = index === 0;
     const isDepartureDay = index === context.dates.length - 1;
-    const template = (templates[index] || []).map((item) => ({ ...item }));
+    
+    // Config에서 해당 일정의 설정을 가져옴
+    const dayConfig = getRecommendedScheduleDay(index);
+    const items = [];
 
-    if (isArrivalDay && !template.some((item) => item.tag === "도착")) {
-      template.unshift(
+    if (dayConfig && dayConfig.items) {
+      // Config의 items를 순회하면서 schedule item으로 변환
+      dayConfig.items.forEach((configItem) => {
+        const scheduledItem = buildScheduleItemFromConfig(configItem);
+        if (scheduledItem) {
+          items.push(scheduledItem);
+        }
+      });
+    }
+
+    // Config에 도착 항목이 없으면 추가
+    if (isArrivalDay && !items.some((item) => item.tag === "도착")) {
+      items.unshift(
         createManagedTransportItem({
           start: 14 * 60,
           end: 15 * 60,
@@ -250,8 +196,9 @@ function buildManagedSchedule(context) {
       );
     }
 
-    if (isDepartureDay && !template.some((item) => item.tag === "출발")) {
-      template.push(
+    // Config에 출발 항목이 없으면 추가
+    if (isDepartureDay && !items.some((item) => item.tag === "출발")) {
+      items.push(
         createManagedTransportItem({
           start: 17 * 60 + 30,
           end: 18 * 60 + 30,
@@ -267,10 +214,54 @@ function buildManagedSchedule(context) {
     return {
       date,
       index,
-      title: getDayTitle({ isArrivalDay, isDepartureDay }),
-      items: template
+      title: dayConfig?.title || getDayTitle({ isArrivalDay, isDepartureDay }),
+      items: items
     };
   });
+}
+
+/**
+ * Config의 item을 Schedule의 item으로 변환하는 헬퍼 함수
+ */
+function buildScheduleItemFromConfig(configItem) {
+  if (!configItem) return null;
+
+  const { type, time, id } = configItem;
+  const minutes = timeToMinutes(time);
+
+  switch (type) {
+    case "place": {
+      if (!id || !PLACES[id]) return null;
+      return createManagedSourceItem(id, "place", minutes);
+    }
+    case "restaurant": {
+      if (!id || !RESTAURANTS[id]) return null;
+      return createManagedSourceItem(id, "restaurant", minutes);
+    }
+    case "wedding": {
+      return {
+        start: minutes,
+        end: minutes + (configItem.duration || 180),
+        title: configItem.title || PLACES.weddingHotel.name,
+        detail: configItem.detail || PLACES.weddingHotel.note,
+        tag: configItem.tag || "Wedding",
+        isWeddingEvent: true
+      };
+    }
+    case "transport": {
+      return createManagedTransportItem({
+        start: minutes,
+        end: minutes + (configItem.duration || 60),
+        title: configItem.title,
+        detail: configItem.detail,
+        tag: configItem.tag,
+        from: configItem.from,
+        to: configItem.to
+      });
+    }
+    default:
+      return null;
+  }
 }
 
 function createManagedSourceItem(itemId, type, start) {
@@ -380,8 +371,8 @@ function buildCustomWeddingDay(date, index) {
     title: "Wedding Day",
     items: [
       {
-        start: 14 * 60,
-        end: 17 * 60,
+        start: 15 * 60 + 30,
+        end: 18 * 60 + 30,
         title: PLACES.weddingHotel.name,
         detail: PLACES.weddingHotel.note,
         tag: "Wedding",
@@ -584,8 +575,8 @@ function buildWeddingDay(date, index) {
         tag: "준비"
       },
       {
-        start: 14 * 60,
-        end: 17 * 60,
+        start: 15 * 60 + 30,
+        end: 18 * 60 + 30,
         title: PLACES.weddingHotel.name,
         detail: PLACES.weddingHotel.note,
         tag: "Wedding",
@@ -883,7 +874,7 @@ function createScheduleDayTabs(schedule) {
             data-day-tab="${dayIndex}"
             aria-selected="${dayIndex === activeScheduleDayIndex ? "true" : "false"}"
           >
-            DAY ${day.index + 1}
+            추천일정 #${day.index + 1}${day.index === 1 ? " (결혼식 당일)" : ""}
           </button>
         `)
         .join("")}
@@ -1033,6 +1024,7 @@ function createExcludedItemsSection(items) {
 
 function createScheduleCard(day, dayIndex, isActive) {
   const totalDuration = calculateDayDuration(day.items);
+  const planLabel = `추천일정 #${day.index + 1}${day.index === 1 ? " (결혼식 당일)" : ""}`;
 
   return `
     <article
@@ -1043,7 +1035,7 @@ function createScheduleCard(day, dayIndex, isActive) {
       <div class="schedule-card-top">
         <div>
           <div class="date-label">
-            DAY ${day.index + 1}<br>
+            ${planLabel}<br>
             ${formatShortDate(new Date(day.date))}
           </div>
           <div class="day-duration">전체 일정 ${totalDuration}</div>

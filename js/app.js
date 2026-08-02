@@ -14,9 +14,19 @@ async function initialize() {
     restorePlannerState();
     readSharedPlanFromUrl();
     ensureTopEntryView();
+    autoGenerateRecommendedSchedule();
   } catch (error) {
     console.error("플래너 데이터 로딩 실패:", error);
     showDataLoadError(error);
+  }
+}
+
+function autoGenerateRecommendedSchedule() {
+  // Auto-generate 4 fixed recommended schedules without user selection
+  try {
+    createSchedule();
+  } catch (error) {
+    console.warn("일정 자동 생성 실패:", error);
   }
 }
 

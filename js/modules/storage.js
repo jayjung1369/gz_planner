@@ -57,10 +57,10 @@ function savePlannerState(options = {}) {
 
     const state = {
       plannerMode: "managed",
-      arrivalDate: arrivalInput.value,
-      arrivalTime: arrivalTimeInput.value,
-      departureDate: departureInput.value,
-      departureTime: departureTimeInput.value,
+      arrivalDate: arrivalInput?.value || "2026-11-13",
+      arrivalTime: arrivalTimeInput?.value || "14:30",
+      departureDate: departureInput?.value || "2026-11-16",
+      departureTime: departureTimeInput?.value || "18:30",
       selectedPlaceIds: [],
       selectedRestaurantIds: [],
       renderedScheduleHtml,
@@ -87,31 +87,35 @@ function restorePlannerState() {
     return;
   }
 
-  arrivalInput.value = state.arrivalDate || arrivalInput.value;
-  arrivalTimeInput.value = state.arrivalTime || arrivalTimeInput.value;
-  departureInput.value = state.departureDate || departureInput.value;
-  departureTimeInput.value = state.departureTime || departureTimeInput.value;
+  if (arrivalInput) arrivalInput.value = state.arrivalDate || arrivalInput.value;
+  if (arrivalTimeInput) arrivalTimeInput.value = state.arrivalTime || arrivalTimeInput.value;
+  if (departureInput) departureInput.value = state.departureDate || departureInput.value;
+  if (departureTimeInput) departureTimeInput.value = state.departureTime || departureTimeInput.value;
 
   setPlannerModeWithoutSaving("managed");
 
   restoreCheckedValues("place-choice", []);
   restoreCheckedValues("restaurant-choice", []);
 
-  updateSelectAllButton(
-    "place-choice",
-    selectAllPlacesButton
-  );
+  if (selectAllPlacesButton) {
+    updateSelectAllButton(
+      "place-choice",
+      selectAllPlacesButton
+    );
+  }
 
-  updateSelectAllButton(
-    "restaurant-choice",
-    selectAllRestaurantsButton
-  );
+  if (selectAllRestaurantsButton) {
+    updateSelectAllButton(
+      "restaurant-choice",
+      selectAllRestaurantsButton
+    );
+  }
 
   if (state.scheduleData && state.contextData) {
     currentSchedule = deserializeSchedule(state.scheduleData);
     currentContext = deserializeContext(state.contextData);
     renderSchedule(currentSchedule, currentContext, { skipScroll: true });
-  } else if (state.renderedScheduleHtml) {
+  } else if (state.renderedScheduleHtml && scheduleResult) {
     scheduleResult.innerHTML = state.renderedScheduleHtml;
   }
 
@@ -182,18 +186,22 @@ function resetSavedPlanner() {
 function setPlannerModeWithoutSaving(mode) {
   plannerMode = "managed";
 
-  modeButtons.forEach((button) => {
-    button.classList.toggle(
-      "active",
-      button.dataset.mode === mode
-    );
-  });
+  if (modeButtons && modeButtons.length > 0) {
+    modeButtons.forEach((button) => {
+      button.classList.toggle(
+        "active",
+        button.dataset.mode === mode
+      );
+    });
+  }
 
   if (customSelector) {
     customSelector.hidden = true;
   }
 
-  createButton.textContent = "일정 등록";
+  if (createButton) {
+    createButton.textContent = "일정 등록";
+  }
 }
 
 function getCheckedValues(className) {
