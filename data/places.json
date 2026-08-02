@@ -455,6 +455,9 @@
       "longitude": 113.2462,
       "openTime": "10:00",
       "closeTime": "22:30",
+      "images": [
+        "images/places/shangxiajiu-real-1.jpg"
+      ],
       "hours": "거리 상시 접근 · 매장별 영업시간 상이",
       "price": "거리 입장 무료",
       "bestTime": "오후~저녁",
