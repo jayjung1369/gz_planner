@@ -9,13 +9,13 @@
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   
   <link rel="stylesheet" href="css/base.css?v=32">
-  <link rel="stylesheet" href="css/layout.css?v=38">
+  <link rel="stylesheet" href="css/layout.css?v=39">
   <link rel="stylesheet" href="css/planner.css?v=38">
   <link rel="stylesheet" href="css/detail.css?v=33">
   <link rel="stylesheet" href="css/guide.css?v=31">
   <link rel="stylesheet" href="css/planner-cards.css?v=37">
   <link rel="stylesheet" href="css/travel.css?v=33">
-  <link rel="stylesheet" href="css/mobile.css?v=35">
+  <link rel="stylesheet" href="css/mobile.css?v=36">
 </head>
 <body>
   <header class="site-header">
@@ -59,11 +59,14 @@
         </p>
       </div>
 
-      <div class="wedding-feature reveal">
-        <div class="wedding-countdown-wrapper">
-          <div class="wedding-time-highlight">
-            <p class="time-label">결혼식 일정</p>
-            <h3>2026.11.14 오후 15:30</h3>
+      <div class="wedding-feature reveal timeline">
+        <div class="timeline-item">
+          <div class="timeline-time">
+            <span>15:30</span>
+            <small>2026.11.14</small>
+          </div>
+          <div class="timeline-content">
+            <h4 class="timeline-title">결혼식 일정</h4>
             <div class="countdown" id="weddingCountdown">
               <div class="countdown-item">
                 <span class="countdown-number" id="daysCount">00</span>
@@ -83,16 +86,22 @@
           </div>
         </div>
 
-        <div class="wedding-location-section">
-          <div class="location-box">
-            <p class="eyebrow">예식 장소</p>
-            <h4>W Guangzhou</h4>
-            <p class="address-text">광저우 W 호텔</p>
+        <div class="timeline-item">
+          <div class="timeline-time">
+            <span>장소</span>
           </div>
+          <div class="timeline-content">
+            <h4 class="timeline-title">W Guangzhou</h4>
+            <p class="timeline-detail">광저우 W 호텔</p>
+          </div>
+        </div>
 
-          <div class="ceremony-schedule-table">
-            <p class="eyebrow">예식 순서</p>
-            <table>
+        <div class="timeline-item timeline-schedule-item">
+          <div class="timeline-time">
+            <span>순서</span>
+          </div>
+          <div class="timeline-content">
+            <table class="ceremony-schedule-table">
               <tbody>
                 <tr>
                   <td class="time">15:00-16:00</td>
