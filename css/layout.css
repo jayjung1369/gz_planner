@@ -328,39 +328,18 @@
   color: rgba(255, 255, 255, 0.65);
 }
 
+/* Wedding Feature - Timeline layout */
 .wedding-feature {
   display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: 34px;
-  align-items: stretch;
-}
-
-.wedding-date,
-.wedding-info {
-  min-height: 420px;
-  padding: 38px;
-  border-radius: var(--radius-xl);
-}
-
-.wedding-date {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: white;
-  color: var(--text);
-  text-align: center;
-}
-
-/* Wedding Feature v2 - Compact countdown + ceremony schedule */
-.wedding-feature {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
+  gap: 12px;
+  background: transparent;
+  border-radius: 0;
 }
 
 .wedding-feature.timeline {
   display: grid;
   gap: 12px;
+  background: transparent;
 }
 
 .wedding-feature .timeline-item {
@@ -369,6 +348,8 @@
   gap: 18px;
   padding: 16px 0 2px;
   border-top: 1px solid rgba(212, 176, 119, 0.2);
+  background: transparent;
+  border-radius: 0;
 }
 
 .wedding-feature .timeline-time {
