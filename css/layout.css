@@ -365,7 +365,7 @@
 }
 
 .wedding-time-highlight {
-  margin-bottom: 32px;
+  margin-bottom: 64px;
 }
 
 .time-label {
@@ -377,7 +377,7 @@
 }
 
 .wedding-time-highlight h3 {
-  margin: 0 0 20px;
+  margin: 0 0 24px;
   font-size: 36px;
   letter-spacing: -0.04em;
   color: white;
@@ -481,17 +481,21 @@
 }
 
 .ceremony-schedule-table td {
-  padding: 12px 0;
+  padding: 16px 0;
   color: rgba(255, 255, 255, 0.82);
   text-align: left;
   white-space: nowrap;
 }
 
+.ceremony-schedule-table td:first-child {
+  padding-right: 32px;
+}
+
 .ceremony-schedule-table .time-col {
-  width: 110px;
+  width: 130px;
   color: #d8bd94;
   font-weight: 600;
-  padding-right: 16px;
+  padding-right: 32px;
   white-space: nowrap;
 }
 
