@@ -344,10 +344,6 @@ function bindEvents() {
     });
   }
 
-  // Initialize map selection menu listeners
-  initMapSelectionMenuListeners();
-}
-
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") {
       return;
