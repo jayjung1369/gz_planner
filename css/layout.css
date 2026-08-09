@@ -235,6 +235,9 @@
   color: var(--subtext);
   font-weight: 500;
   font-size: 13px;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .duration-tag {

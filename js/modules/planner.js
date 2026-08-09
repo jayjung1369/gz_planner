@@ -1011,7 +1011,7 @@ function createTimelineItem(item, dayIndex, itemIndex) {
     : "";
 
   const tagsHtml = item.tags && item.tags.length > 0
-    ? item.tags.slice(0, 2).map(tag => `<span class="item-tag">${escapeHtml(tag)}</span>`).join("")
+    ? item.tags.map(tag => `<span class="item-tag">${escapeHtml(tag)}</span>`).join("")
     : "";
 
   const compactMeta = [
@@ -1067,7 +1067,7 @@ function createTimelineItem(item, dayIndex, itemIndex) {
           <div
             class="timeline-card-copy"
             ${item.id && !isTransport
-              ? `data-open-item-detail data-detail-id="${item.id}" data-detail-type="${itemType}" role="button" tabindex="0" aria-label="${escapeHtml(item.title)} 상세보기 열기"`
+              ? `data-open-item-detail data-detail-id="${item.id}" data-detail-type="${itemType}" data-detail-title="${escapeHtml(item.title || sourceItem?.name || "")}" data-detail-chinese="${escapeHtml(sourceItem?.chineseName || "")}" data-detail-category="${escapeHtml(sourceItem?.category || item.tag || "")}" role="button" tabindex="0" aria-label="${escapeHtml(item.title)} 상세보기 열기"`
               : ""}
           >
             ${weddingBody}

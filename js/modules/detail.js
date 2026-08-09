@@ -18,10 +18,26 @@ function openDetailModal(itemId, itemType, options = {}) {
 
   // Determine if this is a restaurant based on item properties (mealTypes, reservation, etc.)
   const isRestaurant = !!(item.mealTypes && item.mealTypes.length > 0);
-  setText(detailModalCategory,
-    isRestaurant ? "FOOD DETAIL" : "PLACE DETAIL");
-  setText(detailModalTitle, item.name);
-  setText(detailModalChinese, item.chineseName || "중국어 명칭 준비 중");
+  const resolvedTitle =
+    item.name ||
+    options.fallbackTitle ||
+    item.chineseName ||
+    "장소 정보";
+  const resolvedChinese =
+    item.chineseName ||
+    options.fallbackChinese ||
+    "중국어 명칭 준비 중";
+  const resolvedCategory =
+    item.category ||
+    options.fallbackCategory ||
+    (isRestaurant ? "맛집" : "관광지");
+
+  setText(
+    detailModalCategory,
+    isRestaurant ? "FOOD DETAIL" : "PLACE DETAIL"
+  );
+  setText(detailModalTitle, resolvedTitle);
+  setText(detailModalChinese, resolvedChinese);
 
   setText(
     detailMobileDistrict,
@@ -29,18 +45,46 @@ function openDetailModal(itemId, itemType, options = {}) {
   );
   setText(
     detailMobileCategory,
-    item.category || (isRestaurant ? "맛집" : "관광지")
+    resolvedCategory
   );
   setText(
     detailMobileDuration,
     `⏱ ${formatDuration(item.duration || 90)}`
   );
-  
-  // Show detail-mobile-summary on mobile (will display based on CSS media query)
-  if (detailMobileSummary) {
-    detailMobileSummary.style.display = '';
+
+  // On very small screens, force key identity fields visible even if CSS overrides conflict.
+  if (window.innerWidth <= 450) {
+    if (detailModalTitle) {
+      detailModalTitle.style.setProperty("display", "block", "important");
+      detailModalTitle.style.setProperty("visibility", "visible", "important");
+      detailModalTitle.style.setProperty("opacity", "1", "important");
+    }
+
+    if (detailModalChinese) {
+      detailModalChinese.style.setProperty("display", "block", "important");
+      detailModalChinese.style.setProperty("visibility", "visible", "important");
+      detailModalChinese.style.setProperty("opacity", "1", "important");
+    }
+
+    if (detailMobileSummary) {
+      detailMobileSummary.style.setProperty("display", "flex", "important");
+      detailMobileSummary.style.setProperty("visibility", "visible", "important");
+      detailMobileSummary.style.setProperty("opacity", "1", "important");
+    }
+  } else {
+    detailModalTitle?.style.removeProperty("display");
+    detailModalTitle?.style.removeProperty("visibility");
+    detailModalTitle?.style.removeProperty("opacity");
+
+    detailModalChinese?.style.removeProperty("display");
+    detailModalChinese?.style.removeProperty("visibility");
+    detailModalChinese?.style.removeProperty("opacity");
+
+    detailMobileSummary?.style.removeProperty("display");
+    detailMobileSummary?.style.removeProperty("visibility");
+    detailMobileSummary?.style.removeProperty("opacity");
   }
-  
+
   setText(detailModalAddress, item.addressZh || "중국어 주소 준비 중");
   setText(detailModalDuration, formatDuration(item.duration));
   setText(detailModalDescription, item.note || "");

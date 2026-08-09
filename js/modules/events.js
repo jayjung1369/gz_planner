@@ -30,7 +30,12 @@ function bindEvents() {
     if (itemDetailTrigger) {
       openDetailModal(
         itemDetailTrigger.dataset.detailId,
-        itemDetailTrigger.dataset.detailType
+        itemDetailTrigger.dataset.detailType,
+        {
+          fallbackTitle: itemDetailTrigger.dataset.detailTitle || "",
+          fallbackChinese: itemDetailTrigger.dataset.detailChinese || "",
+          fallbackCategory: itemDetailTrigger.dataset.detailCategory || ""
+        }
       );
       return;
     }
@@ -182,6 +187,20 @@ function bindEvents() {
   window.addEventListener("resize", () => {
     if (!detailModal?.classList.contains("open")) {
       return;
+    }
+
+    if (window.innerWidth <= 450) {
+      detailModalTitle?.style.setProperty("display", "block", "important");
+      detailModalTitle?.style.setProperty("visibility", "visible", "important");
+      detailModalTitle?.style.setProperty("opacity", "1", "important");
+
+      detailModalChinese?.style.setProperty("display", "block", "important");
+      detailModalChinese?.style.setProperty("visibility", "visible", "important");
+      detailModalChinese?.style.setProperty("opacity", "1", "important");
+
+      detailMobileSummary?.style.setProperty("display", "flex", "important");
+      detailMobileSummary?.style.setProperty("visibility", "visible", "important");
+      detailMobileSummary?.style.setProperty("opacity", "1", "important");
     }
 
     if (!activeGalleryImages.length) {

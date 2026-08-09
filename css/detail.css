@@ -415,6 +415,25 @@
 @media (max-width: 450px) {
   .detail-mobile-summary {
     display: flex !important;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+
+  .detail-mobile-summary span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    max-width: 100%;
+    padding: 4px 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--soft);
+    color: var(--subtext);
+    font-size: 9px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 

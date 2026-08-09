@@ -1087,11 +1087,11 @@ canvas {
     overflow-wrap: anywhere;
     word-break: keep-all;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
   }
 
   .timeline-chinese-name {
-    display: block;
+    display: -webkit-box;
     width: 100%;
     max-width: 100%;
     margin-top: 3px;
@@ -1100,9 +1100,11 @@ canvas {
     font-size: 10px;
     line-height: 1.35;
     overflow-wrap: anywhere;
-    word-break: break-all;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    word-break: keep-all;
+    text-overflow: clip;
+    white-space: normal;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
   }
 
   .timeline-detail {
@@ -1122,25 +1124,27 @@ canvas {
 
   .timeline-meta {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 4px;
     width: 100%;
     max-width: 100%;
     margin-top: 8px;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .timeline-meta span {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     min-width: 0;
-    max-width: 44%;
+    max-width: calc(100% - 2px);
     min-height: 22px;
     padding: 3px 7px;
-    overflow: hidden;
+    overflow: visible;
     font-size: 8px;
     line-height: 1;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    text-overflow: clip;
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
   }
 
   .timeline-meta .duration-tag,
@@ -1371,13 +1375,18 @@ canvas {
 
   .timeline-title,
   .wedding-mobile-heading strong {
-    font-size: 13px;
+    font-size: 15px;
+    line-height: 1.28;
   }
 
   .timeline-meta span {
     padding-left: 5px;
     padding-right: 5px;
-    font-size: 7px;
+    font-size: 9px;
+    line-height: 1.2;
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
   }
 }
 
@@ -1512,29 +1521,6 @@ canvas {
     line-height: 1.4;
     overflow-wrap: anywhere;
     word-break: break-all;
-  }
-
-  .detail-mobile-summary {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 14px;
-  }
-
-  .detail-mobile-summary span {
-    display: inline-flex;
-    align-items: center;
-    min-height: 26px;
-    max-width: 100%;
-    padding: 4px 8px;
-    overflow: hidden;
-    border-radius: 999px;
-    background: var(--soft);
-    color: var(--subtext);
-    font-size: 9px;
-    font-weight: 600;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .detail-description {
@@ -1795,5 +1781,55 @@ canvas {
   .schedule-day-shell .timeline-item:not(.wedding-event) .timeline-content,
   .schedule-day-shell .transport-event .timeline-content {
     padding-right: 70px !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .detail-modal .detail-modal-panel h2,
+  .detail-modal #detailModalTitle {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    color: var(--text) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    font-size: clamp(36px, 10.2vw, 44px) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.05em !important;
+  }
+
+  .detail-modal .detail-modal-chinese,
+  .detail-modal #detailModalChinese {
+    display: block !important;
+    margin: 8px 0 0 !important;
+    color: var(--accent) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    font-size: 34px !important;
+    line-height: 1.15 !important;
+  }
+
+  .detail-modal #detailMobileSummary,
+  .detail-modal .detail-mobile-summary {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    margin-top: 14px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .detail-modal #detailMobileSummary span,
+  .detail-modal .detail-mobile-summary span {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 28px !important;
+    padding: 4px 10px !important;
+    border-radius: 999px !important;
+    background: var(--soft) !important;
+    color: var(--subtext) !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
   }
 }
