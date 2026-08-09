@@ -35,6 +35,12 @@ function openDetailModal(itemId, itemType, options = {}) {
     detailMobileDuration,
     `⏱ ${formatDuration(item.duration || 90)}`
   );
+  
+  // Show detail-mobile-summary on mobile (will display based on CSS media query)
+  if (detailMobileSummary) {
+    detailMobileSummary.style.display = '';
+  }
+  
   setText(detailModalAddress, item.addressZh || "중국어 주소 준비 중");
   setText(detailModalDuration, formatDuration(item.duration));
   setText(detailModalDescription, item.note || "");

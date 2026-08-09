@@ -26,6 +26,7 @@ const detailModal = document.querySelector("#detailModal");
 const detailModalPanel = document.querySelector(".detail-modal-panel");
 const detailModalTitle = document.querySelector("#detailModalTitle");
 const detailModalShareButton = document.querySelector("#detailModalShareButton");
+const detailMobileSummary = document.querySelector("#detailMobileSummary");
 const detailMobileDistrict = document.querySelector("#detailMobileDistrict");
 const detailMobileCategory = document.querySelector("#detailMobileCategory");
 const detailMobileDuration = document.querySelector("#detailMobileDuration");
