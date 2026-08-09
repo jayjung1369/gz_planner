@@ -51,82 +51,741 @@
       "tips": "정확한 홀과 예식 시간은 추후 안내됩니다.",
       "note": "광저우 W 호텔에서 결혼식이 진행됩니다."
     },
-    "shamian": {
-      "id": "shamian",
-      "name": "샤미엔",
-      "chineseName": "沙面岛",
-      "addressZh": "广东省广州市荔湾区沙面南街",
-      "category": "산책",
-      "district": "liwan",
-      "duration": 120,
-      "latitude": 23.1083,
-      "longitude": 113.2392,
-      "openTime": "08:00",
-      "closeTime": "22:00",
-      "recommendedTime": [
-        "morning",
-        "afternoon"
-      ],
-      "priority": 9,
-      "images": [
-        "images/places/shamian-1.svg",
-        "images/places/shamian-2.svg",
-        "images/places/shamian-3.svg"
-      ],
-      "tags": [
-        "역사",
-        "산책",
-        "사진"
-      ],
-      "hours": "상시 개방",
-      "price": "무료",
-      "bestTime": "오전 또는 늦은 오후",
-      "tips": "편한 신발을 준비하고 강변 산책까지 함께 즐기세요.",
-      "note": "유럽풍 건축과 가로수가 이어지는 광저우 대표 산책 지역입니다.",
-      "nearbyRestaurants": [
-        "guangzhouRestaurantLiwan",
-        "taoTaoJuLiwan",
-        "lianXiangLou"
-      ]
-    },
     "yongqingfang": {
       "id": "yongqingfang",
       "name": "영경방",
       "chineseName": "永庆坊",
-      "addressZh": "广东省广州市荔湾区恩宁路99号",
+      "addressZh": "广东省广州市荔湾区恩宁路99号永庆坊",
       "category": "문화거리",
       "district": "liwan",
+      "duration": 180,
+      "latitude": 23.116806,
+      "longitude": 113.244463,
+      "openTime": "00:00",
+      "closeTime": "24:00",
+      "recommendedTime": [
+        "morning",
+        "afternoon"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/yongqingfang_1.jpg",
+        "images/places/yongqingfang_2.jpg",
+        "images/places/yongqingfang_3.jpg"
+      ],
+      "tags": [
+        "광저우필수",
+        "왕홍명소",
+        "SNS핫플",
+        "인생샷",
+        "올드타운",
+        "시티워크",
+        "광둥음식"
+      ],
+      "hours": "24시간",
+      "price": "무료",
+      "bestTime": "10:00 ~ 13:20",
+      "tips": "골목을 산책한 후 딤섬이나 광둥요리로 점심을 먹고 카페에서 쉬어가는 코스를 추천합니다.",
+      "note": "한국으로 치면 익선동, 서촌, 성수동을 합쳐놓은 분위기입니다. 전통 서관 건축과 감성 골목, 편집숍, 카페, 광둥 맛집이 함께 모여 있어 반나절을 보내기 좋은 광저우 대표 관광지입니다.",
+      "nearbyRestaurants": [
+        "taotaojuYongqingfang",
+        "baohuaNoodle"
+      ]
+    },
+    "taotaojuYongqingfang": {
+      "id": "taotaojuYongqingfang",
+      "name": "타오타오쥐 영경방점",
+      "chineseName": "陶陶居·永庆坊店",
+      "addressZh": "广东省广州市荔湾区永庆坊",
+      "category": "광둥요리",
+      "district": "liwan",
+      "duration": 70,
+      "mealTypes": [
+        "brunch",
+        "lunch"
+      ],
+      "openTime": "08:00",
+      "closeTime": "21:30",
+      "priority": 1,
+      "images": [
+        "images/restaurants/taotaojuYongqingfang_1.jpg",
+        "images/restaurants/taotaojuYongqingfang_2.jpg",
+        "images/restaurants/taotaojuYongqingfang_3.jpg"
+      ],
+      "hours": "08:00 ~ 21:30",
+      "price": "1인 약 80~120위안",
+      "bestTime": "11:30 ~ 12:30",
+      "tips": "점심시간에는 대기할 수 있으므로 조금 이른 시간에 방문하는 것을 추천합니다.",
+      "note": "광저우를 대표하는 딤섬 브랜드입니다. 처음 광저우를 방문한다면 가장 추천하는 광둥 음식점입니다.",
+      "recommendedMenu": [
+        "새우 하가우(虾饺)",
+        "차슈바오(脆皮叉烧包)"
+      ],
+      "tags": [
+        "딤섬",
+        "광둥요리",
+        "현지맛집",
+        "인기맛집"
+      ]
+    },
+    "baohuaNoodle": {
+      "id": "baohuaNoodle",
+      "name": "보화면점",
+      "chineseName": "宝华面店",
+      "addressZh": "广东省广州市荔湾区宝华路十五甫三巷2号",
+      "category": "광둥요리",
+      "district": "liwan",
+      "duration": 60,
+      "mealTypes": [
+        "lunch"
+      ],
+      "openTime": "07:00",
+      "closeTime": "22:00",
+      "priority": 1,
+      "images": [
+        "images/restaurants/baohuaNoodle_1.jpg",
+        "images/restaurants/baohuaNoodle_2.jpg",
+        "images/restaurants/baohuaNoodle_3.jpg"
+      ],
+      "hours": "07:00 ~ 22:00",
+      "price": "1인 약 25~45위안",
+      "bestTime": "11:30 ~ 13:00",
+      "tips": "점심시간에는 대기줄이 길 수 있으므로 조금 이른 시간에 방문하는 것을 추천합니다.",
+      "note": "광저우를 대표하는 완탕면(云吞面) 노포입니다. 영경방과 함께 방문하기 좋은 인기 맛집으로, 한국인 여행객에게도 만족도가 높은 식당입니다.",
+      "recommendedMenu": [
+        "鲜虾云吞面 (새우 완탕면)",
+        "牛腩面 (소고기 양지면)"
+      ],
+      "tags": [
+        "광둥요리",
+        "완탕면",
+        "노포",
+        "현지맛집",
+        "광저우필수"
+      ]
+    },
+    "panxiRestaurant": {
+      "id": "panxiRestaurant",
+      "name": "판시주가",
+      "chineseName": "泮溪酒家",
+      "addressZh": "广东省广州市荔湾区龙津西路151号",
+      "category": "광둥요리",
+      "district": "liwan",
+      "duration": 80,
+      "mealTypes": [
+        "brunch",
+        "lunch"
+      ],
+      "openTime": "10:30",
+      "closeTime": "22:00",
+      "priority": 1,
+      "images": [
+        "images/restaurants/panxiRestaurant_1.jpg",
+        "images/restaurants/panxiRestaurant_2.jpg",
+        "images/restaurants/panxiRestaurant_3.jpg"
+      ],
+      "hours": "10:30 ~ 22:00",
+      "price": "1인 약 80~150위안",
+      "bestTime": "11:30 ~ 13:00",
+      "tips": "정원 좌석은 인기가 많아 점심시간에는 조금 일찍 방문하는 것을 추천합니다.",
+      "note": "1947년에 문을 연 광저우를 대표하는 정원식 광둥요리 레스토랑입니다. 리완호를 바라보며 딤섬과 광둥요리를 즐길 수 있어 영경방과 함께 방문하기 좋은 코스입니다.",
+      "recommendedMenu": [
+        "虾饺 (새우 하가우)",
+        "烧卖 (슈마이)"
+      ],
+      "tags": [
+        "광둥요리",
+        "딤섬",
+        "정원식당",
+        "노포",
+        "광저우필수"
+      ]
+    },
+    "shamian": {
+      "id": "shamian",
+      "name": "샤미안",
+      "chineseName": "沙面岛",
+      "addressZh": "广东省广州市荔湾区沙面南街52号",
+      "category": "관광지",
+      "district": "liwan",
       "duration": 120,
-      "latitude": 23.1169,
-      "longitude": 113.2446,
-      "openTime": "09:00",
+      "latitude": 23.108574,
+      "longitude": 113.241186,
+      "openTime": "00:00",
+      "closeTime": "24:00",
+      "recommendedTime": [
+        "afternoon"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/shamian_1.jpg",
+        "images/places/shamian_2.jpg",
+        "images/places/shamian_3.jpg"
+      ],
+      "tags": [
+        "광저우필수",
+        "유럽풍거리",
+        "왕홍명소",
+        "SNS핫플",
+        "인생샷",
+        "산책",
+        "웨딩촬영"
+      ],
+      "hours": "24시간",
+      "price": "무료",
+      "bestTime": "13:45 ~ 15:45",
+      "tips": "유럽풍 건축물과 강변 산책로를 따라 천천히 걸으며 사진을 찍는 것을 추천합니다.",
+      "note": "한국으로 치면 덕수궁 돌담길과 정동길을 합쳐놓은 분위기입니다. 광저우에서 가장 아름다운 산책 코스 중 하나이며, 유럽풍 건축물과 아름다운 가로수길 덕분에 웨딩촬영과 인생샷 명소로 유명합니다.",
+      "nearbyRestaurants": [
+        "starbucksReserveShamian"
+      ]
+    },
+    "starbucksReserveShamian": {
+      "id": "starbucksReserveShamian",
+      "name": "스타벅스 리저브 샤미안점",
+      "chineseName": "星巴克臻选（沙面店）",
+      "addressZh": "广东省广州市荔湾区沙面南街50号",
+      "category": "카페",
+      "district": "liwan",
+      "duration": 30,
+      "mealTypes": [
+        "cafe"
+      ],
+      "openTime": "08:00",
+      "closeTime": "22:00",
+      "priority": 1,
+      "images": [
+        "images/restaurants/starbucksReserveShamian_1.jpg",
+        "images/restaurants/starbucksReserveShamian_2.jpg",
+        "images/restaurants/starbucksReserveShamian_3.jpg"
+      ],
+      "hours": "08:00 ~ 22:00",
+      "price": "1인 약 35~55위안",
+      "bestTime": "15:00 ~ 15:40",
+      "tips": "2층 창가 좌석은 샤미안 거리를 내려다볼 수 있어 가장 인기가 많습니다.",
+      "note": "샤미안을 대표하는 인기 카페입니다. 유럽풍 건축물을 바라보며 여유롭게 커피를 즐기기에 좋은 장소입니다.",
+      "recommendedMenu": [
+        "콜드브루",
+        "카페라떼"
+      ],
+      "tags": [
+        "카페",
+        "스타벅스리저브",
+        "휴식",
+        "뷰맛집"
+      ]
+    },
+    "huachengSquare": {
+      "id": "huachengSquare",
+      "name": "화청광장",
+      "chineseName": "花城广场",
+      "addressZh": "广东省广州市天河区花城大道89号",
+      "category": "광장",
+      "district": "tianhe",
+      "duration": 60,
+      "latitude": 23.119283,
+      "longitude": 113.324065,
+      "openTime": "07:30",
+      "closeTime": "22:30",
+      "recommendedTime": [
+        "afternoon",
+        "evening"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/huachengSquare_1.jpg",
+        "images/places/huachengSquare_2.jpg",
+        "images/places/huachengSquare_3.jpg"
+      ],
+      "tags": [
+        "광저우필수",
+        "랜드마크",
+        "현대도시",
+        "야경",
+        "포토존",
+        "시티워크",
+        "광저우타워뷰"
+      ],
+      "hours": "07:30 ~ 22:30",
+      "price": "무료",
+      "bestTime": "16:10 ~ 17:00",
+      "tips": "광저우 오페라하우스와 광동박물관을 함께 둘러본 뒤 해질 무렵 광저우타워 방향으로 사진을 찍으면 가장 아름다운 풍경을 담을 수 있습니다.",
+      "note": "한국으로 치면 여의도 IFC와 서울광장을 합쳐놓은 분위기입니다. 광저우 CBD의 중심 광장으로 초고층 빌딩과 문화시설이 어우러진 현대 광저우의 상징적인 랜드마크입니다.",
+      "nearbyRestaurants": []
+    },
+    "k11": {
+      "id": "k11",
+      "name": "K11 아트몰",
+      "chineseName": "K11购物艺术中心",
+      "addressZh": "广东省广州市天河区珠江东路6号",
+      "category": "쇼핑몰",
+      "district": "tianhe",
+      "duration": 60,
+      "latitude": 23.118082,
+      "longitude": 113.323700,
+      "openTime": "10:00",
       "closeTime": "22:00",
       "recommendedTime": [
         "afternoon",
         "evening"
       ],
-      "priority": 9,
+      "priority": 1,
       "images": [
-        "images/places/yongqingfang-1.svg",
-        "images/places/yongqingfang-2.svg",
-        "images/places/yongqingfang-3.svg"
+        "images/places/k11_1.jpg",
+        "images/places/k11_2.jpg",
+        "images/places/k11_3.jpg"
       ],
       "tags": [
-        "전통",
+        "광저우필수",
         "쇼핑",
-        "카페"
+        "팝마트",
+        "명품",
+        "왕홍명소",
+        "SNS핫플",
+        "복합문화공간"
       ],
-      "hours": "구역별 영업시간 상이",
-      "price": "거리 입장 무료",
-      "bestTime": "오후~저녁",
-      "tips": "주말에는 혼잡할 수 있어 평일 오후가 편합니다.",
-      "note": "전통 골목과 현대적인 상점이 함께 있는 리완의 문화거리입니다.",
+      "hours": "10:00 ~ 22:00",
+      "price": "무료",
+      "bestTime": "17:05 ~ 18:00",
+      "tips": "B1 푸드홀부터 둘러본 후 POP MART, 애플스토어, 명품 브랜드 순으로 이동하면 동선이 가장 효율적입니다.",
+      "note": "한국으로 치면 더현대 서울과 성수동 팝업스토어를 합쳐놓은 분위기입니다. 쇼핑뿐 아니라 다양한 팝업, 전시, 맛집이 모여 있는 광저우 대표 라이프스타일 쇼핑몰입니다.",
       "nearbyRestaurants": [
-        "panxiRestaurant",
-        "guangzhouRestaurantLiwan",
-        "taoTaoJuLiwan"
+        "shengyunlaiWonton",
+        "feidachuK11",
+        "chouchouK11"
       ]
     },
+    "shengyunlaiWonton": {
+      "id": "shengyunlaiWonton",
+      "name": "승운래 완탕면",
+      "chineseName": "昇运来云吞面",
+      "addressZh": "广东省广州市天河区珠江东路6号K11购物艺术中心B1",
+      "category": "광둥요리",
+      "district": "tianhe",
+      "duration": 45,
+      "mealTypes": [
+        "lunch",
+        "dinner"
+      ],
+      "openTime": "10:00",
+      "closeTime": "22:00",
+      "priority": 1,
+      "images": [
+        "images/restaurants/shengyunlaiWonton_1.jpg",
+        "images/restaurants/shengyunlaiWonton_2.jpg",
+        "images/restaurants/shengyunlaiWonton_3.jpg"
+      ],
+      "hours": "10:00 ~ 22:00",
+      "price": "1인 약 40~70위안",
+      "bestTime": "17:30 ~ 18:30",
+      "tips": "대표 메뉴인 새우 완탕면과 나비콩차를 함께 주문하는 것을 추천합니다.",
+      "note": "광둥식 완탕면 전문점으로 탱글한 새우 완탕과 맑은 육수가 유명합니다.",
+      "recommendedMenu": [
+        "招牌鲜虾云吞面",
+        "三宝云吞面",
+        "豆蝶花茶"
+      ],
+      "tags": [
+        "완탕면",
+        "광둥요리",
+        "현지맛집",
+        "K11맛집"
+      ]
+    },
+    "feidachuK11": {
+      "id": "feidachuK11",
+      "name": "페이다추 K11점",
+      "chineseName": "费大厨辣椒炒肉(K11店)",
+      "addressZh": "广东省广州市天河区珠江东路6号K11购物艺术中心",
+      "category": "후난요리",
+      "district": "tianhe",
+      "duration": 60,
+      "mealTypes": [
+        "lunch",
+        "dinner"
+      ],
+      "openTime": "11:00",
+      "closeTime": "21:30",
+      "priority": 1,
+      "images": [
+        "images/restaurants/feidachuK11_1.jpg",
+        "images/restaurants/feidachuK11_2.jpg",
+        "images/restaurants/feidachuK11_3.jpg"
+      ],
+      "hours": "11:00 ~ 21:30",
+      "price": "1인 약 80~120위안",
+      "bestTime": "17:30 ~ 19:00",
+      "tips": "식사 시간에는 대기가 길어질 수 있으므로 조금 이른 시간 방문을 추천합니다.",
+      "note": "중국에서 가장 인기 있는 후난요리 브랜드 중 하나로 매콤한 볶음요리가 대표 메뉴입니다.",
+      "recommendedMenu": [
+        "辣椒炒肉",
+        "小炒黄牛肉"
+      ],
+      "tags": [
+        "후난요리",
+        "매운음식",
+        "현지맛집",
+        "인기맛집"
+      ]
+    },
+    "chouchouK11": {
+      "id": "chouchouK11",
+      "name": "CHOUCHOU",
+      "chineseName": "CHOUCHOU",
+      "addressZh": "广东省广州市天河区珠江东路6号K11购物艺术中心",
+      "category": "브런치",
+      "district": "tianhe",
+      "duration": 60,
+      "mealTypes": [
+        "brunch",
+        "lunch",
+        "dinner"
+      ],
+      "openTime": "10:00",
+      "closeTime": "22:00",
+      "priority": 2,
+      "images": [
+        "images/restaurants/chouchouK11_1.jpg",
+        "images/restaurants/chouchouK11_2.jpg",
+        "images/restaurants/chouchouK11_3.jpg"
+      ],
+      "hours": "10:00 ~ 22:00",
+      "price": "1인 약 120~180위안",
+      "bestTime": "15:00 ~ 18:00",
+      "tips": "창가 좌석은 인기가 많으므로 여유 있게 방문하는 것을 추천합니다.",
+      "note": "감각적인 인테리어와 브런치 메뉴로 유명한 레스토랑으로 쇼핑 중 쉬어가기 좋은 곳입니다.",
+      "recommendedMenu": [
+        "트러플 파스타",
+        "프렌치 토스트",
+        "시그니처 브런치 플레이트"
+      ],
+      "tags": [
+        "브런치",
+        "카페",
+        "SNS핫플",
+        "데이트"
+      ]
+    },
+    "haixinsha": {
+      "id": "haixinsha",
+      "name": "해심사",
+      "chineseName": "海心沙",
+      "addressZh": "广东省广州市天河区临江大道海心沙亚运公园",
+      "category": "공원",
+      "district": "tianhe",
+      "duration": 40,
+      "latitude": 23.115776,
+      "longitude": 113.330585,
+      "openTime": "06:00",
+      "closeTime": "22:30",
+      "recommendedTime": [
+        "evening"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/haixinsha_1.jpg",
+        "images/places/haixinsha_2.jpg",
+        "images/places/haixinsha_3.jpg"
+      ],
+      "tags": [
+        "광저우필수",
+        "야경",
+        "광저우타워",
+        "주강",
+        "포토존",
+        "유람선",
+        "산책"
+      ],
+      "hours": "06:00 ~ 22:30",
+      "price": "무료",
+      "bestTime": "19:30 ~ 20:00",
+      "tips": "일몰 이후 방문하면 광저우타워와 주강 야경을 가장 아름답게 감상할 수 있습니다. 유람선을 이용할 경우 미리 온라인 예약하면 대기 시간을 줄일 수 있습니다.",
+      "note": "한국으로 치면 한강공원(여의도)과 세빛섬을 합쳐놓은 분위기입니다. 광저우타워를 가장 가까이에서 감상할 수 있는 대표적인 야경 명소이며, 주강 유람선 탑승 장소와도 가깝습니다.",
+      "nearbyRestaurants": [
+        "tianziWharfCruise"
+      ]
+    },
+    "tianziWharfCruise": {
+      "id": "tianziWharfCruise",
+      "name": "주강 야경 유람선",
+      "chineseName": "珠江夜游（天字码头）",
+      "addressZh": "广东省广州市越秀区沿江中路200号天字码头",
+      "category": "유람선",
+      "district": "yuexiu",
+      "duration": 70,
+      "openTime": "18:30",
+      "closeTime": "22:00",
+      "priority": 1,
+      "images": [
+        "images/activities/zhujiangCruise_1.jpg",
+        "images/activities/zhujiangCruise_2.jpg",
+        "images/activities/zhujiangCruise_3.jpg"
+      ],
+      "hours": "18:30 ~ 22:00",
+      "price": "성인 약 108~168위안",
+      "bestTime": "19:30 이후",
+      "tips": "창가 좌석이나 2층 야외 좌석을 예약하면 광저우타워와 주강 야경을 더욱 아름답게 감상할 수 있습니다.",
+      "note": "광저우를 대표하는 야간 관광 코스입니다. 약 60~70분 동안 광저우타워, 해심사, IFC, 광저우 대교 등 주강 양안의 야경을 감상할 수 있습니다.",
+      "recommendedMenu": [],
+      "tags": [
+        "주강유람선",
+        "야경",
+        "광저우타워",
+        "커플",
+        "필수체험"
+      ]
+    },
+    "cantonTower": {
+      "id": "cantonTower",
+      "name": "광저우타워",
+      "chineseName": "广州塔",
+      "addressZh": "广东省广州市海珠区阅江西路222号",
+      "category": "전망대",
+      "district": "haizhu",
+      "duration": 90,
+      "latitude": 23.108537,
+      "longitude": 113.319153,
+      "openTime": "09:30",
+      "closeTime": "22:30",
+      "recommendedTime": [
+        "evening",
+        "night"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/cantonTower_1.jpg",
+        "images/places/cantonTower_2.jpg",
+        "images/places/cantonTower_3.jpg"
+      ],
+      "tags": [
+        "광저우필수",
+        "랜드마크",
+        "야경",
+        "전망대",
+        "커플",
+        "포토존",
+        "액티비티"
+      ],
+      "hours": "09:30 ~ 22:30",
+      "price": "전망대 입장권 별도",
+      "bestTime": "20:10 ~ 21:30",
+      "tips": "해가 지기 직전 입장하면 낮과 야경을 모두 감상할 수 있습니다. 전망대 입장권은 온라인 사전 예약을 추천합니다.",
+      "note": "한국으로 치면 남산서울타워와 롯데월드타워 서울스카이를 합쳐놓은 분위기입니다. 광저우를 대표하는 랜드마크로 다양한 전망대와 스릴 넘치는 액티비티를 함께 즐길 수 있습니다.",
+      "nearbyRestaurants": [
+        "cantonTowerObservationDeck",
+        "cantonTowerBubbleTram",
+        "cantonTowerSkyDrop"
+      ]
+    },
+    "cantonTowerObservationDeck": {
+      "id": "cantonTowerObservationDeck",
+      "name": "488 전망대",
+      "chineseName": "488观景平台",
+      "category": "전망대",
+      "district": "haizhu",
+      "duration": 45,
+      "openTime": "09:30",
+      "closeTime": "22:30",
+      "priority": 1,
+      "images": [
+        "images/activities/cantonTowerObservationDeck_1.jpg",
+        "images/activities/cantonTowerObservationDeck_2.jpg",
+        "images/activities/cantonTowerObservationDeck_3.jpg"
+      ],
+      "hours": "09:30 ~ 22:30",
+      "price": "약 150~200위안",
+      "bestTime": "19:00 이후",
+      "tips": "일몰 시간에 방문하면 낮과 야경을 모두 감상할 수 있습니다.",
+      "note": "광저우 시내와 주강을 한눈에 내려다볼 수 있는 대표 전망대입니다.",
+      "recommendedMenu": [],
+      "tags": [
+        "전망대",
+        "야경",
+        "광저우타워"
+      ]
+    },
+    "cantonTowerBubbleTram": {
+      "id": "cantonTowerBubbleTram",
+      "name": "버블 트램",
+      "chineseName": "横向摩天轮",
+      "category": "액티비티",
+      "district": "haizhu",
+      "duration": 25,
+      "openTime": "10:00",
+      "closeTime": "22:00",
+      "priority": 1,
+      "images": [
+        "images/activities/cantonTowerBubbleTram_1.jpg",
+        "images/activities/cantonTowerBubbleTram_2.jpg",
+        "images/activities/cantonTowerBubbleTram_3.jpg"
+      ],
+      "hours": "10:00 ~ 22:00",
+      "price": "전망대 티켓 포함 또는 별도",
+      "bestTime": "야간",
+      "tips": "대기시간이 길 수 있으므로 온라인 예약을 추천합니다.",
+      "note": "광저우타워 정상부를 천천히 한 바퀴 도는 세계적으로 유명한 수평 관람차입니다.",
+      "recommendedMenu": [],
+      "tags": [
+        "관람차",
+        "커플",
+        "야경",
+        "광저우필수"
+      ]
+    },
+    "cantonTowerSkyDrop": {
+      "id": "cantonTowerSkyDrop",
+      "name": "스카이드롭",
+      "chineseName": "极速云霄",
+      "category": "액티비티",
+      "district": "haizhu",
+      "duration": 20,
+      "openTime": "10:00",
+      "closeTime": "22:00",
+      "priority": 2,
+      "images": [
+        "images/activities/cantonTowerSkyDrop_1.jpg",
+        "images/activities/cantonTowerSkyDrop_2.jpg",
+        "images/activities/cantonTowerSkyDrop_3.jpg"
+      ],
+      "hours": "10:00 ~ 22:00",
+      "price": "별도 티켓",
+      "bestTime": "야간",
+      "tips": "고소공포증이 있다면 이용 전 높이를 확인하세요.",
+      "note": "광저우타워 정상에서 수직으로 오르내리는 스릴 만점 액티비티입니다.",
+      "recommendedMenu": [],
+      "tags": [
+        "익스트림",
+        "액티비티",
+        "스릴",
+        "광저우타워"
+      ]
+    },
+    "partyPier": {
+      "id": "partyPier",
+      "name": "파티피어",
+      "chineseName": "琶醍",
+      "addressZh": "广东省广州市海珠区磨碟沙大街118号琶醍啤酒文化创意艺术区",
+      "category": "야경",
+      "district": "haizhu",
+      "duration": 90,
+      "latitude": 23.102486,
+      "longitude": 113.335950,
+      "openTime": "00:00",
+      "closeTime": "24:00",
+      "recommendedTime": [
+        "night"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/partyPier_1.jpg",
+        "images/places/partyPier_2.jpg",
+        "images/places/partyPier_3.jpg"
+      ],
+      "tags": [
+        "광저우필수",
+        "야경",
+        "주강",
+        "펍거리",
+        "데이트",
+        "트램",
+        "밤문화"
+      ],
+      "hours": "24시간",
+      "price": "무료",
+      "bestTime": "21:30 ~ 23:00",
+      "tips": "광저우타워에서 해주 유궤전차(海珠有轨电车)를 타고 파티피어역에서 하차하면 약 10~12분이 소요됩니다. 주강변을 따라 이동하며 아름다운 야경을 감상할 수 있습니다.",
+      "note": "한국으로 치면 반포 한강공원과 세빛섬을 합쳐놓은 분위기입니다. 주강변을 따라 레스토랑, 펍, 라이브바가 이어지는 광저우 대표 야간 명소입니다.",
+      "nearbyRestaurants": [
+        "haizhuTram",
+        "mrRockyPartyPier"
+      ]
+    },
+    "haizhuTram": {
+      "id": "haizhuTram",
+      "name": "해주 유궤전차",
+      "chineseName": "海珠有轨电车",
+      "addressZh": "广东省广州市海珠区广州塔站",
+      "category": "교통",
+      "district": "haizhu",
+      "duration": 15,
+      "openTime": "07:30",
+      "closeTime": "22:30",
+      "priority": 1,
+      "images": [
+        "images/activities/haizhuTram_1.jpg",
+        "images/activities/haizhuTram_2.jpg",
+        "images/activities/haizhuTram_3.jpg"
+      ],
+      "hours": "07:30 ~ 22:30",
+      "price": "2위안",
+      "bestTime": "21:30",
+      "tips": "광저우타워역에서 탑승하여 파티피어역에서 하차하면 약 10~12분이 소요됩니다. 창가 좌석에 앉으면 주강 야경을 감상하기 좋습니다.",
+      "note": "광저우에서 가장 아름다운 노면전차 노선입니다. 광저우타워와 주강변을 따라 달리며 야경을 감상할 수 있어 관광객들에게 인기 있는 체험입니다.",
+      "recommendedMenu": [],
+      "tags": [
+        "트램",
+        "야경",
+        "광저우타워",
+        "주강",
+        "교통",
+        "필수체험"
+      ]
+    },
+    
+    "mrRockyPartyPier": {
+      "id": "mrRockyPartyPier",
+      "name": "MR.ROCKY",
+      "chineseName": "MR.ROCKY 洛奇先生·西餐&酒吧",
+      "addressZh": "广东省广州市海珠区磨碟沙大街118号琶醍啤酒文化创意艺术区B区06-07号",
+      "category": "레스토랑",
+      "district": "haizhu",
+      "duration": 90,
+      "mealTypes": [
+        "dinner",
+        "bar"
+      ],
+      "openTime": "11:30",
+      "closeTime": "03:00",
+      "priority": 2,
+      "images": [
+        "images/restaurants/mrRockyPartyPier_1.jpg",
+        "images/restaurants/mrRockyPartyPier_2.jpg",
+        "images/restaurants/mrRockyPartyPier_3.jpg"
+      ],
+      "hours": "11:30 ~ 03:00",
+      "price": "1인 약 150~300위안",
+      "bestTime": "21:00 이후",
+      "tips": "야외 테라스 좌석에서는 주강과 광저우타워 야경을 함께 감상할 수 있습니다. 저녁 시간에는 라이브 공연이 자주 열리므로 테라스 좌석을 추천합니다.",
+      "note": "파티피어를 대표하는 레스토랑 & 바입니다. 수제맥주, 스테이크, 피자가 유명하며 주강변 야경과 라이브 공연을 함께 즐길 수 있어 여행객과 외국인들에게 인기가 높습니다.",
+      "recommendedMenu": [
+        "앵거스 스테이크",
+        "시그니처 피자",
+        "수제맥주"
+      ],
+      "tags": [
+        "레스토랑",
+        "펍",
+        "수제맥주",
+        "라이브공연",
+        "야경",
+        "데이트",
+        "파티피어"
+      ]
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     "chenClan": {
       "id": "chenClan",
       "name": "천가사",
@@ -235,9 +894,11 @@
       "addressZh": "广东省广州市越秀区站西路57号一带",
       "category": "도매시장",
       "district": "yuexiu",
-      "duration": 180,      "images": [
+      "duration": 180,
+      "images": [
         "images/places/zhanxiMarket-1.jpg"
-      ],      "openTime": "09:00",
+      ],
+      "openTime": "09:00",
       "closeTime": "17:00",
       "recommendedTime": [
         "morning",
@@ -272,11 +933,13 @@
         "evening",
         "night"
       ],
-      "priority": 10,      "images": [
+      "priority": 10,
+      "images": [
         "images/places/cantonTower-1.svg",
         "images/places/cantonTower-2.svg",
         "images/places/cantonTower-3.svg"
-      ],      "tags": [
+      ],
+      "tags": [
         "야경",
         "랜드마크",
         "사진"
@@ -367,11 +1030,13 @@
         "afternoon",
         "evening"
       ],
-      "priority": 7,      "images": [
+      "priority": 7,
+      "images": [
         "images/places/k11-1.svg",
         "images/places/k11-2.svg",
         "images/places/k11-3.svg"
-      ],      "tags": [
+      ],
+      "tags": [
         "쇼핑",
         "전시",
         "카페"
@@ -398,10 +1063,12 @@
         "evening",
         "night"
       ],
-      "priority": 8,      "images": [
+      "priority": 8,
+      "images": [
         "images/places/partyPier-1.jpg",
         "images/places/partyPier-2.jpg"
-      ],      "tags": [
+      ],
+      "tags": [
         "야경",
         "레스토랑",
         "바",
@@ -428,11 +1095,13 @@
       "recommendedTime": [
         "morning"
       ],
-      "priority": 8,      "images": [
+      "priority": 8,
+      "images": [
         "images/places/changlong-1.svg",
         "images/places/changlong-2.svg",
         "images/places/changlong-3.svg"
-      ],      "tags": [
+      ],
+      "tags": [
         "가족",
         "테마파크",
         "종일"
@@ -742,6 +1411,307 @@
       "note": "광저우 시내 전망과 숲길을 즐길 수 있는 대표 자연 명소입니다.",
       "nearbyPlaces": [],
       "nearbyRestaurants": []
+    },
+    "dimsumLiwan": {
+      "id": "dimsumLiwan",
+      "name": "리완 딤섬",
+      "chineseName": "荔湾早茶",
+      "addressZh": "广州市荔湾区（具体餐厅待更新）",
+      "category": "딤섬",
+      "district": "liwan",
+      "duration": 90,
+      "mealTypes": [
+        "breakfast",
+        "lunch"
+      ],
+      "openTime": "08:00",
+      "closeTime": "14:30",
+      "priority": 10,
+      "images": [
+        "images/places/dimsumLiwan-1.svg",
+        "images/places/dimsumLiwan-2.svg"
+      ],
+      "hours": "실제 식당 확정 후 업데이트",
+      "price": "1인 예산 추후 업데이트",
+      "bestTime": "오전",
+      "tips": "실제 식당이 확정되면 메뉴와 예약 정보를 업데이트합니다.",
+      "note": "리완 여행 전후에 즐기기 좋은 광저우식 딤섬입니다."
+    },
+    "cantoneseLiwan": {
+      "id": "cantoneseLiwan",
+      "name": "리완 광둥요리",
+      "chineseName": "荔湾粤菜",
+      "addressZh": "广州市荔湾区（具体餐厅待更新）",
+      "category": "광둥요리",
+      "district": "liwan",
+      "duration": 90,
+      "mealTypes": [
+        "lunch",
+        "dinner"
+      ],
+      "openTime": "11:00",
+      "closeTime": "21:30",
+      "priority": 9,
+      "images": [
+        "images/places/default-place.svg"
+      ],
+      "hours": "실제 식당 확정 후 업데이트",
+      "price": "1인 예산 추후 업데이트",
+      "bestTime": "점심 또는 저녁",
+      "tips": "실제 식당이 확정되면 메뉴와 예약 정보를 업데이트합니다.",
+      "note": "샤미엔과 영경방 일정에 자연스럽게 연결되는 광둥요리 식사입니다."
+    },
+    "beijingRoadFood": {
+      "id": "beijingRoadFood",
+      "name": "베이징루 로컬식",
+      "chineseName": "北京路地道美食",
+      "addressZh": "广州市越秀区北京路（具体餐厅待更新）",
+      "category": "로컬음식",
+      "district": "yuexiu",
+      "duration": 75,
+      "mealTypes": [
+        "lunch",
+        "dinner"
+      ],
+      "openTime": "11:00",
+      "closeTime": "22:00",
+      "priority": 8,
+      "images": [
+        "images/places/default-place.svg"
+      ],
+      "hours": "실제 식당 확정 후 업데이트",
+      "price": "1인 예산 추후 업데이트",
+      "bestTime": "점심 또는 저녁",
+      "tips": "실제 식당이 확정되면 메뉴와 예약 정보를 업데이트합니다.",
+      "note": "베이징루 도심 산책과 함께 즐기기 좋은 로컬 식사입니다."
+    },
+    "hotpotZhujiang": {
+      "id": "hotpotZhujiang",
+      "name": "주장신청 훠궈",
+      "chineseName": "珠江新城火锅",
+      "addressZh": "广州市天河区珠江新城（具体餐厅待更新）",
+      "category": "훠궈",
+      "district": "zhujiang",
+      "duration": 120,
+      "mealTypes": [
+        "dinner"
+      ],
+      "openTime": "17:00",
+      "closeTime": "24:00",
+      "priority": 9,
+      "images": [
+        "images/places/hotpotZhujiang-1.svg",
+        "images/places/hotpotZhujiang-2.svg"
+      ],
+      "hours": "실제 식당 확정 후 업데이트",
+      "price": "1인 예산 추후 업데이트",
+      "bestTime": "저녁",
+      "tips": "실제 식당이 확정되면 메뉴와 예약 정보를 업데이트합니다.",
+      "note": "광저우타워와 화청광장 야경 전후에 즐기기 좋은 저녁 식사입니다."
+    },
+    "cantoneseZhujiang": {
+      "id": "cantoneseZhujiang",
+      "name": "주장신청 광둥요리",
+      "chineseName": "珠江新城粤菜",
+      "addressZh": "广州市天河区珠江新城（具体餐厅待更新）",
+      "category": "광둥요리",
+      "district": "zhujiang",
+      "duration": 90,
+      "mealTypes": [
+        "lunch",
+        "dinner"
+      ],
+      "openTime": "11:00",
+      "closeTime": "22:00",
+      "priority": 9,
+      "images": [
+        "images/places/default-place.svg"
+      ],
+      "hours": "실제 식당 확정 후 업데이트",
+      "price": "1인 예산 추후 업데이트",
+      "bestTime": "점심 또는 저녁",
+      "tips": "실제 식당이 확정되면 메뉴와 예약 정보를 업데이트합니다.",
+      "note": "W Guangzhou와 가까운 지역에서 즐기는 광둥요리입니다."
+    },
+    "cafeZhujiang": {
+      "id": "cafeZhujiang",
+      "name": "주장신청 카페",
+      "chineseName": "珠江新城咖啡馆",
+      "addressZh": "广州市天河区珠江新城（具体店铺待更新）",
+      "category": "카페",
+      "district": "zhujiang",
+      "duration": 60,
+      "mealTypes": [
+        "cafe"
+      ],
+      "openTime": "10:00",
+      "closeTime": "22:00",
+      "priority": 7,
+      "images": [
+        "images/places/default-place.svg"
+      ],
+      "hours": "실제 매장 확정 후 업데이트",
+      "price": "1인 예산 추후 업데이트",
+      "bestTime": "오후",
+      "tips": "실제 매장이 확정되면 메뉴와 예약 정보를 업데이트합니다.",
+      "note": "도심 일정 사이 잠시 쉬어가기 좋은 카페입니다."
+    },
+    "lateNight": {
+      "id": "lateNight",
+      "name": "광저우 야식",
+      "chineseName": "广州夜宵",
+      "addressZh": "广州市天河区珠江新城（具体店铺待更新）",
+      "category": "야식",
+      "district": "zhujiang",
+      "duration": 75,
+      "mealTypes": [
+        "late"
+      ],
+      "openTime": "20:00",
+      "closeTime": "24:00",
+      "priority": 7,
+      "images": [
+        "images/places/lateNight-1.svg"
+      ],
+      "hours": "실제 매장 확정 후 업데이트",
+      "price": "1인 예산 추후 업데이트",
+      "bestTime": "야경 일정 후",
+      "tips": "실제 매장이 확정되면 메뉴와 예약 정보를 업데이트합니다.",
+      "note": "늦은 도착일이나 야경 일정 후 가볍게 즐기는 야식입니다."
+    },
+    "guangzhouRestaurantLiwan": {
+      "id": "guangzhouRestaurantLiwan",
+      "name": "광저우주가 본점",
+      "chineseName": "广州酒家（文昌总店）",
+      "addressZh": "广东省广州市荔湾区文昌南路2号",
+      "category": "광둥요리·딤섬",
+      "district": "liwan",
+      "duration": 100,
+      "mealTypes": [
+        "breakfast",
+        "lunch",
+        "dinner"
+      ],
+      "openTime": "07:00",
+      "closeTime": "22:00",
+      "priority": 10,
+      "images": [
+        "images/places/guangzhouRestaurantLiwan-real-1.jpg"
+      ],
+      "hours": "지점 및 층별 영업시간이 다를 수 있어 방문 전 확인",
+      "price": "1인 약 80~180위안 예상",
+      "averageCostCny": 130,
+      "bestTime": "아침 차 또는 이른 점심",
+      "reservation": "주말·저녁은 예약 권장",
+      "recommendedMenu": [
+        "새우딤섬",
+        "차슈바오",
+        "광둥식 구이류",
+        "노화탕"
+      ],
+      "tags": [
+        "노포",
+        "딤섬",
+        "광둥요리",
+        "가족"
+      ],
+      "tips": "유명 본점이라 식사시간에는 대기가 생길 수 있습니다. 지점명이 비슷하므로 중국어 주소를 확인하세요.",
+      "note": "1930년대부터 이어진 광저우의 대표적인 광둥요리 브랜드 본점입니다.",
+      "nearbyPlaces": [
+        "shangxiajiu",
+        "shamian",
+        "yongqingfang"
+      ]
+    },
+    "taoTaoJuLiwan": {
+      "id": "taoTaoJuLiwan",
+      "name": "타오타오쥐",
+      "chineseName": "陶陶居",
+      "addressZh": "广东省广州市荔湾区第十甫路20号一带",
+      "category": "딤섬·광둥요리",
+      "district": "liwan",
+      "duration": 100,
+      "mealTypes": [
+        "breakfast",
+        "lunch",
+        "dinner"
+      ],
+      "openTime": "08:00",
+      "closeTime": "22:00",
+      "priority": 10,
+      "images": [
+        "images/places/taoTaoJuLiwan-real-1.jpg"
+      ],
+      "hours": "지점별 영업시간 상이 · 방문할 지점 재확인",
+      "price": "1인 약 80~160위안 예상",
+      "averageCostCny": 120,
+      "bestTime": "오전 또는 이른 점심",
+      "reservation": "주말 및 인기 지점 예약 권장",
+      "recommendedMenu": [
+        "하가우",
+        "차슈바오",
+        "크리스피 두부",
+        "광둥식 오리"
+      ],
+      "tags": [
+        "노포",
+        "딤섬",
+        "사진",
+        "가족"
+      ],
+      "tips": "광저우에 여러 지점이 있으므로 일정 권역에 맞는 지점을 선택하세요. 본 데이터는 리완 노포 이미지를 대표 사진으로 사용합니다.",
+      "note": "오래된 차루 문화를 체험할 수 있는 광저우의 대표 딤섬·광둥요리 브랜드입니다.",
+      "nearbyPlaces": [
+        "shangxiajiu",
+        "shamian",
+        "yongqingfang"
+      ]
+    },
+    
+    "lianXiangLou": {
+      "id": "lianXiangLou",
+      "name": "롄샹러우",
+      "chineseName": "莲香楼",
+      "addressZh": "广东省广州市荔湾区第十甫路67号一带",
+      "category": "광둥요리·전통과자",
+      "district": "liwan",
+      "duration": 90,
+      "mealTypes": [
+        "breakfast",
+        "lunch",
+        "dinner",
+        "cafe"
+      ],
+      "openTime": "08:00",
+      "closeTime": "21:30",
+      "priority": 8,
+      "images": [
+        "images/places/lianXiangLou-real-1.jpg"
+      ],
+      "hours": "식당·베이커리 구역별 운영시간 상이",
+      "price": "1인 약 60~140위안 예상",
+      "averageCostCny": 100,
+      "bestTime": "오전 또는 오후 간식시간",
+      "reservation": "식사 피크시간 예약 권장",
+      "recommendedMenu": [
+        "연용 월병",
+        "광둥식 딤섬",
+        "전통 과자",
+        "광둥 가정식"
+      ],
+      "tags": [
+        "노포",
+        "전통과자",
+        "딤섬",
+        "쇼핑"
+      ],
+      "tips": "상하구 보행거리 안에서 식사와 전통 과자 구매를 함께 하기 좋습니다.",
+      "note": "전통 연용 월병과 광둥식 요리로 알려진 상하구의 오래된 식당·제과점입니다.",
+      "nearbyPlaces": [
+        "shangxiajiu",
+        "shamian",
+        "yongqingfang"
+      ]
     }
   }
 }

@@ -93,9 +93,9 @@
 }
 
 .soft-section {
-  max-width: none;
-  padding-left: max(40px, calc((100vw - var(--content)) / 2));
-  padding-right: max(40px, calc((100vw - var(--content)) / 2));
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 150px 40px;
   background: var(--soft);
 }
 
@@ -178,12 +178,12 @@
   }
 
   .planner-shell {
-    padding: 18px;
+    padding: 36px;
   }
 
   .custom-selector,
   .schedule-result {
-    padding: 22px;
+    padding: 44px;
   }
 
   .story-grid {
@@ -202,12 +202,12 @@
 
   .schedule-card-top {
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
   }
 
   .timeline-item {
     grid-template-columns: 64px 1fr;
-    gap: 12px;
+    gap: 24px;
   }
 
   .timeline-item.wedding-event {
@@ -281,7 +281,7 @@ body.modal-open {
   position: relative;
   z-index: 1;
   width: min(90vw, 900px);
-  max-height: min(760px, calc(100vh - 48px));
+  max-height: min(1140px, calc(100vh - 48px));
   overflow-y: auto;
   padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.66);
@@ -296,7 +296,7 @@ body.modal-open {
   position: relative;
   z-index: 1;
   width: min(90vw, 900px);
-  max-height: min(760px, calc(100vh - 48px));
+  max-height: min(1140px, calc(100vh - 48px));
   overflow-y: auto;
   padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.66);
@@ -361,7 +361,7 @@ body.modal-open {
   overflow: hidden;
   border-radius: 0;
   background: var(--soft);
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
   margin-top: 30px;
   border-radius: 20px;
 }
@@ -815,10 +815,12 @@ body.modal-open {
 .detail-gallery {
   position: relative;
   margin: -38px -38px 30px;
+  padding: 0;
   overflow: hidden;
   border-radius: 30px 30px 22px 22px;
   background: var(--soft);
-  aspect-ratio: 16 / 9;
+  height: clamp(440px, 76vw, 1040px);
+  min-height: 440px;
 }
 
 .detail-gallery img {

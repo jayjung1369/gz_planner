@@ -168,17 +168,25 @@ canvas {
 
   .section-intro {
     width: 100%;
-    margin-bottom: 30px;
+    max-width: none;
+    margin: 0 0 30px 0;
+    padding: 0;
+    text-align: left;
   }
 
   .section-intro h2 {
+    margin: 0 0 22px 0;
     font-size: clamp(36px, 11vw, 50px);
     line-height: 1.04;
+    text-align: left;
   }
 
   .section-intro > p:last-child {
+    margin: 0 0 30px 0;
     font-size: 14px;
     line-height: 1.7;
+    text-align: left;
+    width: 100%;
   }
 
   .planner-shell {
@@ -307,8 +315,8 @@ canvas {
 
   .schedule-result {
     width: 100%;
-    margin-top: 12px;
-    padding: 12px;
+    margin-top: 24px;
+    padding: 24px;
     border-radius: 19px;
   }
 
@@ -642,7 +650,7 @@ canvas {
   .detail-gallery {
     width: calc(100% + 32px);
     max-width: none;
-    height: 270px;
+    height: 810px;
     margin: 0 -16px 22px;
     border-radius: 24px 24px 18px 18px;
   }
@@ -758,8 +766,7 @@ canvas {
 .choice-image-wrap,
 .travel-library-image,
 .timeline-thumbnail,
-.edit-item-preview-image-wrap,
-.detail-gallery {
+.edit-item-preview-image-wrap {
   contain: layout paint;
 }
 
@@ -767,7 +774,6 @@ canvas {
 .travel-library-image img,
 .timeline-thumbnail img,
 .edit-item-preview-image-wrap img,
-.detail-gallery img,
 .nearby-card img {
   display: block !important;
   width: 100% !important;
@@ -832,6 +838,7 @@ canvas {
 
   .desktop-nav a {
     flex: 0 0 auto;
+    width: 72px;
     min-height: 34px;
     display: inline-flex;
     align-items: center;
@@ -882,8 +889,8 @@ canvas {
 
   .detail-gallery {
     width: calc(100% + 32px);
-    height: clamp(230px, 54vw, 320px);
-    min-height: 230px;
+    height: clamp(460px, 108vw, 640px);
+    min-height: 460px;
     margin: 0 -16px 22px;
     border-radius: 0 0 18px 18px;
   }
@@ -891,7 +898,7 @@ canvas {
   .detail-gallery img {
     width: 100% !important;
     height: 100% !important;
-    min-height: 230px;
+    min-height: 460px;
   }
 
   /* 선택 카드 */
@@ -946,6 +953,7 @@ canvas {
   }
 
   .desktop-nav a {
+    width: 66px;
     padding: 0 9px;
     font-size: 9px;
   }
@@ -1133,7 +1141,8 @@ canvas {
     white-space: nowrap;
   }
 
-  .timeline-meta .duration-tag {
+  .timeline-meta .duration-tag,
+  .timeline-meta .item-tag {
     max-width: 48%;
   }
 
@@ -1447,8 +1456,8 @@ canvas {
 
   .detail-gallery {
     width: calc(100% + 28px);
-    height: clamp(220px, 64vw, 310px);
-    min-height: 220px;
+    height: clamp(660px, 192vw, 930px);
+    min-height: 660px;
     margin: 0 -14px 20px;
     border-radius: 0 0 18px 18px;
     background: var(--soft);
@@ -1457,7 +1466,7 @@ canvas {
   .detail-gallery img {
     width: 100% !important;
     height: 100% !important;
-    min-height: 220px !important;
+    min-height: 660px !important;
     object-fit: cover !important;
   }
 
@@ -1536,7 +1545,7 @@ canvas {
 
   .detail-tag-list {
     gap: 6px;
-    margin-top: 14px;
+    margin: 12px 0 12px;
   }
 
   .detail-tag-list span {

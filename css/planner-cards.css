@@ -348,15 +348,11 @@
   margin-top: 14px;
   display: flex;
   flex-direction: column;
-  height: 74vh;
-  max-height: 820px;
-  min-height: 320px;
+  height: auto;
+  min-height: auto;
   border-radius: 18px;
-  overflow-y: auto;
+  overflow-y: visible;
   overflow-x: hidden;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
   background: #fff;
   border: 1px solid rgba(29, 29, 31, 0.08);
 }
@@ -424,22 +420,22 @@
 }
 
 .schedule-day-shell .schedule-card {
-  padding: 16px;
+  padding: 32px;
 }
 
 .schedule-day-shell .schedule-card-top {
-  margin-bottom: 12px;
+  margin-bottom: 24px;
 }
 
 .schedule-day-shell .timeline {
-  gap: 10px;
+  gap: 20px;
 }
 
 .schedule-day-shell .timeline-item {
   position: relative;
   grid-template-columns: 78px minmax(0, 1fr);
-  gap: 14px;
-  padding: 12px 0 8px;
+  gap: 28px;
+  padding: 24px 0 16px;
 }
 
 .schedule-day-shell .timeline-time span {
@@ -609,9 +605,8 @@
 
 @media (max-width: 820px) {
   .schedule-day-shell {
-    height: 72vh;
-    max-height: 760px;
-    min-height: 300px;
+    height: auto;
+    min-height: auto;
     border-radius: 14px;
   }
 

@@ -104,13 +104,6 @@ function restorePlannerState() {
     );
   }
 
-  if (selectAllRestaurantsButton) {
-    updateSelectAllButton(
-      "restaurant-choice",
-      selectAllRestaurantsButton
-    );
-  }
-
   if (state.scheduleData && state.contextData) {
     currentSchedule = deserializeSchedule(state.scheduleData);
     currentContext = deserializeContext(state.contextData);
@@ -164,10 +157,6 @@ function resetSavedPlanner() {
     });
 
   updateSelectAllButton("place-choice", selectAllPlacesButton);
-  updateSelectAllButton(
-    "restaurant-choice",
-    selectAllRestaurantsButton
-  );
 
   scheduleShareTools.hidden = true;
   shareStatus.textContent = "";

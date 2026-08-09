@@ -5,13 +5,17 @@ function renderChoices() {
     return;
   }
 
-  placeChoices.innerHTML = PLACE_OPTIONS.map((place) =>
-    createChoiceCard(place, "place-choice")
-  ).join("");
+  placeChoices.innerHTML = PLACE_OPTIONS
+    .filter(item => !item.mealTypes || item.mealTypes.length === 0)
+    .map((place) =>
+      createChoiceCard(place, "place-choice")
+    ).join("");
 
-  restaurantChoices.innerHTML = RESTAURANT_OPTIONS.map((restaurant) =>
-    createChoiceCard(restaurant, "restaurant-choice")
-  ).join("");
+  restaurantChoices.innerHTML = PLACE_OPTIONS
+    .filter(item => item.mealTypes && item.mealTypes.length > 0)
+    .map((restaurant) =>
+      createChoiceCard(restaurant, "restaurant-choice")
+    ).join("");
 }
 
 function createChoiceCard(item, inputClass) {
@@ -88,8 +92,7 @@ function createSchedule() {
     arrivalTime,
     departureTime,
     dates,
-    selectedPlaces: [],
-    selectedRestaurants: []
+    selectedPlaces: []
   };
 
   const schedule = buildManagedSchedule(context);
@@ -113,8 +116,7 @@ function buildFixedRecommendedDates(weddingDate) {
 
 function findExcludedSelectedItems(
   schedule,
-  selectedPlaces,
-  selectedRestaurants
+  selectedPlaces
 ) {
   const scheduledIds = new Set();
 
@@ -126,16 +128,11 @@ function findExcludedSelectedItems(
     });
   });
 
-  return [
-    ...selectedPlaces.map((item) => ({
+  return selectedPlaces
+    .map((item) => ({
       ...item,
-      itemType: "관광지"
-    })),
-    ...selectedRestaurants.map((item) => ({
-      ...item,
-      itemType: "식사"
+      itemType: item.mealTypes ? "식사" : "관광지"
     }))
-  ]
     .filter((item) => !scheduledIds.has(item.id))
     .map((item) => ({
       id: item.id,
@@ -181,36 +178,6 @@ function buildManagedSchedule(context) {
       });
     }
 
-    // Config에 도착 항목이 없으면 추가
-    if (isArrivalDay && !items.some((item) => item.tag === "도착")) {
-      items.unshift(
-        createManagedTransportItem({
-          start: 14 * 60,
-          end: 15 * 60,
-          title: "광저우 도착",
-          detail: "공항 도착 후 호텔로 이동합니다.",
-          tag: "도착",
-          from: "공항",
-          to: "호텔"
-        })
-      );
-    }
-
-    // Config에 출발 항목이 없으면 추가
-    if (isDepartureDay && !items.some((item) => item.tag === "출발")) {
-      items.push(
-        createManagedTransportItem({
-          start: 17 * 60 + 30,
-          end: 18 * 60 + 30,
-          title: "광저우 출발",
-          detail: "호텔 체크아웃 후 공항으로 이동합니다.",
-          tag: "출발",
-          from: "호텔",
-          to: "공항"
-        })
-      );
-    }
-
     return {
       date,
       index,
@@ -232,11 +199,12 @@ function buildScheduleItemFromConfig(configItem) {
   switch (type) {
     case "place": {
       if (!id || !PLACES[id]) return null;
-      return createManagedSourceItem(id, "place", minutes);
+      return createManagedSourceItem(id, minutes);
     }
     case "restaurant": {
-      if (!id || !RESTAURANTS[id]) return null;
-      return createManagedSourceItem(id, "restaurant", minutes);
+      // restaurants are now merged into PLACES
+      if (!id || !PLACES[id]) return null;
+      return createManagedSourceItem(id, minutes);
     }
     case "wedding": {
       return {
@@ -264,10 +232,8 @@ function buildScheduleItemFromConfig(configItem) {
   }
 }
 
-function createManagedSourceItem(itemId, type, start) {
-  const source = type === "restaurant"
-    ? RESTAURANTS[itemId]
-    : PLACES[itemId];
+function createManagedSourceItem(itemId, start) {
+  const source = PLACES[itemId];
 
   if (!source) {
     return null;
@@ -277,12 +243,12 @@ function createManagedSourceItem(itemId, type, start) {
 
   return {
     id: source.id,
-    sourceType: type,
     start,
     end: start + duration,
     title: source.name,
     detail: source.note,
     tag: source.category,
+    tags: source.tags || [],
     district: source.district
   };
 }
@@ -425,7 +391,6 @@ function buildEmptyCustomDayItems(dayWindow) {
 
 function createRecommendedPool() {
   const places = [];
-  const restaurants = [];
 
   RECOMMENDED_DISTRICT_ORDER.forEach((district) => {
     (RECOMMENDED_PLACE_IDS[district] || []).forEach((id) => {
@@ -433,20 +398,13 @@ function createRecommendedPool() {
         places.push(PLACES[id]);
       }
     });
-
-    (RECOMMENDED_RESTAURANT_IDS[district] || []).forEach((id) => {
-      if (RESTAURANTS[id]) {
-        restaurants.push(RESTAURANTS[id]);
-      }
-    });
   });
 
-  return { places, restaurants };
+  return { places };
 }
 
 function buildScheduleFromPool(context, pool) {
   const remainingPlaces = [...pool.places];
-  const remainingRestaurants = [...pool.restaurants];
 
   return context.dates.map((date, index) => {
     const isArrivalDay = index === 0;
@@ -503,7 +461,6 @@ function buildScheduleFromPool(context, pool) {
     if (availableEnd - availableStart >= 60) {
       const preferredDistrict = chooseBestDistrict(
         remainingPlaces,
-        remainingRestaurants,
         availableStart,
         availableEnd
       );
@@ -512,12 +469,11 @@ function buildScheduleFromPool(context, pool) {
         district: preferredDistrict,
         start: availableStart,
         end: availableEnd,
-        places: remainingPlaces,
-        restaurants: remainingRestaurants
+        places: remainingPlaces
       });
 
       items.push(...dayItems);
-      removeScheduledItems(dayItems, remainingPlaces, remainingRestaurants);
+      removeScheduledItems(dayItems, remainingPlaces);
     }
 
     if (isDepartureDay) {
@@ -620,28 +576,23 @@ function getAvailableDayWindow({
   return { start, end };
 }
 
-function chooseBestDistrict(places, restaurants, start, end) {
+function chooseBestDistrict(places, start, end) {
   const availableMinutes = end - start;
 
   const districtScores = RECOMMENDED_DISTRICT_ORDER.map((district) => {
     const districtPlaces = places.filter((item) => item.district === district);
-    const districtRestaurants = restaurants.filter(
-      (item) => item.district === district
-    );
 
     const score =
-      districtPlaces.reduce((sum, item) => sum + (item.priority || 1), 0) +
-      districtRestaurants.reduce((sum, item) => sum + (item.priority || 1), 0);
+      districtPlaces.reduce((sum, item) => sum + (item.priority || 1), 0);
 
     const totalDuration =
-      districtPlaces.reduce((sum, item) => sum + item.duration, 0) +
-      districtRestaurants.reduce((sum, item) => sum + item.duration, 0);
+      districtPlaces.reduce((sum, item) => sum + item.duration, 0);
 
     return {
       district,
       score,
       fits: totalDuration <= availableMinutes + 180,
-      itemCount: districtPlaces.length + districtRestaurants.length
+      itemCount: districtPlaces.length
     };
   });
 
@@ -654,15 +605,14 @@ function chooseBestDistrict(places, restaurants, start, end) {
       return b.score - a.score;
     })[0];
 
-  return best?.district || places[0]?.district || restaurants[0]?.district || "zhujiang";
+  return best?.district || places[0]?.district || "zhujiang";
 }
 
 function planDayByDistrict({
   district,
   start,
   end,
-  places,
-  restaurants
+  places
 }) {
   const districtPlaces = places
     .filter((item) => item.district === district)
@@ -677,10 +627,6 @@ function planDayByDistrict({
       return (b.priority || 0) - (a.priority || 0);
     });
 
-  const districtRestaurants = restaurants
-    .filter((item) => item.district === district)
-    .sort((a, b) => (b.priority || 0) - (a.priority || 0));
-
   const items = [];
   let cursor = start;
   let previousDistrict = district;
@@ -689,10 +635,10 @@ function planDayByDistrict({
 
   for (const place of districtPlaces) {
     if (!lunchAdded && cursor >= 11 * 60 && cursor < 14 * 60) {
-      const lunch = findMeal(districtRestaurants, "lunch", cursor, end);
+      const lunch = findMeal(districtPlaces, "lunch", cursor, end);
 
       if (lunch) {
-        const mealItem = createScheduledItem(lunch, cursor, "restaurant");
+        const mealItem = createScheduledItem(lunch, cursor);
         items.push(mealItem);
         cursor = mealItem.end + 15;
         lunchAdded = true;
@@ -700,10 +646,10 @@ function planDayByDistrict({
     }
 
     if (!dinnerAdded && cursor >= 17 * 60 && cursor < 21 * 60) {
-      const dinner = findMeal(districtRestaurants, "dinner", cursor, end);
+      const dinner = findMeal(districtPlaces, "dinner", cursor, end);
 
       if (dinner) {
-        const mealItem = createScheduledItem(dinner, cursor, "restaurant");
+        const mealItem = createScheduledItem(dinner, cursor);
         items.push(mealItem);
         cursor = mealItem.end + 15;
         dinnerAdded = true;
@@ -732,50 +678,50 @@ function planDayByDistrict({
       });
     }
 
-    items.push(createScheduledItem(place, placeStart, "place"));
+    items.push(createScheduledItem(place, placeStart));
     cursor = placeEnd;
     previousDistrict = place.district;
   }
 
   if (!lunchAdded && cursor < 15 * 60) {
-    const lunch = findMeal(districtRestaurants, "lunch", cursor, end);
+    const lunch = findMeal(districtPlaces, "lunch", cursor, end);
 
     if (lunch) {
-      items.push(createScheduledItem(lunch, cursor, "restaurant"));
+      items.push(createScheduledItem(lunch, cursor));
       cursor += lunch.duration;
     }
   }
 
   if (!dinnerAdded && cursor < end - 60) {
-    const dinner = findMeal(districtRestaurants, "dinner", Math.max(cursor, 17 * 60), end);
+    const dinner = findMeal(districtPlaces, "dinner", Math.max(cursor, 17 * 60), end);
 
     if (dinner) {
       const dinnerStart = Math.max(cursor, 17 * 60);
-      items.push(createScheduledItem(dinner, dinnerStart, "restaurant"));
+      items.push(createScheduledItem(dinner, dinnerStart));
     }
   }
 
   return items;
 }
 
-function findMeal(restaurants, mealType, cursor, end) {
-  return restaurants.find((restaurant) => {
-    const canServeMeal = restaurant.mealTypes.includes(mealType);
-    const start = Math.max(cursor, timeToMinutes(restaurant.openTime));
-    const finish = start + restaurant.duration;
+function findMeal(places, mealType, cursor, end) {
+  return places.find((place) => {
+    const canServeMeal = (place.mealTypes || []).includes(mealType);
+    if (!canServeMeal) return false;
+
+    const start = Math.max(cursor, timeToMinutes(place.openTime));
+    const finish = start + place.duration;
 
     return (
-      canServeMeal &&
       finish <= end &&
-      finish <= timeToMinutes(restaurant.closeTime)
+      finish <= timeToMinutes(place.closeTime)
     );
   });
 }
 
-function createScheduledItem(item, start, sourceType) {
+function createScheduledItem(item, start) {
   return {
     id: item.id,
-    sourceType,
     start,
     end: start + item.duration,
     title: item.name,
@@ -785,21 +731,14 @@ function createScheduledItem(item, start, sourceType) {
   };
 }
 
-function removeScheduledItems(items, places, restaurants) {
-  const scheduledPlaceIds = new Set(
+function removeScheduledItems(items, places) {
+  const scheduledIds = new Set(
     items
-      .filter((item) => item.sourceType === "place")
+      .filter((item) => !item.type && !item.isWeddingEvent) // scheduled items (not transport/wedding)
       .map((item) => item.id)
   );
 
-  const scheduledRestaurantIds = new Set(
-    items
-      .filter((item) => item.sourceType === "restaurant")
-      .map((item) => item.id)
-  );
-
-  removeByIds(places, scheduledPlaceIds);
-  removeByIds(restaurants, scheduledRestaurantIds);
+  removeByIds(places, scheduledIds);
 }
 
 function removeByIds(items, ids) {
@@ -1061,13 +1000,9 @@ function createTimelineItem(item, dayIndex, itemIndex) {
   const weddingEventClass = item.isWeddingEvent ? "wedding-event" : "";
   const sourceItem = getScheduleSourceItem(item);
   const isTransport =
-    item.sourceType === "transport" ||
     item.type === "transport";
 
-  const itemType =
-    item.sourceType === "restaurant"
-      ? "restaurant"
-      : "place";
+  const itemType = "place"; // all items are now unified under PLACES
 
   const cardLayoutClass = "timeline-card-layout no-thumbnail";
 
@@ -1075,11 +1010,16 @@ function createTimelineItem(item, dayIndex, itemIndex) {
     ? `<span class="timeline-chinese-name">${escapeHtml(sourceItem.chineseName)}</span>`
     : "";
 
+  const tagsHtml = item.tags && item.tags.length > 0
+    ? item.tags.slice(0, 2).map(tag => `<span class="item-tag">${escapeHtml(tag)}</span>`).join("")
+    : "";
+
   const compactMeta = [
     sourceItem?.district
       ? `<span class="district-tag">${escapeHtml(getDistrictLabel(sourceItem.district))}</span>`
       : "",
     `<span class="place-tag">${escapeHtml(item.tag)}</span>`,
+    tagsHtml,
     `<span class="duration-tag">⏱ ${formatDuration(item.end - item.start)}</span>`
   ].filter(Boolean).join("");
 
@@ -1147,11 +1087,7 @@ function getScheduleSourceItem(item) {
     return null;
   }
 
-  if (item.sourceType === "restaurant") {
-    return RESTAURANTS[item.id] || null;
-  }
-
-  return PLACES[item.id] || RESTAURANTS[item.id] || null;
+  return PLACES[item.id] || null;
 }
 
 function findTransportOrderWarning(items) {
@@ -1213,7 +1149,7 @@ function openScheduleEditModal(target) {
     }
 
     scheduleEditTitle.textContent = "일정 편집";
-    editItemType.value = item.sourceType || item.type || "custom";
+    editItemType.value = item.type || "place"; // type can be "transport", "wedding", or undefined (place)
     updateEditItemOptions();
 
     if (item.id) {
@@ -1221,7 +1157,7 @@ function openScheduleEditModal(target) {
     }
 
     editCustomTitle.value =
-      item.sourceType === "custom" || (!item.sourceType && !item.type)
+      item.type === "custom" || !item.type
         ? item.title
         : "";
 
@@ -1297,10 +1233,11 @@ function updateEditItemOptions() {
     return;
   }
 
+  // Filter PLACE_OPTIONS to get restaurants or non-restaurant places
   const items =
     type === "restaurant"
-      ? RESTAURANT_OPTIONS
-      : PLACE_OPTIONS;
+      ? PLACE_OPTIONS.filter(item => item.mealTypes && item.mealTypes.length > 0)
+      : PLACE_OPTIONS.filter(item => !item.mealTypes || item.mealTypes.length === 0);
 
   renderEditItemSelectOptions(items, type);
   renderEditItemPreview(false);
@@ -1334,15 +1271,8 @@ function getEditSelectedItem() {
   const type = editItemType.value;
   const itemId = editItemSelect.value;
 
-  if (type === "restaurant") {
-    return RESTAURANTS[itemId] || null;
-  }
-
-  if (type === "place") {
-    return PLACES[itemId] || null;
-  }
-
-  return null;
+  // All items (including restaurants) are now in PLACES
+  return PLACES[itemId] || null;
 }
 
 function clearEditItemPreview() {
@@ -1473,8 +1403,8 @@ function saveScheduleEdit(event) {
       sourceType: "custom"
     };
   } else {
-    const source = type === "restaurant" ? RESTAURANTS : PLACES;
-    const selected = source[editItemSelect.value];
+    // All items are now in PLACES
+    const selected = PLACES[editItemSelect.value];
 
     if (!selected) {
       showEditError("장소 또는 식사를 선택해주세요.");
@@ -1483,7 +1413,6 @@ function saveScheduleEdit(event) {
 
     newItem = {
       id: selected.id,
-      sourceType: type,
       start,
       end: start + duration,
       title: selected.name,
@@ -1583,7 +1512,7 @@ function reflowDayItems(items) {
 }
 
 function isTransportOrAirportItem(item) {
-  return item.type === "transport" || item.sourceType === "transport";
+  return item.type === "transport";
 }
 
 function findSuggestedStartTime(dayIndex, insertAfterIndex) {

@@ -179,6 +179,18 @@ function bindEvents() {
     );
   });
 
+  window.addEventListener("resize", () => {
+    if (!detailModal?.classList.contains("open")) {
+      return;
+    }
+
+    if (!activeGalleryImages.length) {
+      return;
+    }
+
+    showGalleryImage(activeGalleryIndex);
+  });
+
   previewSharedPlanButton.addEventListener("click", previewSharedPlan);
   saveSharedPlanButton.addEventListener("click", saveSharedPlan);
   cancelSharedPlanButton.addEventListener("click", closeSharedPlanModal);
@@ -364,12 +376,6 @@ function bindEvents() {
   if (selectAllPlacesButton) {
     selectAllPlacesButton.addEventListener("click", () => {
       toggleAllChoices("place-choice", selectAllPlacesButton);
-    });
-  }
-
-  if (selectAllRestaurantsButton) {
-    selectAllRestaurantsButton.addEventListener("click", () => {
-      toggleAllChoices("restaurant-choice", selectAllRestaurantsButton);
     });
   }
 

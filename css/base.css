@@ -1,7 +1,7 @@
 /* Reset, variables, typography and shared primitives.
    Extracted from legacy style.css during Sprint 1-1. */
 
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap");
 
 :root {
   --bg: #ffffff;
@@ -84,8 +84,16 @@ button {
 }
 
 .desktop-nav a {
+  width: 72px;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 11px;
   color: var(--subtext);
   font-size: 13px;
+  font-weight: 700;
+  text-align: center;
   text-decoration: none;
 }
 
@@ -118,9 +126,14 @@ button {
 .hero h1 {
   margin: 0;
   font-size: clamp(72px, 10vw, 148px);
-  line-height: 0.87;
-  letter-spacing: -0.08em;
-  font-weight: 750;
+  line-height: 0.92;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  font-family:
+    "Cormorant Garamond",
+    "Noto Serif KR",
+    Georgia,
+    serif;
 }
 
 .hero-copy {
@@ -153,11 +166,13 @@ button {
 }
 
 .eyebrow {
-  margin: 0 0 16px;
+  margin: 0 0 16px 0;
   color: var(--accent);
   font-size: 12px;
   font-weight: 750;
   letter-spacing: 0.18em;
+  text-align: left;
+  width: 100%;
 }
 
 .pill-button {
@@ -215,20 +230,28 @@ button {
 }
 
 .section-intro {
-  max-width: 780px;
-  margin-bottom: 56px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 
 .section-intro h2 {
-  margin: 0 0 22px;
+  margin: 0 0 22px 0;
   font-size: clamp(44px, 6vw, 78px);
   line-height: 1.02;
   letter-spacing: -0.06em;
+  text-align: left;
+  width: 100%;
 }
 
 .section-intro > p:last-child {
+  margin: 0 0 56px 0;
   color: var(--subtext);
   font-size: 19px;
+  text-align: left;
+  width: 100%;
 }
 
 .planner-section {

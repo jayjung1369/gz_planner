@@ -7,8 +7,8 @@ function openDetailModal(itemId, itemType, options = {}) {
     detailReturnToEditContext = null;
   }
 
-  const source = itemType === "restaurant" ? RESTAURANTS : PLACES;
-  const item = source[itemId];
+  // All items are now in PLACES (restaurants merged into places)
+  const item = PLACES[itemId];
 
   if (!item) {
     return;
@@ -16,8 +16,10 @@ function openDetailModal(itemId, itemType, options = {}) {
 
   activeDetailItem = item;
 
+  // Determine if this is a restaurant based on item properties (mealTypes, reservation, etc.)
+  const isRestaurant = !!(item.mealTypes && item.mealTypes.length > 0);
   setText(detailModalCategory,
-    itemType === "restaurant" ? "FOOD DETAIL" : "PLACE DETAIL");
+    isRestaurant ? "FOOD DETAIL" : "PLACE DETAIL");
   setText(detailModalTitle, item.name);
   setText(detailModalChinese, item.chineseName || "중국어 명칭 준비 중");
 
@@ -27,7 +29,7 @@ function openDetailModal(itemId, itemType, options = {}) {
   );
   setText(
     detailMobileCategory,
-    item.category || (itemType === "restaurant" ? "맛집" : "관광지")
+    item.category || (isRestaurant ? "맛집" : "관광지")
   );
   setText(
     detailMobileDuration,
@@ -45,7 +47,13 @@ function openDetailModal(itemId, itemType, options = {}) {
   );
   setText(copyFeedback, "");
 
-  renderRestaurantDetail(item, itemType);
+  // 태그 렌더링
+  const tags = item.tags || [];
+  detailTagList.innerHTML = tags
+    .map(tag => `<span>${escapeHtml(tag)}</span>`)
+    .join("");
+
+  renderRestaurantDetail(item, isRestaurant);
   renderNearbyItems(item);
   // renderDetailAddControls(item, itemType);
 
@@ -54,7 +62,6 @@ function openDetailModal(itemId, itemType, options = {}) {
 
   activeGalleryIndex = 0;
   renderGalleryDots();
-  showGalleryImage(0);
 
   if (!detailModal) {
     console.error("상세창 요소를 찾을 수 없습니다.");
@@ -73,15 +80,19 @@ function openDetailModal(itemId, itemType, options = {}) {
         top: 0,
         behavior: "auto"
       });
+
+      // Some desktop browsers fail to paint the gallery until after layout settles.
+      showGalleryImage(activeGalleryIndex);
     });
+  } else {
+    showGalleryImage(activeGalleryIndex);
   }
 
   // Re-initialize map selection menu listeners when modal opens
   initMapSelectionMenuListeners();
 }
 
-function renderRestaurantDetail(item, itemType) {
-  const isRestaurant = itemType === "restaurant";
+function renderRestaurantDetail(item, isRestaurant) {
 
   detailRestaurantInfo.hidden = !isRestaurant;
 
@@ -117,9 +128,10 @@ function renderNearbyItems(item) {
     .map((id) => PLACES[id])
     .filter(Boolean);
 
+  // All items are now in PLACES, including restaurants
   const nearbyRestaurantItems =
     (item.nearbyRestaurants || [])
-      .map((id) => RESTAURANTS[id])
+      .map((id) => PLACES[id])
       .filter(Boolean);
 
   nearbyPlacesSection.hidden =
@@ -129,14 +141,14 @@ function renderNearbyItems(item) {
 
   nearbyPlacesList.innerHTML = nearbyPlaceItems
     .map((nearby) =>
-      createNearbyCard(nearby, "place")
+      createNearbyCard(nearby)
     )
     .join("");
 
   nearbyRestaurantsList.innerHTML =
     nearbyRestaurantItems
       .map((nearby) =>
-        createNearbyCard(nearby, "restaurant")
+        createNearbyCard(nearby)
       )
       .join("");
 
@@ -144,8 +156,10 @@ function renderNearbyItems(item) {
   initializeLazyImages(nearbyRestaurantsList);
 }
 
-function createNearbyCard(item, itemType) {
+function createNearbyCard(item) {
   const image = getThumbnailImage(item);
+  // Determine type based on item properties (mealTypes indicates restaurant)
+  const itemType = (item.mealTypes && item.mealTypes.length > 0) ? "restaurant" : "place";
 
   return `
     <button

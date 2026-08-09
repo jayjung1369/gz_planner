@@ -5,7 +5,6 @@ async function loadPlannerData() {
     // 각 JSON 파일을 대기하지 말고, 개별적으로 로드해서 실패해도 계속 진행되도록 함
     const [
       placesData,
-      restaurantsData,
       rulesData,
       travelGuideData
     ] = await Promise.all([
@@ -13,13 +12,9 @@ async function loadPlannerData() {
         console.error("places.json 로드 실패:", err);
         return { items: {} };
       }),
-      loadJson("data/restaurants.json").catch(err => {
-        console.error("restaurants.json 로드 실패:", err);
-        return { items: {} };
-      }),
       loadJson("data/scheduleRules.json").catch(err => {
         console.error("scheduleRules.json 로드 실패:", err);
-        return { rules: {}, recommendedDistrictOrder: [], recommendedPlaceIds: {}, recommendedRestaurantIds: {} };
+        return { rules: {}, recommendedDistrictOrder: [], recommendedPlaceIds: {} };
       }),
       loadJson("data/travelGuide.json").catch(err => {
         console.error("travelGuide.json 로드 실패:", err);
@@ -31,22 +26,13 @@ async function loadPlannerData() {
     });
 
     PLACES = placesData.items || {};
-    RESTAURANTS = restaurantsData.items || {};
     TRAVEL_GUIDE = travelGuideData.items || [];
     TRAVEL_GUIDE_NOTICE = travelGuideData.notice || "";
     
-    console.log("🏷️ PLACES 로드됨:", Object.keys(PLACES).length, "개 항목");
-    console.log("🍴 RESTAURANTS 로드됨:", Object.keys(RESTAURANTS).length, "개 항목");
+    console.log("🏷️ PLACES 로드됨:", Object.keys(PLACES).length, "개 항목 (식당 포함)");
 
-    // 이미지 설정 (places.json과 restaurants.json에서 images 사용)
+    // 이미지 설정 (places.json에서 모든 항목に images 사용)
     Object.entries(PLACES).forEach(([id, item]) => {
-      if (!item.images || item.images.length === 0) {
-        item.images = ["images/places/default-place.svg"];
-      }
-      applyOptimizedImages(item, id);
-    });
-
-    Object.entries(RESTAURANTS).forEach(([id, item]) => {
       if (!item.images || item.images.length === 0) {
         item.images = ["images/places/default-place.svg"];
       }
@@ -56,14 +42,11 @@ async function loadPlannerData() {
     PLACE_OPTIONS = Object.values(PLACES).filter(
       (place) => !["airport", "weddingHotel"].includes(place.id)
     );
-    RESTAURANT_OPTIONS = Object.values(RESTAURANTS);
 
     SCHEDULE_RULES = rulesData.rules || {};
     RECOMMENDED_DISTRICT_ORDER =
       rulesData.recommendedDistrictOrder || [];
     RECOMMENDED_PLACE_IDS = rulesData.recommendedPlaceIds || {};
-    RECOMMENDED_RESTAURANT_IDS =
-      rulesData.recommendedRestaurantIds || {};
 
     if (rulesData.weddingDate) {
       WEDDING_DATE = new Date(`${rulesData.weddingDate}T00:00:00`);

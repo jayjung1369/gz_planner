@@ -7,23 +7,12 @@ function getTravelLibraryItems() {
       applyOptimizedImages(item, item.id);
     }
   });
-  
-  RESTAURANT_OPTIONS.forEach(item => {
-    if (!item.thumbnail) {
-      applyOptimizedImages(item, item.id);
-    }
-  });
 
-  const items = [
-    ...PLACE_OPTIONS.map((item) => ({
-      ...item,
-      libraryType: "place"
-    })),
-    ...RESTAURANT_OPTIONS.map((item) => ({
-      ...item,
-      libraryType: "restaurant"
-    }))
-  ];
+  const items = PLACE_OPTIONS.map((item) => ({
+    ...item,
+    // libraryType determined by item properties (mealTypes = restaurant, otherwise = place)
+    libraryType: (item.mealTypes && item.mealTypes.length > 0) ? "restaurant" : "place"
+  }));
   
   return items;
 }
@@ -57,11 +46,13 @@ function includesKeyword(item, words) {
 
 function matchesActiveFacet(item) {
   if (activeTravelFacet === "tour") {
-    return item.libraryType === "place";
+    // Non-restaurant places (no mealTypes or mealTypes is empty)
+    return !(item.mealTypes && item.mealTypes.length > 0);
   }
 
   if (activeTravelFacet === "food") {
-    return item.libraryType === "restaurant";
+    // Items with mealTypes (restaurants)
+    return item.mealTypes && item.mealTypes.length > 0;
   }
 
   if (activeTravelFacet === "shopping") {
@@ -393,10 +384,8 @@ function createTravelLibraryCard(item) {
 }
 
 function addTravelLibraryItem(itemId, itemType) {
-  const item =
-    itemType === "restaurant"
-      ? RESTAURANTS[itemId]
-      : PLACES[itemId];
+  // All items are now in PLACES
+  const item = PLACES[itemId];
 
   if (!item) {
     return;

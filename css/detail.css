@@ -2,6 +2,30 @@
    Extracted from legacy style.css during Sprint 1-1. */
 
 /* V18 상세페이지 강화 */
+
+.detail-tags-section {
+  margin-top: 22px;
+  margin-bottom: 22px;
+}
+
+.detail-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.detail-tag-list span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(29, 29, 31, 0.06);
+  color: var(--subtext);
+  font-size: 13px;
+  font-weight: 500;
+}
+
 .detail-extra-section {
   margin-top: 30px;
   padding-top: 26px;

@@ -2,7 +2,7 @@
  * 추천 일정 설정 파일 (Recommended Schedule Configuration)
  * 
  * 이 파일은 4개의 추천 일정(추천일정 #1~#4)을 정의합니다.
- * 각 일정은 places.json의 ID를 참조합니다 (식당과 장소가 통합됨).
+ * 각 일정은 places.js와 restaurants.js의 ID를 참조합니다.
  * 
  * ⚠️ 주의: 이 파일의 구조를 변경하면 전체 시스템이 영향받습니다.
  * 안내서를 참조하여 올바르게 수정해주세요: README_SETUP.md
@@ -10,7 +10,7 @@
  * 설정 방법:
  * 1. 각 일정(day1~day4)의 items 배열에 항목을 추가/수정합니다.
  * 2. type이 "place"인 경우: { type: "place", id: "placeId", time: "HH:MM" }
- * 3. 모든 항목이 places.json에서 참조됩니다 (식당도 places.json에 통합됨).
+ * 3. type이 "restaurant"인 경우: { type: "restaurant", id: "restaurantId", time: "HH:MM" }
  * 4. 시간은 24시간 형식 (예: "09:30", "15:45")
  * 
  * 예제:
@@ -26,43 +26,43 @@ const RECOMMENDED_SCHEDULE_CONFIG = {
   day1: {
     label: "추천일정 #1",
     date: "",
-    title: "추천 일정 #1",
+    title: "광저우 도착",
     description: "공항 도착 후 리완 지역 탐방",
-    "items": [
+    items: [
       {
-        "type": "place",
-        "id": "yongqingfang",
-        "time": "10:00"
+        type: "transport",
+        time: "14:00",
+        duration: 60,
+        title: "광저우 도착",
+        detail: "공항 도착 후 호텔로 이동합니다.",
+        tag: "도착",
+        from: "공항",
+        to: "호텔"
       },
       {
-        "type": "place",
-        "id": "shamian",
-        "time": "13:45"
+        type: "place",
+        id: "chenClan",
+        time: "15:30"
       },
       {
-        "type": "place",
-        "id": "huachengSquare",
-        "time": "16:10"
+        type: "restaurant",
+        id: "dagefan",
+        time: "15:30"
       },
       {
-        "type": "place",
-        "id": "k11",
-        "time": "17:05"
+        type: "place",
+        id: "dongshankou",
+        time: "16:30"
       },
       {
-        "type": "place",
-        "id": "haixinsha",
-        "time": "19:30"
+        type: "restaurant",
+        id: "dimsumLiwan",
+        time: "17:30"
       },
       {
-        "type": "place",
-        "id": "cantonTower",
-        "time": "20:10"
-      },
-      {
-        "type": "place",
-        "id": "partyPier",
-        "time": "21:30"
+        type: "place",
+        id: "shamian",
+        time: "19:30"
       }
     ]
   },
@@ -74,16 +74,16 @@ const RECOMMENDED_SCHEDULE_CONFIG = {
     title: "Wedding Day",
     description: "결혼식 당일 (15:30 ~ 18:30)",
     items: [
-      // {
-      //   type: "wedding",
-      //   time: "15:30",
-      //   duration: 180,
-      //   title: "W Guangzhou 결혼식",
-      //   detail: "결혼식이 진행되는 시간입니다.",
-      //   tag: "Wedding"
-      // },
       {
-        type: "place",
+        type: "wedding",
+        time: "15:30",
+        duration: 180,
+        title: "W Guangzhou 결혼식",
+        detail: "결혼식이 진행되는 시간입니다.",
+        tag: "Wedding"
+      },
+      {
+        type: "restaurant",
         id: "cantoneseZhujiang",
         time: "19:30"
       }
@@ -108,7 +108,7 @@ const RECOMMENDED_SCHEDULE_CONFIG = {
         time: "13:00"
       },
       {
-        type: "place",
+        type: "restaurant",
         id: "beijingRoadFood",
         time: "15:00"
       }
@@ -144,7 +144,7 @@ const RECOMMENDED_SCHEDULE_CONFIG = {
 /**
  * 여행지/맛집 정보 통합 설정 (TravelLibrary Configuration)
  * Travel 섹션에 표시될 모든 여행지와 맛집을 정의합니다.
- * places.json의 항목으로 모두 통합되어 사용됩니다.
+ * places.js와 restaurants.js의 별칭으로 사용됩니다.
  */
 
 const TRAVEL_LIBRARY_CONFIG = {
@@ -186,8 +186,13 @@ function getRecommendedScheduleDay(dayIndex) {
 }
 
 /**
- * 헬퍼 함수: 여행지/맛집 정보를 itemId로 가져오기 (모두 PLACES로 통합됨)
+ * 헬퍼 함수: 여행지/맛집 정보를 itemId와 type으로 가져오기
  */
-function getTravelItemInfo(itemId) {
-  return PLACES[itemId] || null;
+function getTravelItemInfo(itemId, type) {
+  if (type === "place") {
+    return PLACES[itemId];
+  } else if (type === "restaurant") {
+    return RESTAURANTS[itemId];
+  }
+  return null;
 }
