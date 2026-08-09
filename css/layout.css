@@ -234,6 +234,7 @@
   background: rgba(29, 29, 31, 0.06);
   color: var(--subtext);
   font-weight: 500;
+  font-size: 13px;
 }
 
 .duration-tag {

@@ -412,6 +412,12 @@
   display: none;
 }
 
+@media (max-width: 450px) {
+  .detail-mobile-summary {
+    display: flex !important;
+  }
+}
+
 .detail-modal-back,
 .detail-modal-share {
   min-height: 40px;

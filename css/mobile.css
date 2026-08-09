@@ -1145,7 +1145,7 @@ canvas {
 
   .timeline-meta .duration-tag,
   .timeline-meta .item-tag {
-    max-width: 48%;
+    max-width: 100%;
   }
 
   .timeline-item.wedding-event {
@@ -1524,15 +1524,15 @@ canvas {
   .detail-mobile-summary span {
     display: inline-flex;
     align-items: center;
-    min-height: 29px;
+    min-height: 26px;
     max-width: 100%;
-    padding: 5px 10px;
+    padding: 4px 8px;
     overflow: hidden;
     border-radius: 999px;
     background: var(--soft);
     color: var(--subtext);
-    font-size: 10px;
-    font-weight: 700;
+    font-size: 9px;
+    font-weight: 600;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -1781,7 +1781,7 @@ canvas {
     padding: 16px 20px max(16px, env(safe-area-inset-bottom));
     border-top: 1px solid rgba(29, 29, 31, 0.08);
     background: white;
-    z-index: 400;
+    z-index: 9999;
   }
 
   .detail-modal .modal-action {
