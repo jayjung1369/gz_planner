@@ -94,7 +94,7 @@ function formatTime(minutes) {
   }
 
   if (dayOffset === 1) {
-    return `다음날 ${clockText}`;
+    return `${clockText}`;
   }
 
   return `${dayOffset}일 후 ${clockText}`;
