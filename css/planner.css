@@ -361,7 +361,7 @@ body.modal-open {
   overflow: hidden;
   border-radius: 0;
   background: var(--soft);
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   margin-top: 30px;
   border-radius: 20px;
 }
@@ -819,8 +819,8 @@ body.modal-open {
   overflow: hidden;
   border-radius: 30px 30px 22px 22px;
   background: var(--soft);
-  height: clamp(440px, 76vw, 1040px);
-  min-height: 440px;
+  height: clamp(220px, 30vw, 260px);
+  min-height: 220px;
 }
 
 .detail-gallery img {

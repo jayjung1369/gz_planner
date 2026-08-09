@@ -650,9 +650,10 @@ canvas {
   .detail-gallery {
     width: calc(100% + 32px);
     max-width: none;
-    height: 810px;
+    height: 245px;
     margin: 0 -16px 22px;
     border-radius: 24px 24px 18px 18px;
+    aspect-ratio: 16 / 9;
   }
 
   .detail-gallery img {
@@ -889,16 +890,17 @@ canvas {
 
   .detail-gallery {
     width: calc(100% + 32px);
-    height: clamp(460px, 108vw, 640px);
-    min-height: 460px;
+    height: clamp(220px, 50vw, 260px);
+    min-height: 220px;
     margin: 0 -16px 22px;
     border-radius: 0 0 18px 18px;
+    aspect-ratio: 16 / 9;
   }
 
   .detail-gallery img {
     width: 100% !important;
     height: 100% !important;
-    min-height: 460px;
+    min-height: 220px;
   }
 
   /* 선택 카드 */
@@ -1456,17 +1458,18 @@ canvas {
 
   .detail-gallery {
     width: calc(100% + 28px);
-    height: clamp(660px, 192vw, 930px);
-    min-height: 660px;
+    height: clamp(220px, 60vw, 260px);
+    min-height: 220px;
     margin: 0 -14px 20px;
     border-radius: 0 0 18px 18px;
     background: var(--soft);
+    aspect-ratio: 16 / 9;
   }
 
   .detail-gallery img {
     width: 100% !important;
     height: 100% !important;
-    min-height: 660px !important;
+    min-height: 220px !important;
     object-fit: cover !important;
   }
 
