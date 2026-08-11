@@ -108,9 +108,9 @@
       "closeTime": "21:30",
       "priority": 1,
       "images": [
-        "images/restaurants/taotaojuYongqingfang_1.jpg",
-        "images/restaurants/taotaojuYongqingfang_2.jpg",
-        "images/restaurants/taotaojuYongqingfang_3.jpg"
+        "images/places/taotaojuYongqingfang_1.jpg",
+        "images/places/taotaojuYongqingfang_2.jpg",
+        "images/places/taotaojuYongqingfang_3.jpg"
       ],
       "hours": "08:00 ~ 21:30",
       "price": "1인 약 80~120위안",
@@ -143,9 +143,8 @@
       "closeTime": "22:00",
       "priority": 1,
       "images": [
-        "images/restaurants/baohuaNoodle_1.jpg",
-        "images/restaurants/baohuaNoodle_2.jpg",
-        "images/restaurants/baohuaNoodle_3.jpg"
+        "images/places/baohuaNoodle_1.jpg",
+        "images/places/baohuaNoodle_2.jpg"
       ],
       "hours": "07:00 ~ 22:00",
       "price": "1인 약 25~45위안",
@@ -163,44 +162,7 @@
         "현지맛집",
         "광저우필수"
       ]
-    },
-    "panxiRestaurant": {
-      "id": "panxiRestaurant",
-      "name": "판시주가",
-      "chineseName": "泮溪酒家",
-      "addressZh": "广东省广州市荔湾区龙津西路151号",
-      "category": "광둥요리",
-      "district": "liwan",
-      "duration": 80,
-      "mealTypes": [
-        "brunch",
-        "lunch"
-      ],
-      "openTime": "10:30",
-      "closeTime": "22:00",
-      "priority": 1,
-      "images": [
-        "images/restaurants/panxiRestaurant_1.jpg",
-        "images/restaurants/panxiRestaurant_2.jpg",
-        "images/restaurants/panxiRestaurant_3.jpg"
-      ],
-      "hours": "10:30 ~ 22:00",
-      "price": "1인 약 80~150위안",
-      "bestTime": "11:30 ~ 13:00",
-      "tips": "정원 좌석은 인기가 많아 점심시간에는 조금 일찍 방문하는 것을 추천합니다.",
-      "note": "1947년에 문을 연 광저우를 대표하는 정원식 광둥요리 레스토랑입니다. 리완호를 바라보며 딤섬과 광둥요리를 즐길 수 있어 영경방과 함께 방문하기 좋은 코스입니다.",
-      "recommendedMenu": [
-        "虾饺 (새우 하가우)",
-        "烧卖 (슈마이)"
-      ],
-      "tags": [
-        "광둥요리",
-        "딤섬",
-        "정원식당",
-        "노포",
-        "광저우필수"
-      ]
-    },
+    },    
     "shamian": {
       "id": "shamian",
       "name": "샤미안",
@@ -218,9 +180,9 @@
       ],
       "priority": 1,
       "images": [
-        "images/places/shamian_1.jpg",
-        "images/places/shamian_2.jpg",
-        "images/places/shamian_3.jpg"
+        "images/places/shamiandao_1.jpg",
+        "images/places/shamiandao_2.jpg",
+        "images/places/shamiandao_3.jpg"
       ],
       "tags": [
         "광저우필수",
@@ -255,9 +217,9 @@
       "closeTime": "22:00",
       "priority": 1,
       "images": [
-        "images/restaurants/starbucksReserveShamian_1.jpg",
-        "images/restaurants/starbucksReserveShamian_2.jpg",
-        "images/restaurants/starbucksReserveShamian_3.jpg"
+        "images/places/starbucksReserveShamian_1.jpg",
+        "images/places/starbucksReserveShamian_2.jpg",
+        "images/places/starbucksReserveShamian_3.jpg"
       ],
       "hours": "08:00 ~ 22:00",
       "price": "1인 약 35~55위안",
@@ -293,9 +255,9 @@
       ],
       "priority": 1,
       "images": [
-        "images/places/huachengSquare_1.jpg",
-        "images/places/huachengSquare_2.jpg",
-        "images/places/huachengSquare_3.jpg"
+        "images/places/huachengsquare_1.jpg",
+        "images/places/huachengsquare_2.jpg",
+        "images/places/huachengsquare_3.jpg"
       ],
       "tags": [
         "광저우필수",
@@ -311,8 +273,99 @@
       "bestTime": "16:10 ~ 17:00",
       "tips": "광저우 오페라하우스와 광동박물관을 함께 둘러본 뒤 해질 무렵 광저우타워 방향으로 사진을 찍으면 가장 아름다운 풍경을 담을 수 있습니다.",
       "note": "한국으로 치면 여의도 IFC와 서울광장을 합쳐놓은 분위기입니다. 광저우 CBD의 중심 광장으로 초고층 빌딩과 문화시설이 어우러진 현대 광저우의 상징적인 랜드마크입니다.",
-      "nearbyRestaurants": []
+      "nearbyRestaurants": [
+        "guangdongMuseum",
+        "guangzhouOperaHouse",
+        "guangzhouLibrary"
+      ]
+
+
+
+
+
+
     },
+
+    "guangzhouOperaHouse": {
+      "id": "guangzhouOperaHouse",
+      "name": "광저우 오페라하우스",
+      "chineseName": "广州大剧院",
+      "addressZh": "广东省广州市天河区珠江西路1号",
+      "category": "건축·공연",
+      "district": "zhujiang",
+      "duration": 75,
+      "latitude": 23.116,
+      "longitude": 113.3158,
+      "openTime": "10:00",
+      "closeTime": "22:00",
+      "images": [
+        "images/places/guangzhouOperaHouse-1.jpg",
+        "images/places/guangzhouOperaHouse-2.jpg",
+        "images/places/guangzhouOperaHouse-3.jpg"
+      ],
+      "hours": "외부 상시 관람 · 내부는 공연·투어 일정 기준",
+      "price": "외부 무료 · 공연 및 투어 별도",
+      "bestTime": "늦은 오후~야간",
+      "priority": 8,
+      "tags": [
+        "건축",
+        "사진",
+        "공연",
+        "야경"
+      ],
+      "tips": "공연 관람이 목적이면 공식 공연 일정을 미리 확인하세요.",
+      "note": "자하 하디드가 설계한 독특한 외관으로 유명한 주장신청의 현대 건축 명소입니다.",
+      "nearbyPlaces": [
+        "guangdongMuseum",
+        "guangzhouLibrary",
+        "huachengSquare"
+      ],
+      "nearbyRestaurants": [
+        "cantoneseZhujiang",
+        "cafeZhujiang"
+      ]
+    },
+    "guangzhouLibrary": {
+      "id": "guangzhouLibrary",
+      "name": "광저우도서관",
+      "chineseName": "广州图书馆",
+      "addressZh": "广东省广州市天河区珠江东路4号",
+      "category": "도서관",
+      "district": "zhujiang",
+      "duration": 90,
+      "latitude": 23.1176,
+      "longitude": 113.3197,
+      "openTime": "09:00",
+      "closeTime": "21:00",
+      "images": [
+        "images/places/guangzhouLibrary-1.jpg",
+        "images/places/guangzhouLibrary-2.jpg",
+        "images/places/guangzhouLibrary-3.jpg"
+      ],
+      "hours": "요일·구역별 운영시간 상이 · 방문 전 확인",
+      "price": "무료",
+      "bestTime": "오후",
+      "priority": 6,
+      "tags": [
+        "실내",
+        "건축",
+        "휴식",
+        "비오는날"
+      ],
+      "tips": "관광객 출입 가능 구역과 휴관일을 방문 전에 확인하세요.",
+      "note": "독특한 외관과 넓은 내부 공간으로 유명한 주장신청의 현대 도서관입니다.",
+      "nearbyPlaces": [
+        "guangdongMuseum",
+        "guangzhouOperaHouse",
+        "huachengSquare"
+      ],
+      "nearbyRestaurants": [
+        "cafeZhujiang",
+        "cantoneseZhujiang"
+      ]
+    },
+
+
     "k11": {
       "id": "k11",
       "name": "K11 아트몰",
@@ -371,9 +424,9 @@
       "closeTime": "22:00",
       "priority": 1,
       "images": [
-        "images/restaurants/shengyunlaiWonton_1.jpg",
-        "images/restaurants/shengyunlaiWonton_2.jpg",
-        "images/restaurants/shengyunlaiWonton_3.jpg"
+        "images/places/shengyunlaiWonton_1.jpg",
+        "images/places/shengyunlaiWonton_2.jpg",
+        "images/places/shengyunlaiWonton_3.jpg"
       ],
       "hours": "10:00 ~ 22:00",
       "price": "1인 약 40~70위안",
@@ -408,9 +461,9 @@
       "closeTime": "21:30",
       "priority": 1,
       "images": [
-        "images/restaurants/feidachuK11_1.jpg",
-        "images/restaurants/feidachuK11_2.jpg",
-        "images/restaurants/feidachuK11_3.jpg"
+        "images/places/feidachuK11_1.jpg",
+        "images/places/feidachuK11_2.jpg",
+        "images/places/feidachuK11_3.jpg"
       ],
       "hours": "11:00 ~ 21:30",
       "price": "1인 약 80~120위안",
@@ -445,9 +498,9 @@
       "closeTime": "22:00",
       "priority": 2,
       "images": [
-        "images/restaurants/chouchouK11_1.jpg",
-        "images/restaurants/chouchouK11_2.jpg",
-        "images/restaurants/chouchouK11_3.jpg"
+        "images/places/chouchouK11_1.jpg",
+        "images/places/chouchouK11_2.jpg",
+        "images/places/chouchouK11_3.jpg"
       ],
       "hours": "10:00 ~ 22:00",
       "price": "1인 약 120~180위안",
@@ -553,9 +606,9 @@
       ],
       "priority": 1,
       "images": [
-        "images/places/cantonTower_1.jpg",
-        "images/places/cantonTower_2.jpg",
-        "images/places/cantonTower_3.jpg"
+        "images/places/cantontower_1.jpg",
+        "images/places/cantontower_2.jpg",
+        "images/places/cantontower_3.jpg"
       ],
       "tags": [
         "광저우필수",
@@ -677,9 +730,9 @@
       ],
       "priority": 1,
       "images": [
-        "images/places/partyPier_1.jpg",
-        "images/places/partyPier_2.jpg",
-        "images/places/partyPier_3.jpg"
+        "images/places/partypier_1.webp",
+        "images/places/partypier_2.jpg",
+        "images/places/partypier_3.jpg"
       ],
       "tags": [
         "광저우필수",
@@ -748,9 +801,9 @@
       "closeTime": "03:00",
       "priority": 2,
       "images": [
-        "images/restaurants/mrRockyPartyPier_1.jpg",
-        "images/restaurants/mrRockyPartyPier_2.jpg",
-        "images/restaurants/mrRockyPartyPier_3.jpg"
+        "images/places/mrRockyPartyPier_1.jpg",
+        "images/places/mrRockyPartyPier_2.jpg",
+        "images/places/mrRockyPartyPier_3.jpg"
       ],
       "hours": "11:30 ~ 03:00",
       "price": "1인 약 150~300위안",
@@ -772,6 +825,31 @@
         "파티피어"
       ]
     },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -934,9 +1012,9 @@
       ],
       "priority": 8,
       "images": [
-        "images/places/changlong-1.svg",
-        "images/places/changlong-2.svg",
-        "images/places/changlong-3.svg"
+        "images/places/changlong waterpark_1.png",
+        "images/places/changlong waterpark_2.png",
+        "images/places/changlong waterpark_3.jpg"
       ],
       "tags": [
         "가족",
@@ -1026,6 +1104,43 @@
         "guangzhouRestaurantLiwan"
       ]
     },
+    "panxiRestaurant": {
+      "id": "panxiRestaurant",
+      "name": "판시주가",
+      "chineseName": "泮溪酒家",
+      "addressZh": "广东省广州市荔湾区龙津西路151号",
+      "category": "광둥요리",
+      "district": "liwan",
+      "duration": 80,
+      "mealTypes": [
+        "brunch",
+        "lunch"
+      ],
+      "openTime": "10:30",
+      "closeTime": "22:00",
+      "priority": 1,
+      "images": [
+        "images/places/panxiRestaurant_1.jpg",
+        "images/places/panxiRestaurant_2.jpg",
+        "images/places/panxiRestaurant_3.jpg"
+      ],
+      "hours": "10:30 ~ 22:00",
+      "price": "1인 약 80~150위안",
+      "bestTime": "11:30 ~ 13:00",
+      "tips": "정원 좌석은 인기가 많아 점심시간에는 조금 일찍 방문하는 것을 추천합니다.",
+      "note": "1947년에 문을 연 광저우를 대표하는 정원식 광둥요리 레스토랑입니다. 리완호를 바라보며 딤섬과 광둥요리를 즐길 수 있어 영경방과 함께 방문하기 좋은 코스입니다.",
+      "recommendedMenu": [
+        "虾饺 (새우 하가우)",
+        "烧卖 (슈마이)"
+      ],
+      "tags": [
+        "광둥요리",
+        "딤섬",
+        "정원식당",
+        "노포",
+        "광저우필수"
+      ]
+    },
     "yuexiuPark": {
       "id": "yuexiuPark",
       "name": "월수공원",
@@ -1112,9 +1227,9 @@
       "openTime": "09:00",
       "closeTime": "17:00",
       "images": [
-        "images/places/guangdongMuseum-1.svg",
-        "images/places/guangdongMuseum-2.svg",
-        "images/places/guangdongMuseum-3.svg"
+        "images/places/guangdongMuseum-1.jpg",
+        "images/places/guangdongMuseum-2.jpg",
+        "images/places/guangdongMuseum-3.jpg"
       ],
       "hours": "월요일 휴관 가능 · 예약 및 운영시간 방문 전 확인",
       "price": "상설전 무료인 경우가 많음 · 특별전 별도",
@@ -1139,84 +1254,7 @@
         "cafeZhujiang"
       ]
     },
-    "guangzhouOperaHouse": {
-      "id": "guangzhouOperaHouse",
-      "name": "광저우 오페라하우스",
-      "chineseName": "广州大剧院",
-      "addressZh": "广东省广州市天河区珠江西路1号",
-      "category": "건축·공연",
-      "district": "zhujiang",
-      "duration": 75,
-      "latitude": 23.116,
-      "longitude": 113.3158,
-      "openTime": "10:00",
-      "closeTime": "22:00",
-      "images": [
-        "images/places/guangzhouOperaHouse-1.svg",
-        "images/places/guangzhouOperaHouse-2.svg",
-        "images/places/guangzhouOperaHouse-3.svg"
-      ],
-      "hours": "외부 상시 관람 · 내부는 공연·투어 일정 기준",
-      "price": "외부 무료 · 공연 및 투어 별도",
-      "bestTime": "늦은 오후~야간",
-      "priority": 8,
-      "tags": [
-        "건축",
-        "사진",
-        "공연",
-        "야경"
-      ],
-      "tips": "공연 관람이 목적이면 공식 공연 일정을 미리 확인하세요.",
-      "note": "자하 하디드가 설계한 독특한 외관으로 유명한 주장신청의 현대 건축 명소입니다.",
-      "nearbyPlaces": [
-        "guangdongMuseum",
-        "guangzhouLibrary",
-        "huachengSquare"
-      ],
-      "nearbyRestaurants": [
-        "cantoneseZhujiang",
-        "cafeZhujiang"
-      ]
-    },
-    "guangzhouLibrary": {
-      "id": "guangzhouLibrary",
-      "name": "광저우도서관",
-      "chineseName": "广州图书馆",
-      "addressZh": "广东省广州市天河区珠江东路4号",
-      "category": "도서관",
-      "district": "zhujiang",
-      "duration": 90,
-      "latitude": 23.1176,
-      "longitude": 113.3197,
-      "openTime": "09:00",
-      "closeTime": "21:00",
-      "images": [
-        "images/places/guangzhouLibrary-1.svg",
-        "images/places/guangzhouLibrary-2.svg",
-        "images/places/guangzhouLibrary-3.svg"
-      ],
-      "hours": "요일·구역별 운영시간 상이 · 방문 전 확인",
-      "price": "무료",
-      "bestTime": "오후",
-      "priority": 6,
-      "tags": [
-        "실내",
-        "건축",
-        "휴식",
-        "비오는날"
-      ],
-      "tips": "관광객 출입 가능 구역과 휴관일을 방문 전에 확인하세요.",
-      "note": "독특한 외관과 넓은 내부 공간으로 유명한 주장신청의 현대 도서관입니다.",
-      "nearbyPlaces": [
-        "guangdongMuseum",
-        "guangzhouOperaHouse",
-        "huachengSquare"
-      ],
-      "nearbyRestaurants": [
-        "cafeZhujiang",
-        "cantoneseZhujiang"
-      ]
-    },
+    
     "baiyunMountain": {
       "id": "baiyunMountain",
       "name": "백운산",
