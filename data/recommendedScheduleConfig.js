@@ -67,78 +67,74 @@ const RECOMMENDED_SCHEDULE_CONFIG = {
     ]
   },
 
-  // 추천일정 #2: 결혼식 당일 (11월 14일, 토)
   day2: {
     label: "추천일정 #2",
     date: "",
-    title: "Wedding Day",
-    description: "결혼식 당일 (15:30 ~ 18:30)",
-    items: [
-      // {
-      //   type: "wedding",
-      //   time: "15:30",
-      //   duration: 180,
-      //   title: "W Guangzhou 결혼식",
-      //   detail: "결혼식이 진행되는 시간입니다.",
-      //   tag: "Wedding"
-      // },
-      {
-        type: "place",
-        id: "cantoneseZhujiang",
-        time: "19:30"
-      }
-    ]
-  },
-
-  // 추천일정 #3: 일정 3 (11월 15일, 일)
-  day3: {
-    label: "추천일정 #3",
-    date: "",
-    title: "광저우 여행",
-    description: "웨슈(越秀) 지역 중심 관광",
+    title: "추천 일정 #2",
+    description: "광저우 역사와 감성거리, 쇼핑을 함께 즐기는 코스",
     items: [
       {
         type: "place",
-        id: "k11",
-        time: "10:30"
+        id: "chenClanAcademy",
+        time: "09:30"
       },
       {
         type: "place",
-        id: "haixinBridge",
+        id: "dongshankou",
         time: "13:00"
       },
       {
         type: "place",
-        id: "beijingRoadFood",
-        time: "15:00"
+        id: "sacredHeartCathedral",
+        time: "15:30"
+      },
+      {
+        type: "place",
+        id: "wanlingPlaza",
+        time: "16:20"
+      },
+      {
+        type: "place",
+        id: "beijingRoad",
+        time: "17:30"
+      },
+      {
+        type: "place",
+        id: "dafoTemple",
+        time: "20:20"
       }
     ]
   },
+  day3: {
+  label: "추천일정 #3",
+  date: "",
+  title: "추천 일정 #3 (창롱 투어)",
+  description: "사파리, 놀이공원, 워터파크(여름), 국제서커스를 즐기는 창롱 리조트 코스",
+  items: [
+    {
+      type: "place",
+      id: "chimelongSafariPark",
+      time: "09:30"
+    },
+    {
+      type: "place",
+      id: "chimelongParadise",
+      time: "10:00"
+    },
+    {
+      type: "place",
+      id: "chimelongWaterPark",
+      time: "10:00"
+    },
+    {
+      type: "place",
+      id: "chimelongInternationalCircus",
+      time: "19:30"
+    }
+  ]
+},
 
-  // 추천일정 #4: 출국일 (11월 16일, 월)
-  day4: {
-    label: "추천일정 #4",
-    date: "",
-    title: "귀국하는 날",
-    description: "주장신청 야경 감상 후 출국",
-    items: [
-      {
-        type: "place",
-        id: "partyPier",
-        time: "17:00"
-      },
-      {
-        type: "transport",
-        time: "21:30",
-        duration: 60,
-        title: "광저우 출발",
-        detail: "호텔 체크아웃 후 공항으로 이동합니다.",
-        tag: "출발",
-        from: "호텔",
-        to: "공항"
-      }
-    ]
-  }
+
 };
 
 /**

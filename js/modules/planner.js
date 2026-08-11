@@ -813,7 +813,7 @@ function createScheduleDayTabs(schedule) {
             data-day-tab="${dayIndex}"
             aria-selected="${dayIndex === activeScheduleDayIndex ? "true" : "false"}"
           >
-            추천일정 #${day.index + 1}${day.index === 1 ? " (결혼식 당일)" : ""}
+            추천일정 #${day.index + 1}${day.index === 1 ? "" : ""}
           </button>
         `)
         .join("")}
@@ -957,7 +957,7 @@ function createExcludedItemsSection(items) {
 
 function createScheduleCard(day, dayIndex, isActive) {
   const totalDuration = calculateDayDuration(day.items);
-  const planLabel = `추천일정 #${day.index + 1}${day.index === 1 ? " (결혼식 당일)" : ""}`;
+  const planLabel = `추천일정 #${day.index + 1}${day.index === 1 ? "" : ""}`;
 
   return `
     <article

@@ -162,7 +162,7 @@
         "현지맛집",
         "광저우필수"
       ]
-    },    
+    },
     "shamian": {
       "id": "shamian",
       "name": "샤미안",
@@ -279,7 +279,6 @@
         "guangzhouLibrary"
       ]
     },
-
     "guangzhouOperaHouse": {
       "id": "guangzhouOperaHouse",
       "name": "광저우 오페라하우스",
@@ -417,7 +416,7 @@
       "priority": 1,
       "images": [
         "images/places/shengyunlaiWonton_1.jpg",
-        "images/places/shengyunlaiWonton_2.jpg"      
+        "images/places/shengyunlaiWonton_2.jpg"
       ],
       "hours": "10:00 ~ 22:00",
       "price": "1인 약 40~70위안",
@@ -816,79 +815,378 @@
         "파티피어"
       ]
     },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    "chenClan": {
-      "id": "chenClan",
-      "name": "천가사",
+    "chenClanAcademy": {
+      "id": "chenClanAcademy",
+      "name": "진가사",
       "chineseName": "陈家祠",
       "addressZh": "广东省广州市荔湾区中山七路恩龙里34号",
-      "category": "문화유산",
+      "category": "박물관",
       "district": "liwan",
-      "duration": 90,
-      "latitude": 23.1295,
-      "longitude": 113.2465,
+      "duration": 120,
+      "latitude": 23.12544,
+      "longitude": 113.24488,
       "openTime": "09:00",
       "closeTime": "17:30",
       "recommendedTime": [
         "morning",
         "afternoon"
       ],
-      "priority": 8,
+      "priority": 1,
       "images": [
-        "images/places/chenClan-1.svg",
-        "images/places/chenClan-2.svg",
-        "images/places/chenClan-3.svg"
+        "images/places/chenClanAcademy_1.jpg",
+        "images/places/chenClanAcademy_2.jpg",
+        "images/places/chenClanAcademy_3.jpg"
       ],
       "tags": [
-        "건축",
-        "역사"
+        "광저우필수",
+        "문화유산",
+        "링난건축",
+        "전통건축",
+        "박물관",
+        "포토존",
+        "역사",
+        "광둥문화"
       ],
-      "hours": "운영시간 방문 전 재확인",
-      "price": "입장권 정보 방문 전 재확인",
-      "bestTime": "오전",
-      "tips": "마감 1시간 전에는 입장하는 것을 권장합니다.",
-      "note": "정교한 전통 장식과 건축을 볼 수 있는 광저우 대표 문화유산입니다.",
+      "hours": "09:00 ~ 17:30 (입장마감 17:00)",
+      "price": "성인 10위안",
+      "bestTime": "09:30 ~ 11:00",
+      "tips": "개장 직후 방문하면 단체 관광객이 적어 사진 촬영과 관람하기 좋습니다. 내부 목조·벽돌 조각은 놓치지 말고 감상해 보세요.",
+      "note": "한국으로 치면 수원화성, 한국민속촌, 창덕궁을 합쳐놓은 분위기입니다. 청나라 시대 링난(광둥) 건축을 가장 잘 보존한 곳으로, 광저우를 대표하는 역사·문화 명소입니다.",
       "nearbyRestaurants": [
-        "panxiRestaurant",
-        "guangzhouRestaurantLiwan"
+        "dianduDeChenClan",
+        "xiangqunRestaurant"
+      ]
+    },
+    "dianduDeChenClan": {
+      "id": "dianduDeChenClan",
+      "name": "점도덕 (진가사점)",
+      "chineseName": "点都德(陈家祠店)",
+      "addressZh": "广东省广州市荔湾区龙津西路98号",
+      "category": "딤섬",
+      "district": "liwan",
+      "duration": 75,
+      "mealTypes": [
+        "breakfast",
+        "brunch",
+        "lunch"
+      ],
+      "latitude": 23.1239,
+      "longitude": 113.2428,
+      "openTime": "08:00",
+      "closeTime": "21:30",
+      "priority": 1,
+      "images": [
+        "images/restaurants/dianduDeChenClan_1.jpg",
+        "images/restaurants/dianduDeChenClan_2.jpg",
+        "images/restaurants/dianduDeChenClan_3.jpg"
+      ],
+      "hours": "08:00 ~ 21:30",
+      "price": "1인 약 70~130위안",
+      "bestTime": "10:30 ~ 12:00",
+      "tips": "점심시간(12시 이후)에는 대기 인원이 많아 11시 이전 방문을 추천합니다. 딤섬은 주문 즉시 조리되어 따뜻할 때 먹는 것이 가장 맛있습니다.",
+      "note": "한국으로 치면 '하동관'이나 '명동교자'처럼 현지인과 관광객 모두 찾는 대표 맛집입니다. 광저우 여행에서 딤섬을 처음 맛본다면 가장 추천하는 식당입니다.",
+      "recommendedMenu": [
+        "금사홍미창(金沙红米肠)",
+        "새우 하가우(虾饺皇)",
+        "샤오마이(烧卖)",
+        "차슈바오(叉烧包)",
+        "닭발(豉汁凤爪)"
+      ],
+      "tags": [
+        "광저우필수",
+        "딤섬",
+        "광둥요리",
+        "브런치",
+        "현지맛집",
+        "따종디엔핑추천",
+        "미쉐린가이드"
+      ]
+    },
+    "xiangqunRestaurant": {
+      "id": "xiangqunRestaurant",
+      "name": "향군반점",
+      "chineseName": "向群饭店",
+      "addressZh": "广东省广州市荔湾区龙津东路853-857号",
+      "category": "광둥요리",
+      "district": "liwan",
+      "duration": 75,
+      "mealTypes": [
+        "lunch",
+        "dinner"
+      ],
+      "latitude": 23.121747,
+      "longitude": 113.251518,
+      "openTime": "10:00",
+      "closeTime": "22:00",
+      "priority": 2,
+      "images": [
+        "images/restaurants/xiangqunRestaurant_1.jpg",
+        "images/restaurants/xiangqunRestaurant_2.jpg",
+        "images/restaurants/xiangqunRestaurant_3.jpg"
+      ],
+      "hours": "10:00 ~ 22:00",
+      "price": "1인 약 60~120위안",
+      "bestTime": "11:30 ~ 13:30",
+      "tips": "점심시간에는 현지인 손님이 많아 조금 일찍 방문하는 것을 추천합니다. 여러 명이 방문하면 다양한 광둥식 볶음요리를 맛볼 수 있습니다.",
+      "note": "한국으로 치면 오래된 기사식당과 백년가게를 합쳐놓은 분위기입니다. 화려한 인테리어보다 음식의 맛으로 승부하는 광저우 대표 로컬 광둥요리 맛집입니다.",
+      "recommendedMenu": [
+        "葱油淋鸡 (파기름 닭)",
+        "豉油皇鹅肠 (간장 볶음 거위창자)",
+        "猪油渣生炒菜心 (광둥식 차이신 볶음)",
+        "黑豚叉烧 (차슈)"
+      ],
+      "tags": [
+        "광둥요리",
+        "현지맛집",
+        "노포",
+        "광저우맛집",
+        "따종디엔핑추천",
+        "가성비",
+        "점심추천"
+      ]
+    },
+    "dongshankou": {
+      "id": "dongshankou",
+      "name": "동산구",
+      "chineseName": "东山口",
+      "addressZh": "广东省广州市越秀区东山口",
+      "category": "감성거리",
+      "district": "yuexiu",
+      "duration": 180,
+      "latitude": 23.1267,
+      "longitude": 113.2930,
+      "openTime": "00:00",
+      "closeTime": "24:00",
+      "recommendedTime": [
+        "afternoon",
+        "evening"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/dongshankou_1.jpg",
+        "images/places/dongshankou_2.jpg",
+        "images/places/dongshankou_3.jpg"
+      ],
+      "tags": [
+        "왕홍명소",
+        "SNS핫플",
+        "카페거리",
+        "시티워크",
+        "감성골목",
+        "편집샵",
+        "포토존",
+        "데이트"
+      ],
+      "hours": "24시간",
+      "price": "무료",
+      "bestTime": "14:00 ~ 17:30",
+      "tips": "카페와 편집샵은 대부분 오전보다 오후부터 활기가 넘칩니다. 14시 이후 방문하면 쇼핑과 카페를 함께 즐기기 좋으며, 주말은 사람이 많아 평일 방문을 추천합니다.",
+      "note": "한국으로 치면 성수동과 연남동을 합쳐놓은 분위기입니다. 오래된 서양식 저택과 감성 카페, 편집샵, 독립 브랜드가 모여 있어 광저우 젊은 층과 샤오홍슈에서 가장 인기 있는 시티워크 코스입니다.",
+      "nearbyRestaurants": [
+        "lockchuckCoffee",
+        "seedDownDongshankou"
+      ]
+    },
+    "lockchuckCoffee": {
+      "id": "lockchuckCoffee",
+      "name": "LOCKCHUCK COFFEE",
+      "chineseName": "LOCKCHUCK COFFEE",
+      "addressZh": "广东省广州市越秀区犀牛尾村101-6号",
+      "category": "카페",
+      "district": "yuexiu",
+      "duration": 45,
+      "mealTypes": [
+        "coffee",
+        "dessert"
+      ],
+      "latitude": 23.1366,
+      "longitude": 113.2928,
+      "openTime": "08:00",
+      "closeTime": "22:00",
+      "priority": 1,
+      "images": [
+        "images/restaurants/lockchuckCoffee_1.jpg",
+        "images/restaurants/lockchuckCoffee_2.jpg",
+        "images/restaurants/lockchuckCoffee_3.jpg"
+      ],
+      "hours": "08:00 ~ 22:00",
+      "price": "1인 약 50~100위안",
+      "bestTime": "14:00 ~ 17:00",
+      "tips": "리코타 팬케이크와 플랫화이트가 가장 인기 있습니다. 주말 오후에는 대기가 있을 수 있습니다.",
+      "note": "한국으로 치면 성수동의 감성 로스터리 카페입니다. 커피 맛뿐 아니라 브런치와 디저트로도 유명하며, 광저우 현지인과 외국인 모두 많이 찾는 인기 카페입니다.",
+      "recommendedMenu": [
+        "Flat White",
+        "Ricotta Pancake",
+        "Dirty Coffee",
+        "Hand Drip"
+      ],
+      "tags": [
+        "카페",
+        "스페셜티커피",
+        "왕홍카페",
+        "브런치",
+        "SNS핫플",
+        "디저트",
+        "시티워크"
+      ]
+    },
+    "seedDownDongshankou": {
+      "id": "seedDownDongshankou",
+      "name": "SEED DOWN Cafe",
+      "chineseName": "适档咖啡(东山口店)",
+      "addressZh": "广东省广州市越秀区庙前西街24号之一",
+      "category": "카페",
+      "district": "yuexiu",
+      "duration": 45,
+      "mealTypes": [
+        "coffee",
+        "dessert"
+      ],
+      "latitude": 23.1269,
+      "longitude": 113.2937,
+      "openTime": "08:30",
+      "closeTime": "21:00",
+      "priority": 1,
+      "images": [
+        "images/restaurants/seedDownDongshankou_1.jpg",
+        "images/restaurants/seedDownDongshankou_2.jpg",
+        "images/restaurants/seedDownDongshankou_3.jpg"
+      ],
+      "hours": "08:30 ~ 21:00",
+      "price": "1인 약 25~40위안",
+      "bestTime": "14:00 ~ 17:00",
+      "tips": "동산구 시티워크 중 잠시 쉬어가기 좋은 카페입니다. 야외 좌석이 인기가 많으며 오후에는 사람이 많아질 수 있습니다.",
+      "note": "한국으로 치면 성수동 골목에 있는 감성 로스터리 카페 같은 분위기입니다. 샤오홍슈와 따종디엔핑에서 자주 소개되는 동산구 대표 카페로, 감성 골목과 자연스럽게 이어지는 시티워크 코스에 잘 어울립니다.",
+      "recommendedMenu": [
+        "Blended Double Iced Latte",
+        "Flat White",
+        "Hand Drip Coffee",
+        "Basque Cheesecake"
+      ],
+      "tags": [
+        "카페",
+        "스페셜티커피",
+        "왕홍카페",
+        "SNS핫플",
+        "디저트",
+        "시티워크",
+        "동산구"
+      ]
+    },
+    "sacredHeartCathedral": {
+      "id": "sacredHeartCathedral",
+      "name": "성심석실성당",
+      "chineseName": "石室圣心大教堂",
+      "addressZh": "广东省广州市越秀区一德路56号",
+      "category": "성당",
+      "district": "yuexiu",
+      "duration": 60,
+      "latitude": 23.114722,
+      "longitude": 113.257500,
+      "openTime": "09:00",
+      "closeTime": "17:30",
+      "recommendedTime": [
+        "afternoon"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/sacredHeartCathedral_1.jpg",
+        "images/places/sacredHeartCathedral_2.jpg",
+        "images/places/sacredHeartCathedral_3.jpg"
+      ],
+      "tags": [
+        "광저우필수",
+        "고딕건축",
+        "포토존",
+        "문화유산",
+        "역사명소",
+        "SNS핫플",
+        "무료관광"
+      ],
+      "hours": "09:00 ~ 17:30",
+      "price": "무료",
+      "bestTime": "15:00 ~ 16:30",
+      "tips": "스테인드글라스에 햇빛이 비치는 오후 시간대가 가장 아름답습니다. 미사 시간에는 내부 촬영과 이동이 제한될 수 있으므로 방문 전 시간을 확인하는 것을 추천합니다.",
+      "note": "한국으로 치면 명동성당 같은 상징적인 성당입니다. 프랑스 고딕 양식으로 지어진 중국 최대 규모의 가톨릭 성당 중 하나이며, 화강암만으로 지어진 세계적으로도 드문 성당입니다.",
+      "nearbyPlaces": [
+        "yideRoad"
+      ]
+    },
+    "yideRoad": {
+      "id": "yideRoad",
+      "name": "이더루",
+      "chineseName": "一德路",
+      "addressZh": "广东省广州市越秀区一德路",
+      "category": "쇼핑거리",
+      "district": "yuexiu",
+      "duration": 45,
+      "latitude": 23.114950,
+      "longitude": 113.258050,
+      "openTime": "00:00",
+      "closeTime": "24:00",
+      "recommendedTime": [
+        "afternoon"
+      ],
+      "priority": 2,
+      "images": [
+        "images/places/yideRoad_1.jpg",
+        "images/places/yideRoad_2.jpg",
+        "images/places/yideRoad_3.jpg"
+      ],
+      "tags": [
+        "쇼핑거리",
+        "도매시장",
+        "크리스마스용품",
+        "파티용품",
+        "베이킹",
+        "현지시장",
+        "시티워크"
+      ],
+      "hours": "24시간 (상점별 운영시간 상이)",
+      "price": "무료",
+      "bestTime": "15:00 ~ 17:00",
+      "tips": "크리스마스 장식, 파티용품, 베이킹 재료 등을 저렴하게 구매할 수 있습니다. 대부분의 상점은 09:00~18:00 사이에 영업하므로 늦은 저녁 방문은 추천하지 않습니다.",
+      "note": "한국으로 치면 남대문시장과 방산시장을 합쳐놓은 분위기입니다. 광저우 최대 규모의 파티용품·베이킹 재료·장식품 도매거리로, 현지인과 소매상들이 많이 찾는 쇼핑 명소입니다.",
+      "nearbyPlaces": []
+    },
+    "wanlingPlaza": {
+      "id": "wanlingPlaza",
+      "name": "완링광장",
+      "chineseName": "万菱广场",
+      "addressZh": "广东省广州市越秀区解放南路39号",
+      "category": "쇼핑몰",
+      "district": "yuexiu",
+      "duration": 90,
+      "latitude": 23.116950,
+      "longitude": 113.258470,
+      "openTime": "09:00",
+      "closeTime": "20:00",
+      "recommendedTime": [
+        "afternoon"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/wanlingPlaza_1.jpg",
+        "images/places/wanlingPlaza_2.jpg",
+        "images/places/wanlingPlaza_3.jpg"
+      ],
+      "tags": [
+        "광저우필수",
+        "쇼핑",
+        "피규어",
+        "캐릭터굿즈",
+        "장난감",
+        "기념품",
+        "도매시장",
+        "쇼핑천국"
+      ],
+      "hours": "09:00 ~ 20:00",
+      "price": "무료",
+      "bestTime": "16:00 ~ 17:30",
+      "tips": "1~4층은 장난감·피규어·캐릭터 굿즈가 가장 유명합니다. 흥정이 가능한 매장도 있으며, 여러 개를 함께 구매하면 더 좋은 가격을 받을 수 있습니다.",
+      "note": "한국으로 치면 남대문시장 완구거리와 용산 아이파크몰(건담베이스), 홍대 캐릭터샵을 합쳐놓은 분위기입니다. 피규어, 팝마트 스타일 굿즈, 레고, 애니메이션 캐릭터 상품을 한곳에서 구경할 수 있는 광저우 대표 쇼핑 명소입니다.",
+      "nearbyPlaces": [
+        "yideRoad"
       ]
     },
     "beijingRoad": {
@@ -896,66 +1194,786 @@
       "name": "베이징루",
       "chineseName": "北京路步行街",
       "addressZh": "广东省广州市越秀区北京路",
-      "category": "쇼핑",
+      "category": "보행자거리",
       "district": "yuexiu",
-      "duration": 150,
-      "latitude": 23.1257,
-      "longitude": 113.2708,
-      "openTime": "10:00",
-      "closeTime": "23:00",
+      "duration": 180,
+      "latitude": 23.125758,
+      "longitude": 113.264385,
+      "openTime": "00:00",
+      "closeTime": "24:00",
       "recommendedTime": [
         "afternoon",
         "evening"
       ],
-      "priority": 9,
+      "priority": 1,
       "images": [
-        "images/places/beijingRoad-1.svg",
-        "images/places/beijingRoad-2.svg",
-        "images/places/beijingRoad-3.svg"
+        "images/places/beijingRoad_1.jpg",
+        "images/places/beijingRoad_2.jpg",
+        "images/places/beijingRoad_3.jpg"
       ],
       "tags": [
+        "광저우필수",
+        "왕홍명소",
         "쇼핑",
-        "도심",
-        "야식"
+        "먹거리",
+        "야경",
+        "시티워크",
+        "보행자거리",
+        "SNS핫플"
       ],
-      "hours": "상점별 영업시간 상이",
-      "price": "거리 입장 무료",
-      "bestTime": "오후~저녁",
-      "tips": "저녁 식사와 쇼핑을 한 번에 묶기 좋습니다.",
-      "note": "쇼핑과 길거리 음식, 도심 산책을 함께 즐길 수 있습니다."
+      "hours": "24시간 (상점별 운영시간 상이)",
+      "price": "무료",
+      "bestTime": "17:00 ~ 21:00",
+      "tips": "해가 질 무렵 방문하면 쇼핑과 저녁 식사, 야경을 한 번에 즐길 수 있습니다. 유리바닥 아래에 보존된 천년 고도 유적도 꼭 둘러보세요.",
+      "note": "한국으로 치면 명동과 성수동, 인사동을 합쳐놓은 분위기입니다. 쇼핑, 맛집, 길거리 음식, 천년 유적이 함께 있는 광저우 대표 번화가로 처음 방문한다면 반드시 들러야 하는 관광지입니다.",
+      "nearbyPlaces": [
+        "millenniumRoadSite",
+        "dafoTemple"
+      ],
+      "nearbyRestaurants": [
+        "tigerPrawn",
+        "dagefan",
+        "chaofaBeijingRoad",
+        "tanyuBeijingRoad"
+      ]
     },
-    "sacredHeart": {
-      "id": "sacredHeart",
-      "name": "성심대성당",
-      "chineseName": "石室圣心大教堂",
-      "addressZh": "广东省广州市越秀区一德路旧部前56号",
-      "category": "건축",
+    "tigerPrawn": {
+      "id": "tigerPrawn",
+      "name": "Tiger Prawn",
+      "chineseName": "大头虾越式风味餐厅",
+      "addressZh": "广东省广州市越秀区惠福东路548号",
+      "category": "베트남요리",
+      "district": "yuexiu",
+      "duration": 90,
+      "mealTypes": [
+        "lunch",
+        "dinner"
+      ],
+      "latitude": 23.12193,
+      "longitude": 113.26678,
+      "openTime": "11:00",
+      "closeTime": "23:00",
+      "priority": 1,
+      "images": [
+        "images/restaurants/tigerPrawn_1.jpg",
+        "images/restaurants/tigerPrawn_2.jpg",
+        "images/restaurants/tigerPrawn_3.jpg"
+      ],
+      "hours": "11:00 ~ 23:00",
+      "price": "1인 약 80~150위안",
+      "bestTime": "17:30 ~ 20:00",
+      "tips": "저녁 시간에는 웨이팅이 자주 발생합니다. 17시 30분 이전 방문하거나 예약을 추천합니다.",
+      "note": "한국으로 치면 을지로의 유명 베트남 음식점 '효뜨' 같은 분위기입니다. 광저우에서 가장 유명한 베트남 레스토랑 중 하나로, 현지인과 관광객 모두에게 꾸준히 사랑받는 맛집입니다.",
+      "recommendedMenu": [
+        "똠얌꿍",
+        "새우 스프링롤",
+        "베트남 쌀국수(Pho)",
+        "베트남 카레",
+        "코코넛 새우"
+      ],
+      "tags": [
+        "베트남요리",
+        "광저우맛집",
+        "베이징루맛집",
+        "따종디엔핑추천",
+        "현지인추천",
+        "SNS핫플"
+      ]
+    },
+    "dagefan": {
+      "id": "dagefan",
+      "name": "다거판",
+      "chineseName": "大鸽饭(北京路店)",
+      "addressZh": "广东省广州市越秀区西湖路68号润湖商务楼201、301室",
+      "category": "광둥요리",
+      "district": "yuexiu",
+      "duration": 90,
+      "mealTypes": [
+        "lunch",
+        "dinner"
+      ],
+      "latitude": 23.123237,
+      "longitude": 113.266956,
+      "openTime": "11:00",
+      "closeTime": "21:30",
+      "priority": 1,
+      "images": [
+        "images/restaurants/dagefan_1.jpg",
+        "images/restaurants/dagefan_2.jpg",
+        "images/restaurants/dagefan_3.jpg"
+      ],
+      "hours": "11:00 ~ 21:30",
+      "price": "1인 약 90~120위안",
+      "bestTime": "17:30 ~ 20:00",
+      "tips": "대표 메뉴인 유비둘기(乳鸽)는 하루 판매량이 많아 저녁 늦게 방문하면 품절될 수 있습니다. 저녁 시간에는 대기 인원이 많아 17시 30분 이전 방문을 추천합니다.",
+      "note": "한국으로 치면 을지로의 노포 맛집 같은 분위기입니다. 광저우를 대표하는 비둘기 요리 전문점으로, 현지인과 관광객 모두에게 인기가 높은 광둥 로컬 맛집입니다.",
+      "recommendedMenu": [
+        "전통 소금구이 유비둘기(经典盐焗乳鸽)",
+        "바삭한 홍소 유비둘기(传统生炸红烧鸽)",
+        "대거판 솥밥(大鸽饭)",
+        "비둘기탕(鸽汤)",
+        "차이신 볶음(菜心炒鸽杂)"
+      ],
+      "tags": [
+        "광둥요리",
+        "광저우맛집",
+        "베이징루맛집",
+        "비둘기요리",
+        "현지맛집",
+        "따종디엔핑추천",
+        "노포"
+      ]
+    },
+    "chaofaBeijingRoad": {
+      "id": "chaofaBeijingRoad",
+      "name": "CHAOFA",
+      "chineseName": "潮发潮汕牛肉店(北京路店)",
+      "addressZh": "广东省广州市越秀区珠光路201-203号",
+      "category": "훠궈",
+      "district": "yuexiu",
+      "duration": 90,
+      "mealTypes": [
+        "lunch",
+        "dinner"
+      ],
+      "latitude": 23.117546,
+      "longitude": 113.270561,
+      "openTime": "11:30",
+      "closeTime": "03:30",
+      "priority": 1,
+      "images": [
+        "images/restaurants/chaofaBeijingRoad_1.jpg",
+        "images/restaurants/chaofaBeijingRoad_2.jpg",
+        "images/restaurants/chaofaBeijingRoad_3.jpg"
+      ],
+      "hours": "11:30 ~ 14:00 / 17:30 ~ 03:30",
+      "price": "1인 약 90~120위안",
+      "bestTime": "18:00 ~ 21:00",
+      "tips": "신선한 소고기를 부위별로 주문하는 것이 가장 인기 있습니다. 대표 메뉴인 '吊龙肉'과 '鲜牛丸'은 꼭 주문해 보세요.",
+      "note": "한국으로 치면 하남돼지집이나 정육식당처럼 신선한 재료를 맛으로 승부하는 곳입니다. 광저우를 대표하는 차오산식 소고기 훠궈 체인으로, 현지인들이 즐겨 찾는 인기 맛집입니다.",
+      "recommendedMenu": [
+        "吊龙肉 (최상급 등심)",
+        "鲜牛丸 (수제 소고기 완자)",
+        "匙柄肉",
+        "三花趾",
+        "沙茶酱"
+      ],
+      "tags": [
+        "차오산훠궈",
+        "소고기훠궈",
+        "광저우맛집",
+        "베이징루맛집",
+        "현지맛집",
+        "따종디엔핑추천",
+        "야식"
+      ]
+    },
+    "tanyuBeijingRoad": {
+      "id": "tanyuBeijingRoad",
+      "name": "TANYU",
+      "chineseName": "探鱼(北京路店)",
+      "addressZh": "广东省广州市越秀区北京路168号仰忠汇6楼B606、B608号",
+      "category": "카오위",
+      "district": "yuexiu",
+      "duration": 90,
+      "mealTypes": [
+        "lunch",
+        "dinner"
+      ],
+      "latitude": 23.1249,
+      "longitude": 113.2678,
+      "openTime": "11:00",
+      "closeTime": "22:00",
+      "priority": 1,
+      "images": [
+        "images/restaurants/tanyuBeijingRoad_1.jpg",
+        "images/restaurants/tanyuBeijingRoad_2.jpg",
+        "images/restaurants/tanyuBeijingRoad_3.jpg"
+      ],
+      "hours": "11:00 ~ 22:00",
+      "price": "1인 약 90~140위안",
+      "bestTime": "18:00 ~ 20:30",
+      "tips": "대표 메뉴는 '鲜青椒爽麻烤鱼(생청고추 마라 카오위)'입니다. 매운맛 단계를 선택할 수 있으며, 셀프 아이스펀(冰粉)과 다양한 토핑이 인기입니다.",
+      "note": "한국으로 치면 마라탕과 생선구이를 함께 즐기는 전문점 같은 느낌입니다. 중국에서 가장 유명한 카오위 브랜드 중 하나로, 한국인들도 부담 없이 즐길 수 있는 대표 체인입니다.",
+      "recommendedMenu": [
+        "鲜青椒爽麻烤鱼 (생청고추 마라 카오위)",
+        "酱香烤鱼 (간장풍 카오위)",
+        "重庆豆花烤鱼 (충칭 두부 카오위)",
+        "手工鸳鸯糍粑 (수제 찹쌀떡)",
+        "冰粉 (아이스펀)"
+      ],
+      "tags": [
+        "카오위",
+        "생선요리",
+        "베이징루맛집",
+        "광저우맛집",
+        "현지맛집",
+        "따종디엔핑추천",
+        "체인맛집"
+      ]
+    },
+    "dafoTemple": {
+      "id": "dafoTemple",
+      "name": "대불사",
+      "chineseName": "大佛寺",
+      "addressZh": "广东省广州市越秀区惠福东路惠新中街21号",
+      "category": "사찰",
       "district": "yuexiu",
       "duration": 60,
-      "latitude": 23.1141,
-      "longitude": 113.2607,
-      "openTime": "08:30",
-      "closeTime": "17:30",
+      "latitude": 23.12295,
+      "longitude": 113.26685,
+      "openTime": "08:00",
+      "closeTime": "21:30",
+      "recommendedTime": [
+        "evening"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/dafoTemple_1.jpg",
+        "images/places/dafoTemple_2.jpg",
+        "images/places/dafoTemple_3.jpg"
+      ],
+      "tags": [
+        "광저우필수",
+        "야경",
+        "사찰",
+        "문화유산",
+        "포토존",
+        "무료관광",
+        "베이징루"
+      ],
+      "hours": "08:00 ~ 21:30",
+      "price": "무료",
+      "bestTime": "19:00 ~ 21:00",
+      "tips": "해가 진 뒤 조명이 켜지는 시간에 방문하는 것을 추천합니다. 베이징루에서 도보 5분 거리라 저녁 식사 후 들르기 좋으며, 입구에서 무료 향을 받을 수 있습니다.",
+      "note": "한국으로 치면 조계사의 도심 접근성과 봉은사의 야경 분위기를 합쳐놓은 느낌입니다. 천 년이 넘는 역사를 가진 광저우 대표 사찰로, 밤이 되면 황금빛 조명 덕분에 '센과 치히로'를 떠올리게 하는 명소로 유명합니다.",
+      "nearbyPlaces": [
+        "beijingRoad"
+      ]
+    },
+    "chimelongSafariPark": {
+      "id": "chimelongSafariPark",
+      "name": "창롱 사파리",
+      "chineseName": "长隆野生动物世界",
+      "addressZh": "广东省广州市番禺区汉溪大道东299号",
+      "category": "테마파크",
+      "district": "panyu",
+      "duration": 480,
+      "latitude": 22.9975,
+      "longitude": 113.3278,
+      "openTime": "09:00",
+      "closeTime": "18:30",
       "recommendedTime": [
         "morning",
         "afternoon"
       ],
-      "priority": 7,
+      "priority": 1,
       "images": [
-        "images/places/sacredHeart-1.svg",
-        "images/places/sacredHeart-2.svg",
-        "images/places/sacredHeart-3.svg"
+        "images/places/chimelongSafariPark_1.jpg",
+        "images/places/chimelongSafariPark_2.jpg",
+        "images/places/chimelongSafariPark_3.jpg"
       ],
       "tags": [
-        "건축",
-        "사진"
+        "광저우필수",
+        "가족여행",
+        "아이와함께",
+        "사파리",
+        "동물원",
+        "판다",
+        "테마파크",
+        "창롱"
       ],
-      "hours": "미사·행사에 따라 관람시간 변동",
-      "price": "무료",
-      "bestTime": "오전",
-      "tips": "예배 시간에는 내부 관람이 제한될 수 있습니다.",
-      "note": "광저우를 대표하는 고딕 양식 성당입니다."
+      "hours": "09:00 ~ 18:30",
+      "price": "성인 300~350위안",
+      "bestTime": "09:00 ~ 17:30",
+      "tips": "입장 후 사파리 열차를 먼저 이용한 뒤 케이블카와 판다관을 둘러보는 동선을 추천합니다. 하루 종일 둘러봐도 부족할 정도로 규모가 매우 큽니다.",
+      "note": "한국으로 치면 에버랜드 사파리와 서울대공원을 합쳐놓은 규모입니다. 500종 이상, 2만 마리 이상의 동물이 서식하는 아시아 최대 규모의 사파리 테마파크로 광저우를 대표하는 가족 여행 명소입니다.",
+      "nearbyPlaces": [
+        "safariTrain",
+        "skyCableCar",
+        "pandaParadise",
+        "koalaGarden"
+      ]
     },
+    "safariTrain": {
+      "id": "safariTrain",
+      "name": "사파리 열차",
+      "chineseName": "森林列车（小火车）",
+      "category": "사파리 체험",
+      "duration": 40,
+      "priority": 1,
+      "images": [
+        "images/places/safariTrain_1.jpg",
+        "images/places/safariTrain_2.jpg",
+        "images/places/safariTrain_3.jpg"
+      ],
+      "tags": [
+        "창롱필수",
+        "사파리",
+        "기차",
+        "동물체험",
+        "가족여행",
+        "인기코스"
+      ],
+      "hours": "09:30 ~ 16:30",
+      "price": "입장권 포함",
+      "bestTime": "09:30 ~ 11:00",
+      "tips": "입장 후 가장 먼저 이용하는 것을 추천합니다. 오른쪽 좌석이 기린, 얼룩말, 코끼리 등 인기 동물을 보기 좋으며, 중간에 하차는 불가능합니다.",
+      "note": "창롱 사파리의 대표 체험입니다. 약 40분 동안 열차를 타고 아프리카 초원과 아시아 숲 등 여러 방사 구역을 지나며 사자, 호랑이, 기린, 얼룩말, 코뿔소 등을 아주 가까이에서 관찰할 수 있습니다.",
+      "nearbyPlaces": [
+        "skyCableCar",
+        "pandaParadise"
+      ]
+    },
+    "skyCableCar": {
+      "id": "skyCableCar",
+      "name": "공중 케이블카",
+      "chineseName": "空中缆车",
+      "category": "어트랙션",
+      "district": "panyu",
+      "duration": 30,
+      "priority": 1,
+      "images": [
+        "images/places/skyCableCar_1.jpg",
+        "images/places/skyCableCar_2.jpg",
+        "images/places/skyCableCar_3.jpg"
+      ],
+      "tags": [
+        "창롱필수",
+        "공중케이블카",
+        "사파리",
+        "포토존",
+        "가족여행",
+        "인생샷"
+      ],
+      "hours": "09:30 ~ 18:00",
+      "price": "입장권 포함",
+      "bestTime": "10:00 ~ 16:00",
+      "tips": "백조호수 구간이 가장 인기가 많습니다. 줄이 길어질 수 있으니 오전에 이용하는 것을 추천합니다.",
+      "note": "창롱 사파리를 대표하는 인기 체험입니다. 케이블카를 타고 사파리 전체를 내려다보며 기린, 코끼리, 코뿔소, 얼룩말 등을 하늘 위에서 감상할 수 있습니다.",
+      "nearbyPlaces": [
+        "pandaParadise",
+        "koalaGarden"
+      ]
+    },
+    "pandaParadise": {
+      "id": "pandaParadise",
+      "name": "판다 파라다이스",
+      "chineseName": "熊猫乐园",
+      "category": "동물관",
+      "duration": 40,
+      "priority": 1,
+      "images": [
+        "images/places/pandaParadise_1.jpg",
+        "images/places/pandaParadise_2.jpg",
+        "images/places/pandaParadise_3.jpg"
+      ],
+      "tags": [
+        "창롱필수",
+        "판다",
+        "삼둥이판다",
+        "가족여행",
+        "포토존",
+        "인기명소"
+      ],
+      "hours": "09:00 ~ 18:30",
+      "price": "입장권 포함",
+      "bestTime": "09:30 ~ 11:30",
+      "tips": "판다는 오전에 가장 활발하게 활동합니다. 입장 후 사파리 열차를 이용한 뒤 바로 방문하는 것을 추천합니다.",
+      "note": "창롱 사파리의 최고 인기 구역입니다. 세계 유일의 자이언트 판다 삼둥이로 유명하며, 다양한 판다를 가까이에서 관찰할 수 있습니다.",
+      "nearbyPlaces": [
+        "koalaGarden",
+        "skyCableCar"
+      ]
+    },
+    "koalaGarden": {
+      "id": "koalaGarden",
+      "name": "코알라 가든",
+      "chineseName": "考拉园",
+      "category": "동물관",
+      "duration": 30,
+      "priority": 1,
+      "images": [
+        "images/places/koalaGarden_1.jpg",
+        "images/places/koalaGarden_2.jpg",
+        "images/places/koalaGarden_3.jpg"
+      ],
+      "tags": [
+        "창롱필수",
+        "코알라",
+        "호주동물",
+        "가족여행",
+        "포토존"
+      ],
+      "hours": "09:00 ~ 18:30",
+      "price": "입장권 포함",
+      "bestTime": "10:00 ~ 15:00",
+      "tips": "조용히 관람하면 잠자는 코알라뿐 아니라 먹이를 먹는 모습도 볼 수 있습니다.",
+      "note": "호주를 제외하면 세계 최대 규모의 코알라 서식지 중 하나입니다. 60마리 이상의 코알라가 생활하고 있으며, 창롱에서만 볼 수 있는 대표 동물관입니다.",
+      "nearbyPlaces": [
+        "pandaParadise",
+        "skyCableCar"
+      ]
+    },
+    "chimelongParadise": {
+      "id": "chimelongParadise",
+      "name": "창롱 놀이동산",
+      "chineseName": "长隆欢乐世界",
+      "addressZh": "广东省广州市番禺区汉溪大道东299号",
+      "category": "테마파크",
+      "district": "panyu",
+      "duration": 480,
+      "latitude": 22.9949,
+      "longitude": 113.3273,
+      "openTime": "10:00",
+      "closeTime": "18:00",
+      "recommendedTime": [
+        "morning",
+        "afternoon"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/chimelongParadise_1.jpg",
+        "images/places/chimelongParadise_2.jpg",
+        "images/places/chimelongParadise_3.jpg"
+      ],
+      "tags": [
+        "광저우필수",
+        "놀이공원",
+        "롤러코스터",
+        "테마파크",
+        "가족여행",
+        "데이트",
+        "스릴",
+        "창롱"
+      ],
+      "hours": "10:00 ~ 18:00",
+      "price": "성인 약 250~300위안",
+      "bestTime": "10:00 ~ 17:30",
+      "tips": "인기 어트랙션은 오전에 먼저 이용하는 것을 추천합니다. 여름(주로 4~10월)에는 창롱 워터파크도 함께 즐기기 좋으며, 저녁에는 창롱 국제서커스를 관람하면 하루 코스로 알차게 보낼 수 있습니다.",
+      "note": "한국으로 치면 에버랜드와 롯데월드를 합쳐놓은 대형 테마파크입니다. 세계적인 롤러코스터와 다양한 어트랙션을 즐길 수 있으며, 여름에는 바로 옆 창롱 워터파크를 함께 방문하는 것을 추천합니다.",
+      "nearbyPlaces": [
+        "diveCoaster",
+        "tenInversionCoaster",
+        "motorbikeLaunchCoaster",
+        "superPendulum",
+        "chimelongInternationalCircus",
+        "chimelongWaterPark"
+      ]
+    },
+    "chimelongWaterPark": {
+      "id": "chimelongWaterPark",
+      "name": "창롱 워터파크",
+      "chineseName": "长隆水上乐园",
+      "addressZh": "广东省广州市番禺区汉溪大道东299号",
+      "category": "워터파크",
+      "district": "panyu",
+      "duration": 420,
+      "latitude": 22.9971,
+      "longitude": 113.3304,
+      "openTime": "10:00",
+      "closeTime": "21:30",
+      "recommendedTime": [
+        "summer"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/chimelongWaterPark_1.jpg",
+        "images/places/chimelongWaterPark_2.jpg",
+        "images/places/chimelongWaterPark_3.jpg"
+      ],
+      "tags": [
+        "여름추천",
+        "워터파크",
+        "광저우필수",
+        "가족여행",
+        "물놀이",
+        "테마파크",
+        "창롱"
+      ],
+      "hours": "시즌별 운영 (주로 4~10월)",
+      "price": "성인 약 200~280위안",
+      "bestTime": "10:00 ~ 18:00",
+      "tips": "여름 시즌(주로 4~10월)에 운영합니다. 인기 슬라이드는 오전에 먼저 이용하는 것을 추천하며, 방문 전 공식 운영 기간과 영업시간을 확인하세요.",
+      "note": "아시아를 대표하는 워터파크 중 하나입니다. 초대형 슬라이드와 파도풀, 유수풀을 갖추고 있으며 무더운 여름 광저우 여행이라면 가장 추천하는 코스입니다.",
+      "nearbyPlaces": [
+        "pythonWaterSlide",
+        "wavePool",
+        "lazyRiver",
+        "familyWaterPlay",
+        "chimelongParadise",
+        "chimelongInternationalCircus"
+      ]
+    },
+    "diveCoaster": {
+      "id": "diveCoaster",
+      "name": "다이브 코스터",
+      "chineseName": "垂直过山车",
+      "category": "롤러코스터",
+      "duration": 20,
+      "priority": 1,
+      "images": [
+        "images/places/diveCoaster_1.jpg",
+        "images/places/diveCoaster_2.jpg",
+        "images/places/diveCoaster_3.jpg"
+      ],
+      "tags": [
+        "창롱필수",
+        "롤러코스터",
+        "스릴",
+        "인기어트랙션",
+        "포토존"
+      ],
+      "price": "입장권 포함",
+      "bestTime": "10:00 ~ 11:30",
+      "tips": "개장 직후 가장 먼저 탑승하는 것을 추천합니다. 오후에는 대기시간이 크게 늘어납니다.",
+      "note": "창롱 놀이동산을 대표하는 어트랙션입니다. 약 60m 높이에서 수직으로 떨어지는 다이브 코스터로, 세계적인 인기 롤러코스터 중 하나입니다.",
+      "nearbyPlaces": [
+        "tenInversionCoaster",
+        "motorbikeLaunchCoaster",
+        "superPendulum"
+      ]
+    },
+    "tenInversionCoaster": {
+      "id": "tenInversionCoaster",
+      "name": "10회전 롤러코스터",
+      "chineseName": "十环过山车",
+      "category": "롤러코스터",
+      "duration": 20,
+      "priority": 1,
+      "images": [
+        "images/places/tenInversionCoaster_1.jpg",
+        "images/places/tenInversionCoaster_2.jpg",
+        "images/places/tenInversionCoaster_3.jpg"
+      ],
+      "tags": [
+        "창롱필수",
+        "롤러코스터",
+        "10회전",
+        "스릴",
+        "인기어트랙션"
+      ],
+      "price": "입장권 포함",
+      "bestTime": "10:30 ~ 12:00",
+      "tips": "멀미가 있다면 식사 직후 탑승은 피하는 것을 추천합니다.",
+      "note": "한 번의 주행 동안 10번의 회전을 경험할 수 있는 창롱의 대표 롤러코스터입니다. 스릴을 좋아하는 여행객이라면 꼭 타봐야 하는 인기 시설입니다.",
+      "nearbyPlaces": [
+        "diveCoaster",
+        "motorbikeLaunchCoaster",
+        "superPendulum"
+      ]
+    },
+    "diveCoaster": {
+      "id": "diveCoaster",
+      "name": "다이브 코스터",
+      "chineseName": "垂直过山车",
+      "category": "롤러코스터",
+      "duration": 20,
+      "priority": 1,
+      "images": [
+        "images/places/diveCoaster_1.jpg",
+        "images/places/diveCoaster_2.jpg",
+        "images/places/diveCoaster_3.jpg"
+      ],
+      "tags": [
+        "창롱필수",
+        "롤러코스터",
+        "스릴",
+        "인기어트랙션",
+        "포토존"
+      ],
+      "price": "입장권 포함",
+      "bestTime": "10:00 ~ 11:30",
+      "tips": "개장 직후 가장 먼저 탑승하는 것을 추천합니다. 오후에는 대기시간이 크게 늘어납니다.",
+      "note": "창롱 놀이동산을 대표하는 어트랙션입니다. 약 60m 높이에서 수직으로 떨어지는 다이브 코스터로, 세계적인 인기 롤러코스터 중 하나입니다.",
+      "nearbyPlaces": [
+        "tenInversionCoaster",
+        "motorbikeLaunchCoaster",
+        "superPendulum"
+      ]
+    },
+    "tenInversionCoaster": {
+      "id": "tenInversionCoaster",
+      "name": "10회전 롤러코스터",
+      "chineseName": "十环过山车",
+      "category": "롤러코스터",
+      "duration": 20,
+      "priority": 1,
+      "images": [
+        "images/places/tenInversionCoaster_1.jpg",
+        "images/places/tenInversionCoaster_2.jpg",
+        "images/places/tenInversionCoaster_3.jpg"
+      ],
+      "tags": [
+        "창롱필수",
+        "롤러코스터",
+        "10회전",
+        "스릴",
+        "인기어트랙션"
+      ],
+      "price": "입장권 포함",
+      "bestTime": "10:30 ~ 12:00",
+      "tips": "멀미가 있다면 식사 직후 탑승은 피하는 것을 추천합니다.",
+      "note": "한 번의 주행 동안 10번의 회전을 경험할 수 있는 창롱의 대표 롤러코스터입니다. 스릴을 좋아하는 여행객이라면 꼭 타봐야 하는 인기 시설입니다.",
+      "nearbyPlaces": [
+        "diveCoaster",
+        "motorbikeLaunchCoaster",
+        "superPendulum"
+      ]
+    },
+    "motorbikeLaunchCoaster": {
+      "id": "motorbikeLaunchCoaster",
+      "name": "오토바이 런치 코스터",
+      "chineseName": "摩托过山车",
+      "category": "롤러코스터",
+      "duration": 20,
+      "priority": 1,
+      "images": [
+        "images/places/motorbikeLaunchCoaster_1.jpg",
+        "images/places/motorbikeLaunchCoaster_2.jpg",
+        "images/places/motorbikeLaunchCoaster_3.jpg"
+      ],
+      "tags": [
+        "창롱필수",
+        "롤러코스터",
+        "오토바이",
+        "스릴",
+        "인기어트랙션"
+      ],
+      "price": "입장권 포함",
+      "bestTime": "11:00 ~ 14:00",
+      "tips": "실제 오토바이를 타는 자세로 출발하는 코스터입니다. 가방은 보관 후 탑승하는 것을 추천합니다.",
+      "note": "강력한 가속으로 출발하는 런치형 롤러코스터입니다. 오토바이 자세로 탑승하는 독특한 방식 때문에 창롱의 대표 인기 시설로 꼽힙니다.",
+      "nearbyPlaces": [
+        "diveCoaster",
+        "tenInversionCoaster",
+        "superPendulum"
+      ]
+    },
+    "superPendulum": {
+      "id": "superPendulum",
+      "name": "슈퍼 펜듈럼",
+      "chineseName": "超级大摆锤",
+      "category": "스릴 어트랙션",
+      "duration": 15,
+      "priority": 1,
+      "images": [
+        "images/places/superPendulum_1.jpg",
+        "images/places/superPendulum_2.jpg",
+        "images/places/superPendulum_3.jpg"
+      ],
+      "tags": [
+        "창롱필수",
+        "대관람",
+        "스릴",
+        "인기어트랙션",
+        "포토존"
+      ],
+      "price": "입장권 포함",
+      "bestTime": "14:00 ~ 17:00",
+      "tips": "고소공포증이 있다면 탑승 전 주의하세요. 줄이 비교적 빨리 줄어드는 편입니다.",
+      "note": "거대한 추처럼 좌우로 크게 흔들리며 회전하는 창롱의 대표 스릴 어트랙션입니다. 정상에 올랐을 때 놀이공원 전경을 한눈에 볼 수 있습니다.",
+      "nearbyPlaces": [
+        "diveCoaster",
+        "tenInversionCoaster",
+        "motorbikeLaunchCoaster"
+      ]
+    },
+    "chimelongInternationalCircus": {
+      "id": "chimelongInternationalCircus",
+      "name": "창롱 국제서커스",
+      "chineseName": "长隆国际大马戏",
+      "addressZh": "广东省广州市番禺区汉溪大道东299号",
+      "category": "공연",
+      "district": "panyu",
+      "duration": 90,
+      "latitude": 22.9957,
+      "longitude": 113.3286,
+      "openTime": "19:30",
+      "closeTime": "21:00",
+      "recommendedTime": [
+        "evening"
+      ],
+      "priority": 1,
+      "images": [
+        "images/places/chimelongInternationalCircus_1.jpg",
+        "images/places/chimelongInternationalCircus_2.jpg",
+        "images/places/chimelongInternationalCircus_3.jpg"
+      ],
+      "tags": [
+        "광저우필수",
+        "창롱필수",
+        "국제서커스",
+        "공연",
+        "가족여행",
+        "야간추천",
+        "테마파크"
+      ],
+      "hours": "19:30 ~ 21:00 (공연 일정에 따라 변동)",
+      "price": "성인 약 350~450위안",
+      "bestTime": "19:30",
+      "tips": "공연 시작 30~40분 전에 입장하는 것을 추천합니다. 중앙 좌석이 가장 시야가 좋으며 공연 중 촬영 제한이 있을 수 있습니다.",
+      "note": "태양의 서커스(Cirque du Soleil)와 같은 세계적인 공연입니다. 공중곡예, 오토바이 스턴트, 동물 퍼포먼스, 화려한 특수효과가 어우러진 창롱 리조트 최고의 야간 공연입니다.",
+      "nearbyPlaces": [
+        "chimelongSafariPark",
+        "chimelongParadise",
+        "chimelongWaterPark"
+      ]
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     "zhanxiMarket": {
       "id": "zhanxiMarket",
       "name": "잔시루 도매시장",
@@ -985,7 +2003,7 @@
       "bestTime": "오전 09:00~11:00",
       "tips": "한 건물이 아니라 여러 도매시장과 상가가 모인 지역입니다. 위조상품의 구매·반입·판매에는 법적 문제가 생길 수 있으니 정품 여부와 반입 규정을 확인하세요.",
       "note": "광저우역 서쪽의 의류·신발·시계·액세서리 도매시장 밀집 지역입니다."
-    },    
+    },
     "changlong": {
       "id": "changlong",
       "name": "창롱 관광리조트",
@@ -1204,8 +2222,7 @@
       "nearbyRestaurants": [
         "beijingRoadFood"
       ]
-    },    
-    
+    },
     "baiyunMountain": {
       "id": "baiyunMountain",
       "name": "백운산",
@@ -1237,7 +2254,7 @@
       "note": "광저우 시내 전망과 숲길을 즐길 수 있는 대표 자연 명소입니다.",
       "nearbyPlaces": [],
       "nearbyRestaurants": []
-    },    
+    },
     "guangzhouRestaurantLiwan": {
       "id": "guangzhouRestaurantLiwan",
       "name": "광저우주가 본점",
@@ -1281,6 +2298,6 @@
         "shamian",
         "yongqingfang"
       ]
-    }    
+    }
   }
 }
