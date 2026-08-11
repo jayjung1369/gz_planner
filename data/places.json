@@ -774,7 +774,7 @@
         "필수체험"
       ]
     },
-    
+
     "mrRockyPartyPier": {
       "id": "mrRockyPartyPier",
       "name": "MR.ROCKY",
@@ -1704,65 +1704,7 @@
         "chimelongParadise",
         "chimelongInternationalCircus"
       ]
-    },
-    "diveCoaster": {
-      "id": "diveCoaster",
-      "name": "다이브 코스터",
-      "chineseName": "垂直过山车",
-      "category": "롤러코스터",
-      "duration": 20,
-      "priority": 1,
-      "images": [
-        "images/places/diveCoaster_1.jpg",
-        "images/places/diveCoaster_2.jpg",
-        "images/places/diveCoaster_3.jpg"
-      ],
-      "tags": [
-        "창롱필수",
-        "롤러코스터",
-        "스릴",
-        "인기어트랙션",
-        "포토존"
-      ],
-      "price": "입장권 포함",
-      "bestTime": "10:00 ~ 11:30",
-      "tips": "개장 직후 가장 먼저 탑승하는 것을 추천합니다. 오후에는 대기시간이 크게 늘어납니다.",
-      "note": "창롱 놀이동산을 대표하는 어트랙션입니다. 약 60m 높이에서 수직으로 떨어지는 다이브 코스터로, 세계적인 인기 롤러코스터 중 하나입니다.",
-      "nearbyPlaces": [
-        "tenInversionCoaster",
-        "motorbikeLaunchCoaster",
-        "superPendulum"
-      ]
-    },
-    "tenInversionCoaster": {
-      "id": "tenInversionCoaster",
-      "name": "10회전 롤러코스터",
-      "chineseName": "十环过山车",
-      "category": "롤러코스터",
-      "duration": 20,
-      "priority": 1,
-      "images": [
-        "images/places/tenInversionCoaster_1.jpg",
-        "images/places/tenInversionCoaster_2.jpg",
-        "images/places/tenInversionCoaster_3.jpg"
-      ],
-      "tags": [
-        "창롱필수",
-        "롤러코스터",
-        "10회전",
-        "스릴",
-        "인기어트랙션"
-      ],
-      "price": "입장권 포함",
-      "bestTime": "10:30 ~ 12:00",
-      "tips": "멀미가 있다면 식사 직후 탑승은 피하는 것을 추천합니다.",
-      "note": "한 번의 주행 동안 10번의 회전을 경험할 수 있는 창롱의 대표 롤러코스터입니다. 스릴을 좋아하는 여행객이라면 꼭 타봐야 하는 인기 시설입니다.",
-      "nearbyPlaces": [
-        "diveCoaster",
-        "motorbikeLaunchCoaster",
-        "superPendulum"
-      ]
-    },
+    },        
     "diveCoaster": {
       "id": "diveCoaster",
       "name": "다이브 코스터",
@@ -1919,7 +1861,7 @@
         "chimelongParadise",
         "chimelongWaterPark"
       ]
-    }
+    },
 
 
 
