@@ -278,12 +278,6 @@
         "guangzhouOperaHouse",
         "guangzhouLibrary"
       ]
-
-
-
-
-
-
     },
 
     "guangzhouOperaHouse": {
@@ -364,8 +358,6 @@
         "cantoneseZhujiang"
       ]
     },
-
-
     "k11": {
       "id": "k11",
       "name": "K11 아트몰",
@@ -425,8 +417,7 @@
       "priority": 1,
       "images": [
         "images/places/shengyunlaiWonton_1.jpg",
-        "images/places/shengyunlaiWonton_2.jpg",
-        "images/places/shengyunlaiWonton_3.jpg"
+        "images/places/shengyunlaiWonton_2.jpg"      
       ],
       "hours": "10:00 ~ 22:00",
       "price": "1인 약 40~70위안",
@@ -697,8 +688,7 @@
       "priority": 2,
       "images": [
         "images/activities/cantonTowerSkyDrop_1.jpg",
-        "images/activities/cantonTowerSkyDrop_2.jpg",
-        "images/activities/cantonTowerSkyDrop_3.jpg"
+        "images/activities/cantonTowerSkyDrop_2.jpg"
       ],
       "hours": "10:00 ~ 22:00",
       "price": "별도 티켓",
@@ -765,9 +755,8 @@
       "closeTime": "22:30",
       "priority": 1,
       "images": [
-        "images/activities/haizhuTram_1.jpg",
-        "images/activities/haizhuTram_2.jpg",
-        "images/activities/haizhuTram_3.jpg"
+        "images/places/haizhuTram_1.jpg",
+        "images/places/haizhuTram_2.jpg"
       ],
       "hours": "07:30 ~ 22:30",
       "price": "2위안",
