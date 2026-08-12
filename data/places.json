@@ -562,9 +562,9 @@
       "closeTime": "22:00",
       "priority": 1,
       "images": [
-        "images/activities/zhujiangCruise_1.jpg",
-        "images/activities/zhujiangCruise_2.jpg",
-        "images/activities/zhujiangCruise_3.jpg"
+        "images/places/zhujiangCruise_1.jpg",
+        "images/places/zhujiangCruise_2.jpg",
+        "images/places/zhujiangCruise_3.jpg"
       ],
       "hours": "18:30 ~ 22:00",
       "price": "성인 약 108~168위안",
@@ -633,9 +633,9 @@
       "closeTime": "22:30",
       "priority": 1,
       "images": [
-        "images/activities/cantonTowerObservationDeck_1.jpg",
-        "images/activities/cantonTowerObservationDeck_2.jpg",
-        "images/activities/cantonTowerObservationDeck_3.jpg"
+        "images/places/cantonTowerObservationDeck_1.jpg",
+        "images/places/cantonTowerObservationDeck_2.jpg",
+        "images/places/cantonTowerObservationDeck_3.jpg"
       ],
       "hours": "09:30 ~ 22:30",
       "price": "약 150~200위안",
@@ -660,9 +660,9 @@
       "closeTime": "22:00",
       "priority": 1,
       "images": [
-        "images/activities/cantonTowerBubbleTram_1.jpg",
-        "images/activities/cantonTowerBubbleTram_2.jpg",
-        "images/activities/cantonTowerBubbleTram_3.jpg"
+        "images/places/cantonTowerBubbleTram_1.jpg",
+        "images/places/cantonTowerBubbleTram_2.jpg",
+        "images/places/cantonTowerBubbleTram_3.jpg"
       ],
       "hours": "10:00 ~ 22:00",
       "price": "전망대 티켓 포함 또는 별도",
@@ -688,8 +688,8 @@
       "closeTime": "22:00",
       "priority": 2,
       "images": [
-        "images/activities/cantonTowerSkyDrop_1.jpg",
-        "images/activities/cantonTowerSkyDrop_2.jpg"
+        "images/places/cantonTowerSkyDrop_1.jpg",
+        "images/places/cantonTowerSkyDrop_2.jpg"
       ],
       "hours": "10:00 ~ 22:00",
       "price": "별도 티켓",
