@@ -876,9 +876,9 @@
       "closeTime": "21:30",
       "priority": 1,
       "images": [
-        "images/restaurants/dianduDeChenClan_1.jpg",
-        "images/restaurants/dianduDeChenClan_2.jpg",
-        "images/restaurants/dianduDeChenClan_3.jpg"
+        "images/places/dianduDeChenClan_1.jpg",
+        "images/places/dianduDeChenClan_2.jpg",
+        "images/places/dianduDeChenClan_3.jpg"
       ],
       "hours": "08:00 ~ 21:30",
       "price": "1인 약 70~130위안",
@@ -920,9 +920,9 @@
       "closeTime": "22:00",
       "priority": 2,
       "images": [
-        "images/restaurants/xiangqunRestaurant_1.jpg",
-        "images/restaurants/xiangqunRestaurant_2.jpg",
-        "images/restaurants/xiangqunRestaurant_3.jpg"
+        "images/places/xiangqunRestaurant_1.jpg",
+        "images/places/xiangqunRestaurant_2.jpg",
+        "images/places/xiangqunRestaurant_3.jpg"
       ],
       "hours": "10:00 ~ 22:00",
       "price": "1인 약 60~120위안",
@@ -963,7 +963,7 @@
       ],
       "priority": 1,
       "images": [
-        "images/places/dongshankou_1.jpg",
+        "images/places/dongshankou_1.webp",
         "images/places/dongshankou_2.jpg",
         "images/places/dongshankou_3.jpg"
       ],
@@ -1005,9 +1005,8 @@
       "closeTime": "22:00",
       "priority": 1,
       "images": [
-        "images/restaurants/lockchuckCoffee_1.jpg",
-        "images/restaurants/lockchuckCoffee_2.jpg",
-        "images/restaurants/lockchuckCoffee_3.jpg"
+        "images/places/lockchuckCoffee_1.jpg",
+        "images/places/lockchuckCoffee_2.jpg"
       ],
       "hours": "08:00 ~ 22:00",
       "price": "1인 약 50~100위안",
@@ -1048,9 +1047,9 @@
       "closeTime": "21:00",
       "priority": 1,
       "images": [
-        "images/restaurants/seedDownDongshankou_1.jpg",
-        "images/restaurants/seedDownDongshankou_2.jpg",
-        "images/restaurants/seedDownDongshankou_3.jpg"
+        "images/places/seedDownDongshankou_1.jpg",
+        "images/places/seedDownDongshankou_2.jpg",
+        "images/places/seedDownDongshankou_3.jpg"
       ],
       "hours": "08:30 ~ 21:00",
       "price": "1인 약 25~40위안",
@@ -1255,9 +1254,9 @@
       "closeTime": "23:00",
       "priority": 1,
       "images": [
-        "images/restaurants/tigerPrawn_1.jpg",
-        "images/restaurants/tigerPrawn_2.jpg",
-        "images/restaurants/tigerPrawn_3.jpg"
+        "images/places/tigerPrawn_1.jpg",
+        "images/places/tigerPrawn_2.jpg",
+        "images/places/tigerPrawn_3.jpg"
       ],
       "hours": "11:00 ~ 23:00",
       "price": "1인 약 80~150위안",
@@ -1298,9 +1297,9 @@
       "closeTime": "21:30",
       "priority": 1,
       "images": [
-        "images/restaurants/dagefan_1.jpg",
-        "images/restaurants/dagefan_2.jpg",
-        "images/restaurants/dagefan_3.jpg"
+        "images/places/dagefan_1.webp",
+        "images/places/dagefan_2.webp",
+        "images/places/dagefan_3.jpg"
       ],
       "hours": "11:00 ~ 21:30",
       "price": "1인 약 90~120위안",
@@ -1342,9 +1341,9 @@
       "closeTime": "03:30",
       "priority": 1,
       "images": [
-        "images/restaurants/chaofaBeijingRoad_1.jpg",
-        "images/restaurants/chaofaBeijingRoad_2.jpg",
-        "images/restaurants/chaofaBeijingRoad_3.jpg"
+        "images/places/chaofaBeijingRoad_1.jpg",
+        "images/places/chaofaBeijingRoad_2.jpg",
+        "images/places/chaofaBeijingRoad_3.jpg"
       ],
       "hours": "11:30 ~ 14:00 / 17:30 ~ 03:30",
       "price": "1인 약 90~120위안",
@@ -1386,9 +1385,9 @@
       "closeTime": "22:00",
       "priority": 1,
       "images": [
-        "images/restaurants/tanyuBeijingRoad_1.jpg",
-        "images/restaurants/tanyuBeijingRoad_2.jpg",
-        "images/restaurants/tanyuBeijingRoad_3.jpg"
+        "images/places/tanyuBeijingRoad_1.jpg",
+        "images/places/tanyuBeijingRoad_2.jpg",
+        "images/places/tanyuBeijingRoad_3.jpg"
       ],
       "hours": "11:00 ~ 22:00",
       "price": "1인 약 90~140위안",
