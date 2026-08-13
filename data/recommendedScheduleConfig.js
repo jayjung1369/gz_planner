@@ -109,22 +109,22 @@ const RECOMMENDED_SCHEDULE_CONFIG = {
   label: "추천일정 #3",
   date: "",
   title: "추천 일정 #3 (창롱 투어)",
-  description: "사파리, 놀이공원, 워터파크(여름), 국제서커스를 즐기는 창롱 리조트 코스",
+  description: "[사파리, 놀이공원, 워터파크(여름) 중 1곳] +  [국제서커스] 를 즐기는 창롱 리조트 코스",
   items: [
     {
       type: "place",
       id: "chimelongSafariPark",
-      time: "09:30"
+      time: "09:00"
     },
     {
       type: "place",
       id: "chimelongParadise",
-      time: "10:00"
+      time: "09:00"
     },
     {
       type: "place",
       id: "chimelongWaterPark",
-      time: "10:00"
+      time: "09:00"
     },
     {
       type: "place",

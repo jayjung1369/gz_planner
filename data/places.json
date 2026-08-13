@@ -199,7 +199,9 @@
       "tips": "유럽풍 건축물과 강변 산책로를 따라 천천히 걸으며 사진을 찍는 것을 추천합니다.",
       "note": "한국으로 치면 덕수궁 돌담길과 정동길을 합쳐놓은 분위기입니다. 광저우에서 가장 아름다운 산책 코스 중 하나이며, 유럽풍 건축물과 아름다운 가로수길 덕분에 웨딩촬영과 인생샷 명소로 유명합니다.",
       "nearbyRestaurants": [
-        "starbucksReserveShamian"
+        "starbucksReserveShamian",
+        "guangzhoujiujia",
+        "shangxiajiu"
       ]
     },
     "starbucksReserveShamian": {
@@ -921,8 +923,7 @@
       "priority": 2,
       "images": [
         "images/places/xiangqunRestaurant_1.jpg",
-        "images/places/xiangqunRestaurant_2.jpg",
-        "images/places/xiangqunRestaurant_3.jpg"
+        "images/places/xiangqunRestaurant_2.jpg"
       ],
       "hours": "10:00 ~ 22:00",
       "price": "1인 약 60~120위안",
@@ -984,7 +985,7 @@
       "note": "한국으로 치면 성수동과 연남동을 합쳐놓은 분위기입니다. 오래된 서양식 저택과 감성 카페, 편집샵, 독립 브랜드가 모여 있어 광저우 젊은 층과 샤오홍슈에서 가장 인기 있는 시티워크 코스입니다.",
       "nearbyRestaurants": [
         "lockchuckCoffee",
-        "seedDownDongshankou"
+        "captainDongshan"
       ]
     },
     "lockchuckCoffee": {
@@ -1029,11 +1030,11 @@
         "시티워크"
       ]
     },
-    "seedDownDongshankou": {
-      "id": "seedDownDongshankou",
-      "name": "SEED DOWN Cafe",
-      "chineseName": "适档咖啡(东山口店)",
-      "addressZh": "广东省广州市越秀区庙前西街24号之一",
+    "captainDongshan": {
+      "id": "captainDongshan",
+      "name": "CAPTAIN",
+      "chineseName": "CAPTAIN东山",
+      "addressZh": "广东省广州市越秀区庙前西街15号",
       "category": "카페",
       "district": "yuexiu",
       "duration": 45,
@@ -1044,14 +1045,14 @@
       "latitude": 23.1269,
       "longitude": 113.2937,
       "openTime": "08:30",
-      "closeTime": "21:00",
+      "closeTime": "22:00",
       "priority": 1,
       "images": [
-        "images/places/seedDownDongshankou_1.jpg",
-        "images/places/seedDownDongshankou_2.jpg",
-        "images/places/seedDownDongshankou_3.jpg"
+        "images/places/captain dongshankou_1.jpg",
+        "images/places/captain dongshankou_2.jpg",
+        "images/places/captain dongshankou_3.jpg"
       ],
-      "hours": "08:30 ~ 21:00",
+      "hours": "08:30 ~ 22:00",
       "price": "1인 약 25~40위안",
       "bestTime": "14:00 ~ 17:00",
       "tips": "동산구 시티워크 중 잠시 쉬어가기 좋은 카페입니다. 야외 좌석이 인기가 많으며 오후에는 사람이 많아질 수 있습니다.",
@@ -1452,12 +1453,12 @@
     },
     "chimelongSafariPark": {
       "id": "chimelongSafariPark",
-      "name": "창롱 사파리",
+      "name": "창롱 동물원",
       "chineseName": "长隆野生动物世界",
       "addressZh": "广东省广州市番禺区汉溪大道东299号",
       "category": "테마파크",
       "district": "panyu",
-      "duration": 480,
+      "duration": 540,
       "latitude": 22.9975,
       "longitude": 113.3278,
       "openTime": "09:00",
@@ -1468,9 +1469,9 @@
       ],
       "priority": 1,
       "images": [
-        "images/places/chimelongSafariPark_1.jpg",
-        "images/places/chimelongSafariPark_2.jpg",
-        "images/places/chimelongSafariPark_3.jpg"
+        "images/places/changlong zoo_1.jpg",
+        "images/places/changlong zoo_2.jpg",
+        "images/places/changlong zoo_3.jpg"
       ],
       "tags": [
         "광저우필수",
@@ -1621,7 +1622,7 @@
       "addressZh": "广东省广州市番禺区汉溪大道东299号",
       "category": "테마파크",
       "district": "panyu",
-      "duration": 480,
+      "duration": 540,
       "latitude": 22.9949,
       "longitude": 113.3273,
       "openTime": "10:00",
@@ -1667,7 +1668,7 @@
       "addressZh": "广东省广州市番禺区汉溪大道东299号",
       "category": "워터파크",
       "district": "panyu",
-      "duration": 420,
+      "duration": 540,
       "latitude": 22.9971,
       "longitude": 113.3304,
       "openTime": "10:00",
@@ -1677,9 +1678,9 @@
       ],
       "priority": 1,
       "images": [
-        "images/places/chimelongWaterPark_1.jpg",
-        "images/places/chimelongWaterPark_2.jpg",
-        "images/places/chimelongWaterPark_3.jpg"
+        "images/places/changlongwaterpark_1.png",
+        "images/places/changlongwaterpark_2.png",
+        "images/places/changlongwaterpark_3.jpg"
       ],
       "tags": [
         "여름추천",
@@ -1837,9 +1838,9 @@
       ],
       "priority": 1,
       "images": [
-        "images/places/chimelongInternationalCircus_1.jpg",
-        "images/places/chimelongInternationalCircus_2.jpg",
-        "images/places/chimelongInternationalCircus_3.jpg"
+        "images/places/changlong circus_1.jpg",
+        "images/places/changlong circus_2.webp",
+        "images/places/changlong circus_3.jpg"
       ],
       "tags": [
         "광저우필수",
@@ -1962,9 +1963,9 @@
       ],
       "priority": 8,
       "images": [
-        "images/places/changlong waterpark_1.png",
-        "images/places/changlong waterpark_2.png",
-        "images/places/changlong waterpark_3.jpg"
+        "images/places/changlongwaterpark_1.png",
+        "images/places/changlongwaterpark_2.png",
+        "images/places/changlongwaterpark_3.jpg"
       ],
       "tags": [
         "가족",
@@ -2196,8 +2197,8 @@
       "nearbyPlaces": [],
       "nearbyRestaurants": []
     },
-    "guangzhouRestaurantLiwan": {
-      "id": "guangzhouRestaurantLiwan",
+    "guangzhoujiujia": {
+      "id": "guangzhoujiujia",
       "name": "광저우주가 본점",
       "chineseName": "广州酒家（文昌总店）",
       "addressZh": "广东省广州市荔湾区文昌南路2号",
@@ -2213,7 +2214,9 @@
       "closeTime": "22:00",
       "priority": 10,
       "images": [
-        "images/places/guangzhouRestaurantLiwan-real-1.jpg"
+        "images/places/guangzhoujiujia_shamian_1.jpg",
+        "images/places/guangzhoujiujia_shamian_2.jpg",
+        "images/places/guangzhoujiujia_shamian_3.jpg"
       ],
       "hours": "지점 및 층별 영업시간이 다를 수 있어 방문 전 확인",
       "price": "1인 약 80~180위안 예상",
@@ -2236,8 +2239,7 @@
       "note": "1930년대부터 이어진 광저우의 대표적인 광둥요리 브랜드 본점입니다.",
       "nearbyPlaces": [
         "shangxiajiu",
-        "shamian",
-        "yongqingfang"
+        "shamian"
       ]
     }
   }
